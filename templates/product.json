@@ -1,0 +1,22 @@
+{
+  "sections": {
+    "main-product": {
+      "type": "template-product"
+    },
+    "how-to-use": {
+      "type": "how-to-use"
+    },
+    "product-recommendations": {
+      "type": "product-recommendations",
+      "settings": {
+        "title": "منتجات قد تعجبك",
+        "number_of_products_to_show": 8
+      }
+    }
+  },
+  "order": [
+    "main-product",
+    "how-to-use",
+    "product-recommendations"
+  ]
+}

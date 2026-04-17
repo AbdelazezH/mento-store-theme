@@ -1,0 +1,28 @@
+<div class="flex flex-col justify-center items-center gap-6 md:gap-4">
+    {% if stat.icon != blank %}
+        <div class="bg-primary-light p-4 md:p-3 rounded-full text-white"
+             style="background-color: {{ section.settings.color_scheme.settings.bg_icons }}; color: {{ section.settings.color_scheme.settings.icons }};">
+            {{ stat.icon }}
+        </div>
+    {% endif %}
+
+    {% if stat.number != blank %}
+        <p x-data="{
+                initialNumber: parseFloat('{{ stat.number }}'),
+                formattedNumber: '',
+                init() {
+                  this.formattedNumber = this.initialNumber.toLocaleString();
+                }
+            }" class="text-xl md:text-4xl font-normal leading-normal text-gray-900"
+           style="color: {{ section.settings.color_scheme.settings.secondary }};">
+            <span x-cloak x-text="formattedNumber"></span>
+        </p>
+    {% endif %}
+
+    {% if stat.unit != blank %}
+        <span class="text-sm md:text-lg font-normal leading-normal text-primary-main"
+              style="color: {{ section.settings.color_scheme.settings.text }};">
+                {{ stat.unit }}
+            </span>
+    {% endif %}
+</div>

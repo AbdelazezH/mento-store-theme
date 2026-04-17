@@ -1,0 +1,788 @@
+{% assign background = section.settings.color_scheme.settings.background %}
+{% assign primary_color = section.settings.color_scheme.settings.text %}
+{% assign secondary_color = section.settings.color_scheme.settings.secondary %}
+{% assign secondary_light_color = section.settings.color_scheme.settings.secondary_light %}
+{% assign button_label = section.settings.color_scheme.settings.button_label %}
+{% assign button_bg = section.settings.color_scheme.settings.button %}
+{% assign border_color = section.settings.color_scheme.settings.button_border %}
+{% assign icons_color = section.settings.color_scheme.settings.icons %}
+{% assign icons_bg = section.settings.color_scheme.settings.bg_icons %}
+
+<style>
+    .text_on_hover:hover {
+        color: {{ primary_color }} !important;
+    }
+
+    .header_placeholder_color::placeholder {
+        color: {{ secondary_color }} !important;
+    }
+</style>
+
+<div class="bg-white border-b border-gray-200"
+     style="background-color: {{ background }};">
+    <div class="mx-auto">
+        <header>
+            {% case section.settings.header_type %}
+                {% when 'first' %}
+                    <!-- Main header part -->
+                    <div class="main-header">
+                        <div class="mx-auto px-2 md:px-6">
+                            <div class="flex justify-between items-center py-6 page-width">
+                                <!-- Search -->
+                                <div class="w-1/3">
+                                    {% if section.settings.show_search %}
+                                        <div class="hidden md:flex">
+                                            <form action="{{ routes.search_url }}" method="get">
+                                                <div class="relative text-gray-700"
+                                                     style="color: {{ secondary_color }};">
+                                                    <label for="search-header"
+                                                           class="sr-only">Search</label>
+                                                    <input type="search" name="q" id="search-header"
+                                                           placeholder="{{ 'general.header.search_placeholder' | t }}"
+                                                           value="{{ search.terms }}"
+                                                           class="w-full bg-white h-10 ps-8 py-2 focus:outline-none placeholder:text-gray-700 header_placeholder_color"
+                                                           style="background-color: {{ background }};">
+                                                    <button type="submit"
+                                                            class="absolute top-0 start-5 mt-2 -ms-5">
+                                                        {% render 'icon-search' %}
+                                                    </button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    {% endif %}
+
+                                    <div x-data class="flex justify-start items-center gap-2 md:hidden">
+                                        <a href="#" x-on:click.prevent="$dispatch('mobile-menu-opened')"
+                                           class="block text-base text-gray-700 hover:text-gray-900 rounded-full border border-gray-200 p-1 shadow-sm text_on_hover"
+                                           style="background-color: {{ button_bg }}; color: {{ button_label }}; border-color: {{ border_color }};"
+                                        >
+                                            {% render 'icon-menu', classes: 'size-5' %}
+                                        </a>
+
+                                        {% if section.settings.show_search %}
+                                            <a href="#" x-on:click.prevent="$dispatch('search-box-opened')"
+                                               class="block text-base text-gray-700 hover:text-gray-900 rounded-full border border-gray-200 p-1 shadow-sm text_on_hover"
+                                               style="background-color: {{ button_bg }}; color: {{ button_label }}; border-color: {{ border_color }};"
+                                            >
+                                                {% render 'icon-search', classes: 'size-5' %}
+                                            </a>
+                                        {% endif %}
+                                    </div>
+                                </div>
+
+                                <!-- Logo / Shop Name -->
+                                <div class="w-1/3 flex justify-center items-center">
+                                    <a href="{{ routes.root_url }}">
+                                        <div class="size-logo md:size-logo overflow-hidden">
+                                            {% if settings.logo != blank %}
+                                                <img class="h-full w-full object-cover object-center"
+                                                     src="{{ settings.logo | img_url: 'medium' }}"
+                                                     alt="{{ shop.name }}" loading="lazy"
+                                                />
+                                            {% else %}
+                                                <img class="h-full w-full object-cover object-center"
+                                                     src="{{ 'aquarium.svg' | asset_url }}"
+                                                     alt="{{ shop.name }}" loading="lazy"/>
+                                            {% endif %}
+                                        </div>
+                                    </a>
+                                </div>
+
+                                <!-- Buttons: Cart, Account, Lang -->
+                                <div class="w-1/3 flex justify-end items-center gap-2 md:gap-3">
+                                    {% if settings.show_lang_picker %}
+                                        <div x-data="languagePicker(
+                                            '{{ settings.show_lang_picker }}',
+                                            '{{ localization.language.iso_code }}',
+                                            '{{ settings.default_language_code }}',
+                                            availableLocales)
+                                        ">
+                                            <template x-if="showLangPicker">
+                                                <div>
+                                                    <template x-if="!shouldUseDropdown">
+                                                        <div class="hidden md:block">
+                                                            <template x-for="language in languages"
+                                                                      :key="language.locale">
+                                                                <a :href="generateUrl(language.locale)"
+                                                                   x-show="language.locale !== currentLang"
+                                                                   class="hidden md:block text-base text-gray-700 hover:text-gray-900 rounded-full border border-gray-200 py-2 px-4 shadow-sm text_on_hover"
+                                                                   style="background-color: {{ button_bg }}; color: {{ button_label }}; border-color: {{ border_color }};">
+                                                                    <div class="flex justify-center ltr:flex-row-reverse items-center gap-1">
+                                                                        <span class="text-sm font-medium border-l-2 border-gray-200 pl-1"
+                                                                              x-text="language.locale.toUpperCase()"
+                                                                              style="border-color: {{ border_color }};"></span>
+                                                                        {% render 'icon-language' %}
+                                                                    </div>
+                                                                </a>
+                                                            </template>
+                                                        </div>
+                                                    </template>
+
+                                                    <template x-if="shouldUseDropdown">
+                                                        <div class="hidden md:block relative">
+                                                            <a href="#" x-on:click.prevent="open = !open"
+                                                               class="block text-base text-gray-700 hover:text-gray-900 rounded-full border border-gray-200 py-2 px-4 shadow-sm text_on_hover"
+                                                               style="background-color: {{ button_bg }}; color: {{ button_label }}; border-color: {{ border_color }};">
+                                                                <div class="flex justify-center ltr:flex-row-reverse items-center gap-1">
+                                                                    <span class="text-sm font-medium border-l-2 border-gray-200 pl-1"
+                                                                          x-text="currentLang.toUpperCase()"
+                                                                          style="border-color: {{ border_color }};"></span>
+                                                                    {% render 'icon-language' %}
+                                                                </div>
+                                                            </a>
+
+                                                            <div x-cloak
+                                                                 x-show="open"
+                                                                 x-on:click.outside="open = false"
+                                                                 class="absolute end-0 z-10 mt-2 w-32 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
+                                                                 x-transition:enter="transition ease-out duration-100"
+                                                                 x-transition:enter-start="transform opacity-0 scale-95"
+                                                                 x-transition:enter-end="transform opacity-100 scale-100"
+                                                                 x-transition:leave="transition ease-in duration-75"
+                                                                 x-transition:leave-start="transform opacity-100 scale-100"
+                                                                 x-transition:leave-end="transform opacity-0 scale-95"
+                                                                 style="background-color: {{ background }};"
+                                                            >
+                                                                <div class="py-1">
+                                                                    <template x-for="language in languages"
+                                                                              :key="language.locale">
+                                                                        <a :href="generateUrl(language.locale)"
+                                                                           class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900 text_on_hover"
+                                                                           x-text="language.nativeName"
+                                                                           style="color: {{ secondary_color }};"
+                                                                        ></a>
+                                                                    </template>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </template>
+                                                </div>
+                                            </template>
+                                        </div>
+                                    {% endif %}
+                                    {% if shop.customer_accounts_enabled %}
+                                        {% if customer %}
+                                            <div class="relative" x-data="{ open: false }">
+                                                <button x-on:click="open = true"
+                                                        class="block text-base text-gray-700 hover:text-gray-900 rounded-full border border-gray-200 p-1 md:p-2 shadow-sm text_on_hover"
+                                                        style="background-color: {{ button_bg }}; color: {{ button_label }}; border-color: {{ border_color }};"
+                                                >
+                                                    {% render 'icon-account', classes: 'size-5 md:size-6' %}
+                                                </button>
+
+                                                <div
+                                                        x-cloak
+                                                        x-transition:enter="transition ease-out duration-300"
+                                                        x-transition:enter-start="opacity-0 translate-y-3"
+                                                        x-transition:enter-end="opacity-100 translate-y-0"
+                                                        x-transition:leave="transition ease-out duration-300"
+                                                        x-transition:leave-start="opacity-100 translate-y-0"
+                                                        x-transition:leave-end="opacity-0 translate-y-3"
+                                                        x-show="open" x-on:click.outside="open = false"
+                                                        class="absolute mt-1.5 md:mt-2.5 end-0 z-10 w-screen max-w-40 md:max-w-64 px-2 sm:px-0"
+                                                >
+                                                    <div class="shadow-lg border ring-black ring-opacity-5 overflow-hidden rounded-lg">
+                                                        <div class="relative grid gap-3 bg-white p-4 md:gap-8 md:p-8"
+                                                             style="background-color: {{ background }};">
+                                                            <a href="{{ routes.account_url }}"
+                                                               class="-mx-2 -my-1.5 px-2 py-1.5 md:-m-3 md:p-3 flex items-center rounded-lg text-gray-700 hover:text-gray-900 hover:bg-gray-100 text_on_hover"
+                                                               style="color: {{ secondary_color }};">
+                                                                {% render 'icon-wallet', classes: 'size-[1.125rem] md:size-6' %}
+                                                                <div class="ms-2 md:ms-4">
+                                                                    <p class="text-xs md:text-base">
+                                                                        {{ 'general.header.my_orders' | t }}
+                                                                    </p>
+                                                                </div>
+                                                            </a>
+
+                                                            <a href="{{ routes.account_addresses_url }}"
+                                                               class="-mx-2 -my-1.5 px-2 py-1.5 md:-m-3 md:p-3 flex items-center rounded-lg text-gray-700 hover:text-gray-900 hover:bg-gray-100 text_on_hover"
+                                                               style="color: {{ secondary_color }};">
+                                                                {% render 'icon-settings', classes: 'size-[1.125rem] md:size-6' %}
+                                                                <div class="ms-2 md:ms-4">
+                                                                    <p class="text-xs md:text-base">
+                                                                        {{ 'general.header.settings' | t }}
+                                                                    </p>
+                                                                </div>
+                                                            </a>
+
+                                                            <a href="{{ routes.account_logout_url }}"
+                                                               class="-mx-2 -my-1.5 px-2 py-1.5 md:-m-3 md:p-3 flex items-center rounded-lg text-gray-700 hover:text-gray-900 hover:bg-gray-100 text_on_hover"
+                                                               style="color: {{ secondary_color }};">
+                                                                {% render 'icon-logout', classes: 'size-[1.125rem] md:size-6 ltr:rotate-180' %}
+                                                                <div class="ms-2 md:ms-4">
+                                                                    <p class="text-xs md:text-base">
+                                                                        {{ 'general.header.sign_out' | t }}
+                                                                    </p>
+                                                                </div>
+                                                            </a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        {% else %}
+                                            <a href="{{ routes.account_login_url }}"
+                                               class="block text-base text-gray-700 hover:text-gray-900 rounded-full border border-gray-200 p-1 md:p-2 shadow-sm text_on_hover"
+                                               style="background-color: {{ button_bg }}; color: {{ button_label }}; border-color: {{ border_color }};">
+                                                {% render 'icon-account', classes: 'size-5 md:size-6' %}
+                                            </a>
+                                        {% endif %}
+                                    {% endif %}
+                                    <a href="{{ routes.cart_url }}"
+                                       class="block relative text-base text-gray-700 hover:text-gray-900 rounded-full border border-gray-200 p-1 md:p-2 shadow-sm text_on_hover"
+                                       x-data="cartItemCount('{{ cart.item_count }}')"
+                                       x-on:item-count-updated.window="updateItemCount($event)"
+                                       style="background-color: {{ button_bg }}; color: {{ button_label }}; border-color: {{ border_color }};"
+                                    >
+                                        {% render 'icon-shopping-bag', classes: 'size-5 md:size-6' %}
+                                        <span id="item-count" x-text="itemCount"
+                                              class="absolute -top-1.5 end-5 md:-top-2 md:end-6 ltr:start-5 md:ltr:start-6 text-white text-[10px] md:text-xs font-semibold bg-primary-main rounded-full flex justify-center items-center size-3.5 md:size-5"
+                                              style="background-color: {{ icons_bg }}; color: {{ icons_color }};">
+                                        </span>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Secondary header part -->
+                    <div id="secondary-header" class="hidden md:flex md:justify-center page-width">
+                        <nav class="flex items-center md:gap-4 lg:gap-8 py-6">
+                            {% for link in section.settings.main_menu.links %}
+                                {% if link.links != blank %}
+                                    <div class="relative" x-data="{open: false}">
+                                        <button
+                                                x-on:click="open = !open"
+                                                class="inline-flex items-center text-gray-500 hover:text-gray-900 text_on_hover"
+                                                style="color: {{ secondary_light_color }};"
+                                        >
+                                            <span class="me-2">{{ link.title }}</span>
+
+                                            {% render 'icon-dropdown' %}
+                                        </button>
+
+                                        <div
+                                                x-cloak
+                                                x-transition:enter="transition ease-out duration-300"
+                                                x-transition:enter-start="opacity-0 translate-y-3"
+                                                x-transition:enter-end="opacity-100 translate-y-0"
+                                                x-transition:leave="transition ease-out duration-300"
+                                                x-transition:leave-start="opacity-100 translate-y-0"
+                                                x-transition:leave-end="opacity-0 translate-y-3"
+                                                x-show="open" x-on:click.outside="open = false"
+                                                class="absolute top-9 z-10 -ms-5 transform px-2 w-screen max-w-64 sm:px-0 lg:ms-0 lg:left-1/2 lg:-translate-x-1/2"
+                                        >
+                                            <div class="shadow-lg border ring-black ring-opacity-5 overflow-hidden rounded-lg"
+                                                 style="border-color: {{ border_color }};">
+                                                <div class="relative grid gap-6 bg-white px-5 py-6 sm:gap-8 sm:p-8"
+                                                     style="background-color: {{ background }};">
+                                                    {% for childlink in link.links %}
+                                                        <a href="{{ childlink.url }}"
+                                                           class="-m-3 p-3 flex items-start rounded-lg text-gray-700 hover:text-gray-900 hover:bg-gray-100 text_on_hover"
+                                                           style="color: {{ secondary_color }};">
+                                                            <div class="ms-4">
+                                                                <p class="text-base">
+                                                                    {{ childlink.title }}
+                                                                </p>
+                                                            </div>
+                                                        </a>
+                                                    {% endfor %}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                {% else %}
+                                    <a href="{{ link.url }}"
+                                       class="text-base text-gray-500 hover:text-gray-900 text_on_hover"
+                                       style="color: {{ secondary_light_color }};"
+                                    >
+                                        {{ link.title }}
+                                    </a>
+                                {% endif %}
+                            {% endfor %}
+                        </nav>
+                    </div>
+                {% when 'second' %}
+                    <div class="secondary-header bg-primary-main text-white"
+                         style="background-color: {{ section.settings.bg_color }}; color: {{ section.settings.text_color }};">
+                        <div class="px-2 sm:px-4 md:px-6 py-4 md:py-5 flex justify-center items-center page-width relative">
+                            <!-- social links -->
+                            <ul class="hidden md:flex justify-center items-center gap-4 md:absolute md:start-6">
+                                {% if settings.youtube_link != blank %}
+                                    <li>
+                                        <a href="{{ settings.youtube_link }}">
+                                            {% render 'icon-youtube' %}
+                                        </a>
+                                    </li>
+                                {% endif %}
+                                {% if settings.linkedin_link != blank %}
+                                    <li>
+                                        <a href="{{ settings.linkedin_link }}">
+                                            {% render 'icon-linkedin' %}
+                                        </a>
+                                    </li>
+                                {% endif %}
+                                {% if settings.x_link != blank %}
+                                    <li>
+                                        <a href="{{ settings.x_link }}">
+                                            {% render 'icon-x' %}
+                                        </a>
+                                    </li>
+                                {% endif %}
+                                {% if settings.instagram_link != blank %}
+                                    <li>
+                                        <a href="{{ settings.instagram_link }}">
+                                            {% render 'icon-instagram' %}
+                                        </a>
+                                    </li>
+                                {% endif %}
+                                {% if settings.facebook_link != blank %}
+                                    <li>
+                                        <a href="{{ settings.facebook_link }}">
+                                            {% render 'icon-facebook' %}
+                                        </a>
+                                    </li>
+                                {% endif %}
+                                {% if settings.tiktok_link != blank %}
+                                    <li>
+                                        <a href="{{ settings.tiktok_link }}">
+                                            {% render 'icon-tiktok' %}
+                                        </a>
+                                    </li>
+                                {% endif %}
+                                {% if settings.telegram_link != blank %}
+                                    <li>
+                                        <a href="{{ settings.telegram_link }}">
+                                            {% render 'icon-telegram' %}
+                                        </a>
+                                    </li>
+                                {% endif %}
+                                {% if settings.snapchat_link != blank %}
+                                    <li>
+                                        <a href="{{ settings.snapchat_link }}">
+                                            {% render 'icon-snapchat' %}
+                                        </a>
+                                    </li>
+                                {% endif %}
+                            </ul>
+
+                            <a href="{{ section.settings.announcement_link }}" class="announcement-wrapper text-base/[22px] font-normal text-center">
+                                {% if section.settings.announcement_text != blank %}
+                                    {{ section.settings.announcement_text }}
+                                {% endif %}
+                            </a>
+
+                            <div class="hidden md:flex justify-end items-center gap-2 md:absolute md:end-6">
+                                {% if settings.show_lang_picker %}
+                                    <div x-data="languagePicker(
+                                            '{{ settings.show_lang_picker }}',
+                                            '{{ localization.language.iso_code }}',
+                                            '{{ settings.default_language_code }}',
+                                            availableLocales)
+                                        ">
+                                        <template x-if="showLangPicker">
+                                            <div>
+                                                <template x-if="!shouldUseDropdown">
+                                                    <div>
+                                                        <template x-for="language in languages"
+                                                                  :key="language.locale">
+                                                            <a :href="generateUrl(language.locale)"
+                                                               x-show="language.locale !== currentLang"
+                                                               class="block text-base p-2 shadow-sm">
+                                                                <div class="flex justify-center ltr:flex-row-reverse items-center gap-1">
+                                                                    <span class="text-sm font-medium border-l border-white pl-1"
+                                                                          style="border-color: {{ section.settings.text_color }}"
+                                                                          x-text="language.locale.toUpperCase()">
+                                                                    </span>
+                                                                    {% render 'icon-language' %}
+                                                                </div>
+                                                            </a>
+                                                        </template>
+                                                    </div>
+                                                </template>
+
+                                                <template x-if="shouldUseDropdown">
+                                                    <div class="relative">
+                                                        <a href="#" x-on:click.prevent="open = !open"
+                                                           class="block text-base p-2 shadow-sm">
+                                                            <div class="flex justify-center ltr:flex-row-reverse items-center gap-1">
+                                                                <span class="text-sm font-medium border-l border-white pl-1"
+                                                                      x-text="currentLang.toUpperCase()"></span>
+                                                                {% render 'icon-language' %}
+                                                            </div>
+                                                        </a>
+
+                                                        <div x-cloak
+                                                             x-show="open"
+                                                             x-on:click.outside="open = false"
+                                                             class="absolute end-3 z-10 mt-1 w-32 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
+                                                             x-transition:enter="transition ease-out duration-100"
+                                                             x-transition:enter-start="transform opacity-0 scale-95"
+                                                             x-transition:enter-end="transform opacity-100 scale-100"
+                                                             x-transition:leave="transition ease-in duration-75"
+                                                             x-transition:leave-start="transform opacity-100 scale-100"
+                                                             x-transition:leave-end="transform opacity-0 scale-95"
+                                                             style="background-color: {{ background }};"
+                                                        >
+                                                            <div class="py-1">
+                                                                <template x-for="language in languages"
+                                                                          :key="language.locale">
+                                                                    <a :href="generateUrl(language.locale)"
+                                                                       x-text="language.nativeName"
+                                                                       class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900 text_on_hover"
+                                                                       style="color: {{ secondary_color }};">
+                                                                    </a>
+                                                                </template>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </template>
+                                            </div>
+                                        </template>
+                                    </div>
+                                {% endif %}
+                                {% if shop.customer_accounts_enabled %}
+                                    {% if customer %}
+                                        <div class="relative" x-data="{ open: false }">
+                                            <button x-on:click="open = true"
+                                                    class="block text-base p-2 shadow-sm">
+                                                {% render 'icon-account', classes: 'size-5 md:size-6' %}
+                                            </button>
+
+                                            <div
+                                                    x-cloak
+                                                    x-transition:enter="transition ease-out duration-300"
+                                                    x-transition:enter-start="opacity-0 translate-y-3"
+                                                    x-transition:enter-end="opacity-100 translate-y-0"
+                                                    x-transition:leave="transition ease-out duration-300"
+                                                    x-transition:leave-start="opacity-100 translate-y-0"
+                                                    x-transition:leave-end="opacity-0 translate-y-3"
+                                                    x-show="open" x-on:click.outside="open = false"
+                                                    class="absolute mt-0.5 end-2 z-10 w-screen max-w-64 px-2 sm:px-0"
+                                            >
+                                                <div class="shadow-lg border ring-black ring-opacity-5 overflow-hidden rounded-lg">
+                                                    <div class="relative grid gap-3 bg-white p-4 md:gap-8 md:p-8"
+                                                         style="background-color: {{ background }};">
+                                                        <a href="{{ routes.account_url }}"
+                                                           class="-mx-2 -my-1.5 px-2 py-1.5 md:-m-3 md:p-3 flex items-center rounded-lg text-gray-700 hover:text-gray-900 hover:bg-gray-100 text_on_hover"
+                                                           style="color: {{ secondary_color }};"
+                                                        >
+                                                            {% render 'icon-wallet', classes: 'size-[1.125rem] md:size-6' %}
+                                                            <div class="ms-2 md:ms-4">
+                                                                <p class="text-xs md:text-base">
+                                                                    {{ 'general.header.my_orders' | t }}
+                                                                </p>
+                                                            </div>
+                                                        </a>
+
+                                                        <a href="{{ routes.account_addresses_url }}"
+                                                           class="-mx-2 -my-1.5 px-2 py-1.5 md:-m-3 md:p-3 flex items-center rounded-lg text-gray-700 hover:text-gray-900 hover:bg-gray-100 text_on_hover"
+                                                           style="color: {{ secondary_color }};">
+                                                            {% render 'icon-settings', classes: 'size-[1.125rem] md:size-6' %}
+                                                            <div class="ms-2 md:ms-4">
+                                                                <p class="text-xs md:text-base">
+                                                                    {{ 'general.header.settings' | t }}
+                                                                </p>
+                                                            </div>
+                                                        </a>
+
+                                                        <a href="{{ routes.account_logout_url }}"
+                                                           class="-mx-2 -my-1.5 px-2 py-1.5 md:-m-3 md:p-3 flex items-center rounded-lg text-gray-700 hover:text-gray-900 hover:bg-gray-100 text_on_hover"
+                                                           style="color: {{ secondary_color }};">
+                                                            {% render 'icon-logout', classes: 'size-[1.125rem] md:size-6 ltr:rotate-180' %}
+                                                            <div class="ms-2 md:ms-4">
+                                                                <p class="text-xs md:text-base">
+                                                                    {{ 'general.header.sign_out' | t }}
+                                                                </p>
+                                                            </div>
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    {% else %}
+                                        <a href="{{ routes.account_login_url }}"
+                                           class="block text-base p-2 shadow-sm">
+                                            {% render 'icon-account' %}
+                                        </a>
+                                    {% endif %}
+                                {% endif %}
+                                <a href="{{ routes.cart_url }}"
+                                   class="block relative text-base p-2 shadow-sm"
+                                   x-data="cartItemCount('{{ cart.item_count }}')"
+                                   x-on:item-count-updated.window="updateItemCount($event)"
+                                >
+                                    {% render 'icon-shopping-bag' %}
+                                    <span id="item-count" x-text="itemCount"
+                                          class="absolute -top-0.5 end-6 ltr:start-6 text-primary-main text-xs font-semibold bg-white rounded-full flex justify-center items-center size-5"
+                                          style="background-color: {{ section.settings.text_color }}; color: {{ section.settings.bg_color }};"
+                                    ></span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="main-header">
+                        <div class="bg-white" style="background-color: {{ background }};">
+                            <div class="px-2 sm:px-4 md:px-6 py-6 md:py-7 flex justify-between md:justify-center items-center page-width relative">
+                                <div x-data class="flex md:hidden justify-start items-center gap-2">
+                                    <a href="#" x-on:click.prevent="$dispatch('mobile-menu-opened')"
+                                       class="block text-base text-gray-700 hover:text-gray-900 rounded-full border border-gray-200 p-1 shadow-sm text_on_hover"
+                                       style="background-color: {{ button_bg }}; color: {{ button_label }}; border-color: {{ border_color }};">
+                                        {% render 'icon-menu', classes: 'size-5' %}
+                                    </a>
+
+                                    {% if section.settings.show_search %}
+                                        <a href="#" x-on:click.prevent="$dispatch('search-box-opened')"
+                                           class="block text-base text-gray-700 hover:text-gray-900 rounded-full border border-gray-200 p-1 shadow-sm text_on_hover"
+                                           style="background-color: {{ button_bg }}; color: {{ button_label }}; border-color: {{ border_color }};">
+                                            {% render 'icon-search', classes: 'size-5' %}
+                                        </a>
+                                    {% endif %}
+                                </div>
+
+                                <!-- Logo / Store name -->
+                                <div class="flex justify-center md:justify-start items-center md:absolute md:start-6">
+                                    <a href="{{ routes.root_url }}">
+                                        <div class="size-logo md:size-logo overflow-hidden">
+                                            {% if settings.logo != blank %}
+                                                <img class="h-full w-full object-cover object-center"
+                                                     src="{{ settings.logo | img_url: 'medium' }}"
+                                                     alt="{{ shop.name }}" loading="lazy"/>
+                                            {% else %}
+                                                <img class="h-full w-full object-cover object-center"
+                                                     src="{{ 'aquarium.svg' | asset_url }}"
+                                                     alt="{{ shop.name }}" loading="lazy"/>
+                                            {% endif %}
+                                        </div>
+                                    </a>
+                                </div>
+
+                                <!-- Navigation Menu -->
+                                <nav class="hidden md:flex md:px-8 items-center justify-center md:gap-4 lg:gap-8 text-center">
+                                    {% for link in section.settings.main_menu.links %}
+                                        {% if link.links != blank %}
+                                            <div class="relative" x-data="{open: false}">
+                                                <button
+                                                        x-on:click="open = !open"
+                                                        class="inline-flex items-center text-gray-500 hover:text-gray-900 text_on_hover"
+                                                        style="color: {{ secondary_light_color }};"
+                                                >
+                                                    <span class="me-2">{{ link.title }}</span>
+
+                                                    {% render 'icon-dropdown' %}
+                                                </button>
+
+                                                <div
+                                                        x-cloak
+                                                        x-transition:enter="transition ease-out duration-300"
+                                                        x-transition:enter-start="opacity-0 translate-y-3"
+                                                        x-transition:enter-end="opacity-100 translate-y-0"
+                                                        x-transition:leave="transition ease-out duration-300"
+                                                        x-transition:leave-start="opacity-100 translate-y-0"
+                                                        x-transition:leave-end="opacity-0 translate-y-3"
+                                                        x-show="open" x-on:click.outside="open = false"
+                                                        class="absolute top-9 z-10 -ms-5 transform px-2 w-screen max-w-64 sm:px-0 lg:ms-0 lg:left-1/2 lg:-translate-x-1/2"
+                                                >
+                                                    <div class="shadow-lg border ring-black ring-opacity-5 overflow-hidden rounded-lg"
+                                                         style="border-color: {{ border_color }};">
+                                                        <div class="relative grid gap-6 bg-white px-5 py-6 sm:gap-8 sm:p-8"
+                                                             style="background-color: {{ background }};">
+                                                            {% for childlink in link.links %}
+                                                                <a href="{{ childlink.url }}"
+                                                                   class="-m-3 p-3 flex items-start rounded-lg text-gray-700 hover:text-gray-900 hover:bg-gray-100 text_on_hover"
+                                                                   style="color: {{ secondary_color }};">
+                                                                    <div class="ms-4">
+                                                                        <p class="text-base">
+                                                                            {{ childlink.title }}
+                                                                        </p>
+                                                                    </div>
+                                                                </a>
+                                                            {% endfor %}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        {% else %}
+                                            <a href="{{ link.url }}"
+                                               class="text-base text-gray-500 hover:text-gray-900 text_on_hover"
+                                               style="color: {{ secondary_light_color }};"
+                                            >
+                                                {{ link.title }}
+                                            </a>
+                                        {% endif %}
+                                    {% endfor %}
+                                </nav>
+
+                                <!-- Search / Account & Cart: Mobile -->
+                                <div class="md:absolute md:end-6">
+                                    {% if section.settings.show_search %}
+                                        <a href="#" x-data x-on:click.prevent="$dispatch('search-box-opened')"
+                                           class="hidden md:block text-base text-gray-700 hover:text-gray-900 p-2 text_on_hover"
+                                           style="color: {{ button_label }};"
+                                        >
+                                            {% render 'icon-search' %}
+                                        </a>
+                                    {% endif %}
+
+                                    <div class="flex md:hidden justify-end items-center gap-2">
+                                        {% if shop.customer_accounts_enabled %}
+                                            {% if customer %}
+                                                <div class="relative" x-data="{ open: false }">
+                                                    <button x-on:click="open = true"
+                                                            class="block text-base text-gray-700 hover:text-gray-900 rounded-full border border-gray-200 p-1 shadow-sm text_on_hover"
+                                                            style="background-color: {{ button_bg }}; color: {{ button_label }}; border-color: {{ border_color }};">
+                                                        {% render 'icon-account', classes: 'size-5 md:size-6' %}
+                                                    </button>
+
+                                                    <div
+                                                            x-cloak
+                                                            x-transition:enter="transition ease-out duration-300"
+                                                            x-transition:enter-start="opacity-0 translate-y-3"
+                                                            x-transition:enter-end="opacity-100 translate-y-0"
+                                                            x-transition:leave="transition ease-out duration-300"
+                                                            x-transition:leave-start="opacity-100 translate-y-0"
+                                                            x-transition:leave-end="opacity-0 translate-y-3"
+                                                            x-show="open" x-on:click.outside="open = false"
+                                                            class="absolute mt-1.5 md:mt-2.5 end-0 z-10 w-screen max-w-40 md:max-w-64 px-2 sm:px-0"
+                                                    >
+                                                        <div class="shadow-lg border ring-black ring-opacity-5 overflow-hidden rounded-lg"
+                                                             style="border-color: {{ border_color }};">
+                                                            <div class="relative grid gap-3 bg-white p-4 md:gap-8 md:p-8"
+                                                                 style="background-color: {{ background }};">
+                                                                <a href="{{ routes.account_url }}"
+                                                                   class="-mx-2 -my-1.5 px-2 py-1.5 md:-m-3 md:p-3 flex items-center rounded-lg text-gray-700 hover:text-gray-900 hover:bg-gray-100 text_on_hover"
+                                                                   style="color: {{ secondary_color }};">
+                                                                    {% render 'icon-wallet', classes: 'size-[1.125rem] md:size-6' %}
+                                                                    <div class="ms-2 md:ms-4">
+                                                                        <p class="text-xs md:text-base">
+                                                                            {{ 'general.header.my_orders' | t }}
+                                                                        </p>
+                                                                    </div>
+                                                                </a>
+
+                                                                <a href="{{ routes.account_addresses_url }}"
+                                                                   class="-mx-2 -my-1.5 px-2 py-1.5 md:-m-3 md:p-3 flex items-center rounded-lg text-gray-700 hover:text-gray-900 hover:bg-gray-100 text_on_hover"
+                                                                   style="color: {{ secondary_color }}">
+                                                                    {% render 'icon-settings', classes: 'size-[1.125rem] md:size-6' %}
+                                                                    <div class="ms-2 md:ms-4">
+                                                                        <p class="text-xs md:text-base">
+                                                                            {{ 'general.header.settings' | t }}
+                                                                        </p>
+                                                                    </div>
+                                                                </a>
+
+                                                                <a href="{{ routes.account_logout_url }}"
+                                                                   class="-mx-2 -my-1.5 px-2 py-1.5 md:-m-3 md:p-3 flex items-center rounded-lg text-gray-700 hover:text-gray-900 hover:bg-gray-100 text_on_hover"
+                                                                   style="color: {{ secondary_color }};">
+                                                                    {% render 'icon-logout', classes: 'size-[1.125rem] md:size-6 ltr:rotate-180' %}
+                                                                    <div class="ms-2 md:ms-4">
+                                                                        <p class="text-xs md:text-base">
+                                                                            {{ 'general.header.sign_out' | t }}
+                                                                        </p>
+                                                                    </div>
+                                                                </a>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            {% else %}
+                                                <a href="{{ routes.account_login_url }}"
+                                                   class="block text-base text-gray-700 hover:text-gray-900 rounded-full border border-gray-200 p-1 shadow-sm text_on_hover"
+                                                   style="color: {{ secondary_color }};">
+                                                    {% render 'icon-account', classes: 'size-5' %}
+                                                </a>
+                                            {% endif %}
+                                        {% endif %}
+                                        <a href="{{ routes.cart_url }}"
+                                           class="block relative text-base text-gray-700 hover:text-gray-900 rounded-full border border-gray-200 p-1 shadow-sm text_on_hover"
+                                           x-data="cartItemCount('{{ cart.item_count }}')"
+                                           x-on:item-count-updated.window="updateItemCount($event)"
+                                           style="background-color: {{ button_bg }}; color: {{ button_label }}; border-color: {{ border_color }};"
+                                        >
+                                            {% render 'icon-shopping-bag', classes: 'size-5' %}
+                                            <span id="item-count" x-text="itemCount"
+                                                  class="absolute -top-1.5 end-5 ltr:start-5 text-white text-[10px] font-semibold bg-primary-main rounded-full flex justify-center items-center size-3.5"
+                                                  style="background-color: {{ icons_bg }}; color: {{ icons_color }};">
+                                            </span>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+            {% endcase %}
+
+            {% render 'mobile-menu' %}
+            {% render 'search-box' %}
+        </header>
+    </div>
+</div>
+{% schema %}
+{
+  "name": "t:sections.header.name",
+  "settings": [
+    {
+      "type": "select",
+      "id": "header_type",
+      "label": "t:sections.header.settings.header_type.label",
+      "options": [
+        {
+          "value": "second",
+          "label": "t:sections.header.settings.header_type.options.second.label"
+        },
+        {
+          "value": "first",
+          "label": "t:sections.header.settings.header_type.options.first.label"
+        }
+      ],
+      "default": "first"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_search",
+      "default": true,
+      "label": "t:sections.header.settings.show_search.label"
+    },
+    {
+      "type": "link_list",
+      "id": "main_menu",
+      "default": "main-menu",
+      "label": "t:sections.header.settings.main_menu.label"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:sections.all.color_scheme.label",
+      "default": "scheme-6"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.header.settings.header-1.content"
+    },
+    {
+      "type": "textarea",
+      "id": "announcement_text",
+      "default": "هنا مساحة لمثال محتوى اعلاني افتراضي يمكن استبداله",
+      "label": "t:sections.header.settings.announcement_text.label"
+    },
+    {
+      "type": "url",
+      "id": "announcement_link",
+      "label": "t:sections.header.settings.announcement_link.label",
+      "default": "/collections/all"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "default": "#217BAF",
+      "label": "t:sections.header.settings.bg_color.label"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "default": "#fff",
+      "label": "t:sections.header.settings.text_color.label"
+    }
+  ]
+}
+{% endschema %}

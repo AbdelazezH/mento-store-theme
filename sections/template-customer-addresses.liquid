@@ -1,0 +1,488 @@
+{% assign background = section.settings.color_scheme.settings.background %}
+{% assign primary_color = section.settings.color_scheme.settings.text %}
+{% assign secondary_color = section.settings.color_scheme.settings.secondary %}
+{% assign secondary_light_color = section.settings.color_scheme.settings.secondary_light %}
+{% assign button_label = section.settings.color_scheme.settings.button_label %}
+{% assign button_bg = section.settings.color_scheme.settings.button %}
+{% assign border_color = section.settings.color_scheme.settings.button_border %}
+{% assign secondary_button_label = section.settings.color_scheme.settings.secondary_button_label %}
+{% assign secondary_button_bg = section.settings.color_scheme.settings.secondary_button %}
+
+<style>
+    .address_placeholder_color::placeholder {
+        color: {{ secondary_light_color }} !important;
+    }
+
+    .btn__submit {
+        background-color: {{ button_bg }};
+        color: {{ button_label }};
+        border-color: {{ border_color }};
+    }
+
+    .btn__submit:hover {
+        background-color: {{ secondary_button_bg }};
+        color: {{ secondary_button_label }};
+    }
+</style>
+
+<div class="bg-white px-2 md:px-6 py-6 md:py-8" style="background-color: {{ background }};">
+    <!-- Breadcrumbs -->
+    <div class="breadcrumbs flex items-center gap-2 page-width">
+        <a href="{{ routes.root_url }}"
+           class="text-xs md:text-base leading-normal font-normal text-black"
+           style="color: {{ primary_color }};">
+            {{ 'general.breadcrumbs.home' | t }}
+        </a>
+        <span style="color: {{ primary_color }};">
+            {% render 'icon-chevron-left', classes: 'size-4 ltr:rotate-180' %}
+        </span>
+        <span class="text-xs md:text-base leading-normal font-normal text-gray-500"
+              style="color: {{ secondary_light_color }};">
+            {{ 'general.breadcrumbs.settings' | t }}
+        </span>
+    </div>
+
+    {% if section.settings.enable_image %}
+        <div class="mt-6 md:mt-8">
+            <div class="w-full page-width">
+                {% if section.settings.image != blank %}
+                    <div class="relative aspect-w-4 aspect-h-4 md:aspect-w-16 md:aspect-h-7 overflow-hidden rounded-sm md:rounded-md">
+                        <img src="{{ section.settings.image | img_url: 'master' }}"
+                             alt="{{ section.settings.image.alt }}"
+                             class="w-full h-full object-cover object-center"
+                             loading="lazy"
+                        >
+                        <div class="flex justify-center items-center absolute inset-0">
+                            <div class="p-3 flex flex-col justify-center items-center bg-black/30 h-40 w-full md:w-1/3 md:h-full">
+                                <h1 class="text-3xl md:text-5xl font-medium leading-normal text-white">
+                                    {{ 'customer.addresses.title' | t }}
+                                </h1>
+                            </div>
+                        </div>
+                    </div>
+                {% else %}
+                    <div class="relative border border-gray-400 aspect-w-4 aspect-h-4 md:aspect-w-16 md:aspect-h-7 overflow-hidden rounded-sm md:rounded-md">
+                        <img class="h-full w-full object-cover object-center"
+                             src="{{ 'lifestyle-2.svg' | asset_url }}"
+                             alt="lifestyle-2 placeholder image" loading="lazy"/>
+                        <div class="flex justify-center items-center absolute inset-0">
+                            <div class="p-3 flex flex-col justify-center items-center bg-black/30 h-40 w-full md:w-1/3 md:h-full">
+                                <h1 class="text-3xl md:text-5xl font-medium leading-normal text-white">
+                                    {{ 'customer.addresses.title' | t }}
+                                </h1>
+                            </div>
+                        </div>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    {% endif %}
+
+    <div x-data="{ activeTab: $persist('profile') }" class="py-5 md:py-8 page-width">
+        <div class="pb-3 md:pb-5 border-b border-gray-200/60"
+             style="border-color: {{ border_color }};">
+            <nav class="-mb-0.5 flex justify-center gap-x-16 md:gap-x-12" aria-label="Tabs" role="tablist"
+                 aria-orientation="horizontal">
+                <button type="button"
+                        :class="activeTab === 'profile' ? 'font-bold text-gray-700' : 'font-normal text-gray-500'"
+                        class="text-base md:text-xl leading-normal"
+                        @click="activeTab = 'profile'"
+                        id="profile-tab"
+                        :aria-selected="activeTab === 'profile'"
+                        aria-controls="profile-tab-content"
+                        role="tab"
+                        :style="activeTab === 'profile' ? 'color: {{ secondary_color }}' : 'color: {{ secondary_light_color }}'">
+                    {{ 'customer.addresses.profile' | t }}
+                </button>
+                <button type="button"
+                        :class="activeTab === 'address' ? 'font-bold text-gray-700' : 'font-normal text-gray-500'"
+                        class="text-base md:text-xl leading-normal"
+                        @click="activeTab = 'address'"
+                        id="address-tab"
+                        :aria-selected="activeTab === 'address'"
+                        aria-controls="address-tab-content"
+                        role="tab"
+                        :style="activeTab === 'address' ? 'color: {{ secondary_color }}' : 'color: {{ secondary_light_color }}'">
+                    {{ 'customer.addresses.address' | t }}
+                </button>
+            </nav>
+        </div>
+
+        <div class="mt-5">
+            <div id="profile-tab-content"
+                 x-show="activeTab === 'profile'"
+                 role="tabpanel"
+                 aria-labelledby="profile-tab"
+                 class="transition duration-300 ease-in-out"
+                 x-cloak>
+                <div class="border border-primary-light rounded-sm md:rounded-none">
+                    <h2 class="border-b border-primary-light bg-secondary-light px-5 py-3.5 text-base md:text-xl font-normal leading-normal text-gray-700 text-center md:text-start">
+                        {{ 'customer.addresses.profile_details' | t }}
+                    </h2>
+
+                    <div class="pt-7 pb-2.5 px-2.5 md:px-5 md:py-5 grid md:grid-cols-2 gap-y-6 md:gap-x-6 md:gap-y-5">
+                        <div>
+                            <div class="block text-base mb-3.5" style="color: {{ primary_color }};">
+                                {{ 'customer.addresses.first_name' | t }}
+                            </div>
+
+                            <div class="w-full text-base font-normal text-gray-700 px-6 py-3 border border-gray-300 rounded"
+                                 style="color: {{ secondary_color }}; border-color: {{ border_color }};">
+                                {% if customer.first_name != blank %}
+                                    {{ customer.first_name }}
+                                {% else %}
+                                    {{ 'customer.addresses.undefined' | t }}
+                                {% endif %}
+                            </div>
+                        </div>
+
+                        <div>
+                            <div class="block text-base mb-3.5" style="color: {{ primary_color }};">
+                                {{ 'customer.addresses.last_name' | t }}
+                            </div>
+
+                            <div class="w-full text-base font-normal text-gray-700 px-6 py-3 border border-gray-300 rounded"
+                                 style="color: {{ secondary_color }}; border-color: {{ border_color }};">
+                                {% if customer.last_name != blank %}
+                                    {{ customer.last_name }}
+                                {% else %}
+                                    {{ 'customer.addresses.undefined' | t }}
+                                {% endif %}
+                            </div>
+                        </div>
+
+                        <div>
+                            <div class="block text-base mb-3.5" style="color: {{ primary_color }};">
+                                {{ 'customer.addresses.email' | t }}
+                            </div>
+
+                            <div class="w-full text-base font-normal text-gray-700 px-6 py-3 border border-gray-300 rounded"
+                                 style="color: {{ secondary_color }}; border-color: {{ border_color }};">
+                                {% if customer.email != blank %}
+                                    {{ customer.email }}
+                                {% else %}
+                                    {{ 'customer.addresses.undefined' | t }}
+                                {% endif %}
+                            </div>
+                        </div>
+
+                        <div>
+                            <div class="block text-base mb-3.5" style="color: {{ primary_color }};">
+                                {{ 'customer.addresses.phone' | t }}
+                            </div>
+
+                            <div class="w-full text-base font-normal text-gray-700 px-6 py-3 border border-gray-300 rounded"
+                                 style="color: {{ secondary_color }}; border-color: {{ border_color }};">
+                                {% if customer.phone != blank %}
+                                    <span dir="ltr">
+                                        {{ customer.phone }}
+                                    </span>
+                                {% else %}
+                                    {{ 'customer.addresses.undefined' | t }}
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="address-tab-content"
+                 x-show="activeTab === 'address'"
+                 role="tabpanel"
+                 aria-labelledby="address-tab"
+                 class="transition duration-300 ease-in-out"
+                 x-cloak>
+                {% assign address = customer.default_address | default: customer.new_address %}
+
+                {% form 'customer_address', address, class: 'flex flex-col' %}
+                    <input type="hidden" name="return_to" value="{{ routes.account_addresses_url }}">
+
+                    {% if address == customer.new_address %}
+                        <input type="hidden" name="address[default]" value="1">
+                    {% endif %}
+
+                    <div class="border border-primary-light rounded-sm md:rounded-none">
+                        <h2 class="border-b border-primary-light bg-secondary-light px-5 py-3.5 text-base md:text-xl font-normal leading-normal text-gray-700 text-center md:text-start">
+                            {{ 'customer.addresses.shipping_address_details' | t }}
+                        </h2>
+
+                        <div class="pt-7 pb-2.5 px-2.5 md:px-5 md:py-5">
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-y-6 md:gap-x-6 md:gap-y-5">
+                                <div>
+                                    <label for="address_first_name_{{ form.id }}" class="block text-base mb-3.5"
+                                           style="color: {{ primary_color }};">
+                                        {{ 'customer.addresses.first_name' | t }} <span class="text-red-600">*</span>
+                                    </label>
+
+                                    <input type="text"
+                                           id="address_first_name_{{ form.id }}"
+                                           name="address[first_name]"
+                                           value="{{ form.first_name }}"
+                                           required
+                                           class="relative block w-full text-base font-normal bg-transparent placeholder:text-gray-500 placeholder:text-base px-6 py-3 border focus:outline-none address_placeholder_color"
+                                           style="color: {{ primary_color }}; border-color: {{ border_color }};">
+                                </div>
+
+                                <div>
+                                    <label for="address_last_name_{{ form.id }}" class="block text-base mb-3.5"
+                                           style="color: {{ primary_color }};">
+                                        {{ 'customer.addresses.last_name' | t }} <span class="text-red-600">*</span>
+                                    </label>
+
+                                    <input type="text"
+                                           id="address_last_name_{{ form.id }}"
+                                           name="address[last_name]"
+                                           value="{{ form.last_name }}"
+                                           required
+                                           class="relative block w-full text-base font-normal bg-transparent placeholder:text-gray-500 placeholder:text-base px-6 py-3 border focus:outline-none address_placeholder_color"
+                                           style="color: {{ primary_color }}; border-color: {{ border_color }};">
+                                </div>
+
+                                <div>
+                                    <label for="address_company_{{ form.id }}" class="block text-base mb-3.5"
+                                           style="color: {{ primary_color }};">
+                                        {{ 'customer.addresses.company' | t }}
+                                    </label>
+
+                                    <input type="text"
+                                           id="address_company_{{ form.id }}"
+                                           name="address[company]"
+                                           value="{{ form.company }}"
+                                           class="relative block w-full text-base font-normal bg-transparent placeholder:text-gray-500 placeholder:text-base px-6 py-3 border focus:outline-none address_placeholder_color"
+                                           style="color: {{ primary_color }}; border-color: {{ border_color }};">
+                                </div>
+
+                                <div>
+                                    <label for="address_phone_{{ form.id }}" class="block text-base mb-3.5"
+                                           style="color: {{ primary_color }};">
+                                        {{ 'customer.addresses.phone' | t }}
+                                    </label>
+
+                                    <input type="tel"
+                                           id="address_phone_{{ form.id }}"
+                                           name="address[phone]"
+                                           value="{{ form.phone }}"
+                                           dir="{% if settings.rtl_ltr_direction == 'rtl' %}rtl{% elsif shop.locale == 'ar' %}rtl{% else %}ltr{% endif %}"
+                                           class="relative block w-full text-base font-normal bg-transparent placeholder:text-gray-500 placeholder:text-base px-6 py-3 border focus:outline-none address_placeholder_color"
+                                           style="color: {{ primary_color }}; border-color: {{ border_color }};">
+                                </div>
+
+                                <div>
+                                    <label for="address_address1_{{ form.id }}" class="block text-base mb-3.5"
+                                           style="color: {{ primary_color }};">
+                                        {{ 'customer.addresses.address1' | t }} <span class="text-red-600">*</span>
+                                    </label>
+
+                                    <input type="text"
+                                           id="address_address1_{{ form.id }}"
+                                           name="address[address1]"
+                                           value="{{ form.address1 }}"
+                                           required
+                                           class="relative block w-full text-base font-normal bg-transparent placeholder:text-gray-500 placeholder:text-base px-6 py-3 border focus:outline-none address_placeholder_color"
+                                           style="color: {{ primary_color }}; border-color: {{ border_color }};">
+                                </div>
+
+                                <div>
+                                    <label for="address_address2_{{ form.id }}" class="block text-base mb-3.5"
+                                           style="color: {{ primary_color }};">
+                                        {{ 'customer.addresses.address2' | t }}
+                                    </label>
+
+                                    <input type="text"
+                                           id="address_address2_{{ form.id }}"
+                                           name="address[address2]"
+                                           value="{{ form.address2 }}"
+                                           class="relative block w-full text-base font-normal bg-transparent placeholder:text-gray-500 placeholder:text-base px-6 py-3 border focus:outline-none address_placeholder_color"
+                                           style="color: {{ primary_color }}; border-color: {{ border_color }};">
+                                </div>
+
+                                <div>
+                                    <label for="address_city_{{ form.id }}" class="block text-base mb-3.5"
+                                           style="color: {{ primary_color }};">
+                                        {{ 'customer.addresses.city' | t }} <span class="text-red-600">*</span>
+                                    </label>
+
+                                    <input type="text"
+                                           id="address_city_{{ form.id }}"
+                                           name="address[city]"
+                                           value="{{ form.city }}"
+                                           required
+                                           class="relative block w-full text-base font-normal bg-transparent placeholder:text-gray-500 placeholder:text-base px-6 py-3 border focus:outline-none address_placeholder_color"
+                                           style="color: {{ primary_color }}; border-color: {{ border_color }};">
+                                </div>
+
+                                <div>
+                                    <label for="address_country_{{ form.id }}" class="block text-base mb-3.5"
+                                           style="color: {{ primary_color }};">
+                                        {{ 'customer.addresses.country' | t }} <span class="text-red-600">*</span>
+                                    </label>
+
+                                    <select id="address_country_{{ form.id }}"
+                                            name="address[country]"
+                                            value="{{ form.country }}"
+                                            class="relative block w-full text-base font-normal bg-transparent px-6 py-[11px] border focus:outline-none"
+                                            data-country-selector
+                                            data-id="{{ form.id }}"
+                                            required
+                                            style="background-color: {{ background }}; color: {{ primary_color }}; border-color: {{ border_color }};"
+                                    >
+                                        {{ all_country_option_tags }}
+                                    </select>
+                                </div>
+
+                                <div>
+                                    <label for="address_province_{{ form.id }}" class="block text-base mb-3.5"
+                                           style="color: {{ primary_color }};">
+                                        {{ 'customer.addresses.province' | t }}
+                                    </label>
+
+                                    <select id="address_province_{{ form.id }}"
+                                            name="address[province]"
+                                            value="{{ form.province }}"
+                                            class="relative block w-full text-base font-normal bg-transparent px-6 py-[11px] border focus:outline-none"
+                                            style="background-color: {{ background }}; color: {{ primary_color }}; border-color: {{ border_color }};"
+                                    >
+
+                                    </select>
+                                </div>
+
+                                <div>
+                                    <label for="address_zip_{{ form.id }}" class="block text-base mb-3.5"
+                                           style="color: {{ primary_color }};">
+                                        {{ 'customer.addresses.zip' | t }} <span class="text-red-600">*</span>
+                                    </label>
+
+                                    <input type="text"
+                                           id="address_zip_{{ form.id }}"
+                                           name="address[zip]"
+                                           value="{{ form.zip }}"
+                                           required
+                                           class="relative block w-full text-base font-normal bg-transparent placeholder:text-gray-500 placeholder:text-base px-6 py-3 border focus:outline-none address_placeholder_color"
+                                           style="color: {{ primary_color }}; border-color: {{ border_color }};">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mt-7 md:mt-9 flex justify-center items-center">
+                        <button type="submit"
+                                class="w-full md:w-1/5 text-base md:text-xl font-normal leading-normal border text-white bg-primary-main py-2 md:py-3 rounded-sm md:rounded btn__submit">
+                            {% if address == customer.new_address %}
+                                {{ 'customer.addresses.add_new_address' | t }}
+                            {% else %}
+                                {{ 'customer.addresses.update_address' | t }}
+                            {% endif %}
+                        </button>
+                    </div>
+                {% endform %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    class CustomerAddress {
+        constructor() {
+            this.initCustomerAddress();
+            this.customerAddressesSelector();
+        }
+
+        initCustomerAddress() {
+            const allAddressesSelector = document.querySelectorAll("select[data-country-selector]");
+            if (allAddressesSelector.length < 1) return;
+
+            allAddressesSelector.forEach(select => {
+                let selectedCountry = this.getSelectedCountry(select);
+                if (!selectedCountry) return;
+
+                let provinces = selectedCountry.dataset.provinces;
+                let arrayOfProvinces = JSON.parse(provinces);
+                let provinceSelector = document.querySelector(`#address_province_${select.dataset.id}`);
+                if (arrayOfProvinces.length < 1) {
+                    provinceSelector.setAttribute('disabled', 'disabled');
+                } else {
+                    provinceSelector.removeAttribute('disabled');
+                }
+
+                provinceSelector.innerHTML = '';
+                let options = '';
+                for (let index = 0; index < arrayOfProvinces.length; index++) {
+                    if (arrayOfProvinces[index][0] === provinceSelector.getAttribute('value')) {
+                        options += `<option value="${arrayOfProvinces[index][0]}" selected>${arrayOfProvinces[index][1]}</option>`;
+                    } else {
+                        options += `<option value="${arrayOfProvinces[index][0]}">${arrayOfProvinces[index][1]}</option>`;
+                    }
+                }
+
+                provinceSelector.innerHTML = options;
+            });
+        }
+
+        customerAddressesSelector() {
+            const addressesSelector = document.querySelectorAll("select[data-country-selector]");
+            if (addressesSelector.length < 1) return;
+
+            addressesSelector.forEach(select => {
+                select.addEventListener('change', function (e) {
+                    let provinces = this.options[this.selectedIndex].dataset.provinces;
+                    let arrayOfProvinces = JSON.parse(provinces);
+                    let provinceSelector = document.querySelector(`#address_province_${this.dataset.id}`);
+
+                    if (arrayOfProvinces.length < 1) {
+                        provinceSelector.setAttribute('disabled', 'disabled')
+                    } else {
+                        provinceSelector.removeAttribute('disabled')
+                    }
+
+                    provinceSelector.innerHTML = '';
+                    let options = '';
+                    for (let index = 0; index < arrayOfProvinces.length; index++) {
+                        options += `<option value="${arrayOfProvinces[index][0]}">${arrayOfProvinces[index][1]}</option>`
+                    }
+                    provinceSelector.innerHTML = options;
+                });
+            });
+        }
+
+        getSelectedCountry(select) {
+            let option, selectedOption;
+            for (let index = 0; index < select.options.length; index++) {
+                option = select.options[index]
+
+                if (option.textContent.trim() === select.getAttribute('value')) {
+                    selectedOption = option
+                    selectedOption.setAttribute('selected', 'selected')
+                    break;
+                }
+            }
+
+            return selectedOption;
+        }
+    }
+
+    const customerAddress = new CustomerAddress();
+</script>
+
+{% schema %}
+{
+  "name": "t:pages.addresses.name",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "enable_image",
+      "default": true,
+      "label": "t:pages.addresses.settings.enable_image.label"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "t:pages.addresses.settings.image.label"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:sections.all.color_scheme.label",
+      "default": "scheme-5"
+    }
+  ]
+}
+{% endschema %}

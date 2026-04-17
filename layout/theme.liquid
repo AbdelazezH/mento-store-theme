@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="{{ request.locale.iso_code }}"
+      dir="{% if settings.rtl_ltr_direction == 'rtl' %}rtl{% elsif shop.locale == 'ar' %}rtl{% else %}ltr{% endif %}">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width,initial-scale=1,shrink-to-fit=no">
+    <meta name="theme-color" content="">
+
+    <link rel="canonical" href="{{ canonical_url }}">
+    <link rel="preconnect" href="https://cdn.shopify.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family={{ settings.main_font | default: "IBM Plex Sans Arabic" }}:wght@100;200;300;400;500;600;700;800;900&display=swap"
+          rel="stylesheet">
+
+    {%- if settings.favicon != blank -%}
+        <link rel="icon" type="image/png" href="{{ settings.favicon | image_url: width: 32, height: 32 }}">
+    {%- endif -%}
+
+    {%- unless settings.type_header_font.system? and settings.type_body_font.system? -%}
+        <link rel="preconnect" href="https://fonts.shopifycdn.com" crossorigin>
+    {%- endunless -%}
+
+
+    <title>
+        {{ page_title }}
+        {%- if current_tags %} &ndash; tagged "{{ current_tags | join: ', ' }}"{% endif -%}
+        {%- if current_page != 1 %} &ndash; Page {{ current_page }}{% endif -%}
+        {%- unless page_title contains shop.name %} &ndash; {{ shop.name }}{% endunless -%}
+    </title>
+
+    {% if page_description %}
+        <meta name="description" content="{{ page_description | escape }}">
+    {% endif %}
+
+    <style>
+        :root {
+            --color-primary-main: {{ settings.primary_main_color.rgb }};
+            --color-primary-light: {{ settings.primary_light_color.rgb }};
+            --color-secondary-light: {{ settings.secondary_light_color.rgb }};
+            --font-family-body: '{{ settings.main_font | default: "IBM Plex Sans Arabic" }}';
+            --page-width: {{ settings.page_width }}px;
+        }
+    </style>
+
+
+    {% render 'meta-tags' %}
+
+    <!-- Render the locales data snippet -->
+    {% render 'locales-script' %}
+
+    {{ content_for_header }}
+
+    <!-- Header hook for plugins -->
+    {{ 'app.css' | asset_url | stylesheet_tag }}
+    <script src="{{ 'app.js' | asset_url }}" defer></script>
+
+
+    <style>
+        {% if request.locale.iso_code == 'ar'  %}
+        .justify-right {
+            justify-content: flex-start;
+        }
+
+        .justify-left {
+            justify-content: flex-end;
+        }
+
+        {% else %}
+        .justify-right {
+            justify-content: flex-end;
+        }
+
+        .justify-left {
+            justify-content: flex-start;
+        }
+
+        {% endif %}
+
+        .page-width {
+            max-width: {{ settings.page_width }}px;
+            margin: 0 auto !important;
+        }
+
+        .size-logo {
+            width: {{ settings.mobile_logo_width }}px;
+            height: {{ settings.mobile_logo_height }}px;
+        }
+
+        @media (min-width: 768px) {
+            .md\:size-logo {
+                width: {{ settings.logo_width }}px;
+                height: {{ settings.logo_height }}px;
+            }
+        }
+    </style>
+</head>
+<body class="font-body">
+
+{% render 'notification-alert' %}
+
+{% unless settings.hide_show_header_footer == 'hide_header_footer' and template contains 'login' or template contains 'register' or template contains 'activate_account' or template contains 'reset_password' %}
+    {% sections 'header-group' %}
+{% endunless %}
+
+<main role="main">
+    {{ content_for_layout }}
+</main>
+
+{% unless settings.hide_show_header_footer == 'hide_header_footer' and template contains 'login' or template contains 'register' or template contains 'activate_account' or template contains 'reset_password' %}
+    {% sections 'footer-group' %}
+{% endunless %}
+
+
+{% render 'quick-view-modal' %}
+</body>
+</html>

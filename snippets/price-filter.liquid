@@ -1,0 +1,61 @@
+<div class="mt-4">
+    <p class="text-sm font-normal leading-normal text-primary-main">
+        {{ 'pages.collection.highest_price' | t }}
+        <span dir="ltr">{{ filter.range_max | money }}</span>
+    </p>
+
+    {% assign min_value = filter.min_value.value | money_without_currency | replace: ',', '' | default: 0 %}
+    {% assign max_value = filter.max_value.value | default: filter.range_max | money_without_currency | replace: ',', '' %}
+
+    <div x-data="{
+        minValue: '{{ min_value }}',
+        maxValue: '{{ max_value }}',
+
+        debounceTimeout: null,
+
+        updateFilter() {
+            clearTimeout(this.debounceTimeout);
+            this.debounceTimeout = setTimeout(() => {
+                this.$dispatch('filter-updated', { component: this });
+            }, 800);
+        }
+    }" class="mt-2.5 w-full md:w-11/12 flex gap-2.5">
+        <!-- From -->
+        <div x-cloak>
+            <label for="Filter-{{ filter.min_value.param_name }}" class="sr-only">
+                {{ 'pages.collection.from' | t }}
+            </label>
+
+            <input type="number"
+                   id="Filter-{{ filter.min_value.param_name }}"
+                   name="{{ filter.min_value.param_name }}"
+                   placeholder="{{ 'pages.collection.from' | t }}"
+                   class="w-full px-2 py-2.5 text-sm font-normal bg-transparent leading-normal text-gray-950 border border-gray-400 placeholder:text-gray-700 placeholder:text-sm placeholder:md:text-base focus:outline-none"
+                   x-model="minValue"
+                   x-on:input="updateFilter()"
+                   min="0"
+                   max="{{ filter.range_max | money_without_currency | replace: ',', '' }}"
+                   style="color: {{ section.settings.color_scheme.settings.text }}; border-color: {{ section.settings.color_scheme.settings.button_border }};"
+            >
+        </div>
+
+        <!-- To -->
+        <div x-cloak>
+            <label for="Filter-{{ filter.max_value.param_name }}" class="sr-only">
+                {{ 'pages.collection.to' | t }}
+            </label>
+
+            <input type="number"
+                   id="Filter-{{ filter.max_value.param_name }}"
+                   name="{{ filter.max_value.param_name }}"
+                   placeholder="{{ 'pages.collection.to' | t }}"
+                   class="w-full px-2 py-2.5 text-sm font-normal bg-transparent leading-normal text-gray-950 border border-gray-400 placeholder:text-gray-700 placeholder:text-sm placeholder:md:text-base focus:outline-none"
+                   x-model="maxValue"
+                   x-on:input="updateFilter()"
+                   min="0"
+                   max="{{ filter.range_max | money_without_currency | replace: ',', '' }}"
+                   style="color: {{ section.settings.color_scheme.settings.text }}; border-color: {{ section.settings.color_scheme.settings.button_border }};"
+            >
+        </div>
+    </div>
+</div>

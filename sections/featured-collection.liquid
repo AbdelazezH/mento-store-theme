@@ -1,0 +1,122 @@
+<section class="bg-white mx-auto ps-2 md:pe-2 py-6 md:py-8"
+         style="background-color: {{ section.settings.color_scheme.settings.background }};">
+    <div class="flex justify-center items-center">
+        <div class="w-full lg:max-w-xl flex flex-col justify-center items-center text-center gap-6 md:gap-4">
+            <h2 class="text-xl md:text-3xl text-gray-900 font-medium"
+                style="color: {{ section.settings.color_scheme.settings.text }};">
+                {{ section.settings.title }}
+            </h2>
+
+            {% if section.settings.description != blank %}
+                <p class="text-sm/6 md:text-base/6 text-gray-500 font-normal"
+                   style="color: {{ section.settings.color_scheme.settings.secondary_light }};">
+                    {{ section.settings.description }}
+                </p>
+            {% endif %}
+        </div>
+    </div>
+
+    <div class="mt-8 md:mt-11">
+
+        <!-- for customizer preview -->
+        <div class="featured-collection__preview page-width">
+            <div class="hidden md:grid grid-cols-4 gap-2">
+                {% for i in (1..4) %}
+                    {% render 'product-card-placeholder' %}
+                {% endfor %}
+            </div>
+
+            <div class="grid md:hidden grid-cols-2 gap-1">
+                {% for i in (1..2) %}
+                    {% render 'product-card-placeholder' %}
+                {% endfor %}
+            </div>
+        </div>
+
+        <div id="swiper_{{ section.id }}"
+             class="swiper gap-2 page-width featured-collection__swiper !hidden"
+             data-autoplay="{{ section.settings.enable_autoplay }}">
+            <div class="swiper-wrapper">
+                {% for product in section.settings.featured_collection.products limit: section.settings.number_of_products_to_show %}
+                    {% render 'product-card', product: product %}
+                {% else %}
+                    {% for i in (1..7) %}
+                        {% render 'product-card-placeholder' %}
+                    {% endfor %}
+                {% endfor %}
+            </div>
+            {% if section.settings.enable_navigation %}
+                <div class="navigation__btns">
+                    <div class="swiper-button-prev" style="color: {{ section.settings.nav_btn_color }};"></div>
+                    <div class="swiper-button-next" style="color: {{ section.settings.nav_btn_color }};"></div>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</section>
+
+{% schema %}
+{
+  "name": "t:sections.featured-collection.name",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "t:sections.featured-collection.settings.title.label",
+      "default": "t:sections.featured-collection.settings.title.default"
+    },
+    {
+      "type": "textarea",
+      "id": "description",
+      "label": "t:sections.featured-collection.settings.description.label"
+    },
+    {
+      "type": "collection",
+      "id": "featured_collection",
+      "label": "t:sections.featured-collection.settings.featured_collection.label"
+    },
+    {
+      "type": "range",
+      "id": "number_of_products_to_show",
+      "label": "t:sections.featured-collection.settings.number_of_products_to_show.label",
+      "min": 6,
+      "max": 10,
+      "step": 1,
+      "default": 8
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:sections.all.color_scheme.label",
+      "default": "scheme-6"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.featured-collection.settings.header-1.content"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_navigation",
+      "label": "t:sections.featured-collection.settings.enable_navigation.label",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_autoplay",
+      "label": "t:sections.featured-collection.settings.enable_autoplay.label",
+      "default": false
+    },
+    {
+      "type": "color",
+      "id": "nav_btn_color",
+      "label": "t:sections.featured-collection.settings.nav_btn_color.label",
+      "default": "#111827"
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:sections.featured-collection.name"
+    }
+  ]
+}
+{% endschema %}

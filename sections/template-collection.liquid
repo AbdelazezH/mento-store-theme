@@ -1,0 +1,434 @@
+{% assign background = section.settings.color_scheme.settings.background %}
+{% assign primary_color = section.settings.color_scheme.settings.text %}
+{% assign secondary_color = section.settings.color_scheme.settings.secondary %}
+{% assign secondary_light_color = section.settings.color_scheme.settings.secondary_light %}
+{% assign button_label = section.settings.color_scheme.settings.button_label %}
+{% assign button_bg = section.settings.color_scheme.settings.button %}
+{% assign border_color = section.settings.color_scheme.settings.button_border %}
+
+<style>
+    .collection-text_on_hover:hover {
+        color: {{ primary_color }} !important;
+    }
+
+    .collection_placeholder_color::placeholder {
+        color: {{ secondary_color }} !important;
+    }
+
+    .text-black-on_hover:hover {
+        color: #111827 !important;
+    }
+</style>
+
+<div class="bg-white px-2 md:px-6 py-6 md:py-8"
+     style="background-color: {{ background }};">
+
+    {% if collection.handle == 'all' or collection.handle == 'all-products' %}
+        {% assign collection_title = 'general.breadcrumbs.products' | t %}
+    {% else %}
+        {% assign collection_title = collection.title %}
+    {% endif %}
+
+    <!-- Breadcrumbs -->
+    <div class="breadcrumbs flex items-center gap-2 page-width">
+        <a href="{{ routes.root_url }}"
+           class="text-xs md:text-base leading-normal font-normal text-black" style="color: {{ primary_color }};">
+            {{ 'general.breadcrumbs.home' | t }}
+        </a>
+        <span style="color: {{ primary_color }};">
+            {% render 'icon-chevron-left', classes: 'size-4 ltr:rotate-180' %}
+        </span>
+        <span class="text-xs md:text-base leading-normal font-normal text-gray-500"
+              style="color: {{ secondary_light_color }};">
+            {{ collection_title }}
+        </span>
+    </div>
+
+    <!-- Collection Image -->
+    {% if section.settings.enable_collection_image and collection.handle != 'all' %}
+        <div class="mt-6 md:mt-8">
+            <div class="w-full page-width">
+                {% if collection.featured_image != blank %}
+                    <div class="relative aspect-w-4 aspect-h-4 md:aspect-w-16 md:aspect-h-7 overflow-hidden rounded-sm md:rounded-md">
+                        <img src="{{ collection.featured_image | img_url: 'master' }}"
+                             alt="{{ collection.title | escape }}"
+                             class="w-full h-full object-cover object-center"
+                             loading="lazy"
+                        >
+                        <div class="flex justify-center items-center absolute inset-0">
+                            <div class="p-3 flex flex-col justify-center items-center bg-black/30 h-40 w-full md:w-1/3 md:h-full">
+                                <h1 class="text-3xl md:text-5xl font-medium leading-normal text-white">
+                                    {{ collection_title }}
+                                </h1>
+                            </div>
+                        </div>
+                    </div>
+                {% else %}
+                    <div class="relative border border-gray-400 aspect-w-4 aspect-h-4 md:aspect-w-16 md:aspect-h-7 overflow-hidden rounded-sm md:rounded-md">
+                        <img class="h-full w-full object-cover object-center"
+                             src="{{ 'lifestyle-2.svg' | asset_url }}"
+                             alt="lifestyle-2 placeholder image" loading="lazy"/>
+                        <div class="flex justify-center items-center absolute inset-0">
+                            <div class="p-3 flex flex-col justify-center items-center bg-black/30 h-40 w-full md:w-1/3 md:h-full">
+                                <h1 class="text-3xl md:text-5xl font-medium leading-normal text-white">
+                                    {{ collection_title }}
+                                </h1>
+                            </div>
+                        </div>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    {% endif %}
+
+    <!-- Start Collection Blocks -->
+    {% if collection.all_products_count > 0 %}
+        <!-- Sorting, filter and display buttons -->
+        <div class="mt-6 md:mt-8">
+            <div class="page-width flex justify-between items-center px-1 py-2.5 md:px-5 md:py-4 border border-gray-200 rounded md:rounded-md"
+                 style="border-color: {{ border_color }};">
+                <!-- Filter button -->
+                <div x-data class="flex md:hidden">
+                    <button x-on:click="$dispatch('mobile-filters-opened')"
+                            class="inline-flex justify-center items-center gap-1 text-sm leading-normal font-normal text-gray-950"
+                            style="color: {{ primary_color }};">
+                    <span>
+                        {% render 'icon-filter', classes: 'size-5' %}
+                    </span>
+                        <span>
+                        {{ 'pages.collection.filter' | t }}
+                    </span>
+                    </button>
+                </div>
+
+                {% assign sort_by = collection.sort_by | default: collection.default_sort_by %}
+
+                <!-- Sorting dropdown -->
+                <div class="flex relative"
+                     x-data="sortingComponent('{{ sort_by }}', '{{ collection.default_sort_by }}')">
+                    <button class="inline-flex justify-center items-center gap-1 md:gap-3 text-sm md:text-base leading-normal font-normal text-gray-950"
+                            x-on:click="openSortingMenu()"
+                            style="color: {{ primary_color }};"
+                    >
+                    <span>
+                        {{ 'pages.collection.sort_by' | t }}
+                    </span>
+                        <span>
+                        {% render 'icon-dropdown', classes: 'size-6 md:size-7' %}
+                    </span>
+                    </button>
+
+                    <div x-cloak
+                         x-show="openSorting"
+                         x-on:click.outside="closeOnOutsideClick()"
+                         class="absolute top-9 md:top-12 z-10 mt-2 w-64 md:w-96 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none end-1/2 transform -translate-x-1/2 md:end-auto md:-start-5 md:transform-none"
+                         x-transition:enter="transition ease-out duration-100"
+                         x-transition:enter-start="transform opacity-0 scale-95"
+                         x-transition:enter-end="transform opacity-100 scale-100"
+                         x-transition:leave="transition ease-in duration-75"
+                         x-transition:leave-start="transform opacity-100 scale-100"
+                         x-transition:leave-end="transform opacity-0 scale-95"
+                         style="background-color: {{ background }};"
+                    >
+                        <div class="py-3 px-2.5 md:py-6 md:px-5">
+                            <h3 class="text-sm md:text-base font-normal leading-normal text-gray-950 pb-3 md:pb-4 border-b border-black border-opacity-10"
+                                style="color: {{ primary_color }};">
+                                {{ 'pages.collection.sort_by' | t }}
+                            </h3>
+                            <div class="mt-3 md:mt-4 space-y-3 md:space-y-5">
+                                {% assign hidden_values = 'title-ascending,title-descending' | split: ',' %}
+                                {% for option in collection.sort_options %}
+                                    {% unless hidden_values contains option.value %}
+                                        <label class="flex items-center cursor-pointer">
+                                            <input type="radio"
+                                                   name="sort_by"
+                                                   value="{{ option.value }}"
+                                                   x-model="sortBy"
+                                                   x-on:click="toggleSort('{{ option.value }}')"
+                                                   class="sr-only"/>
+                                            <span class="size-[1.125rem] md:size-6 flex justify-center items-center border border-gray-400 rounded md:rounded-md">
+                                            <span class="text-primary-main"
+                                                  :class="sortBy === '{{ option.value }}' ? 'inline-flex' : 'hidden'"
+                                            >
+                                                {% render 'icon-checkbox', classes: 'size-4 md:size-[1.125rem]' %}
+                                            </span>
+                                        </span>
+                                            <span class="ms-2 text-sm md:text-base text-gray-900"
+                                                  style="color: {{ primary_color }};">
+                                            {{ 'pages.collection.sort_options.' | append: option.value | t }}
+                                        </span>
+                                        </label>
+                                    {% endunless %}
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Display buttons -->
+                <div class="flex gap-3">
+                    <div class="hidden md:flex">
+                        <p class="text-base font-normal leading-normal text-gray-950"
+                           style="color: {{ primary_color }};">
+                            {{ 'pages.collection.display' | t }}
+                        </p>
+                    </div>
+
+                    <div class="flex items-center gap-2.5 md:gap-4"
+                         x-data="{
+                        displayGrid: $persist(true),
+                        switchViewModeTo(newMode) {
+                            if ((!this.displayGrid && newMode === 'grid') || (this.displayGrid && newMode === 'list')) {
+                                this.displayGrid = (newMode === 'grid');
+                                this.$dispatch('view-mode-change', { mode: newMode });
+                            }
+                        }
+                    }"
+                    >
+                        <button class="text-primary-main hover:text-primary-main"
+                                :class="{
+                                'text-primary-main': displayGrid,
+                                'text-gray-200': !displayGrid
+                            }"
+                                x-on:click="switchViewModeTo('grid')"
+                        >
+                            {% render 'icon-display-grid', classes: 'size-4 md:size-5' %}
+                        </button>
+
+                        <button class="text-gray-200 hover:text-primary-main"
+                                :class="{
+                                'text-primary-main': !displayGrid,
+                                'text-gray-200': displayGrid
+                            }"
+                                x-on:click="switchViewModeTo('list')"
+                        >
+                            {% render 'icon-display-list', classes: 'size-4 md:size-5' %}
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        {% assign default_lang = settings.default_language_code %}
+        {% assign current_lang = localization.language.iso_code %}
+
+        <!-- Main content -->
+        <div x-data="filterComponent('{{ default_lang }}', '{{ current_lang }}', '{{ collection.handle }}')"
+             x-on:filter-updated.window="applyFilters($event)"
+             x-on:sort-started.window="isLoadingProducts = true"
+             x-on:sort-completed.window="isLoadingProducts = false"
+             class="py-3 md:py-8 page-width">
+
+            {% assign hasFilter = false %}
+            {%- for filter in collection.filters -%}
+                {%- for filter_value in filter.active_values -%}
+                    {% assign hasFilter = true %}
+                {% endfor %}
+            {% endfor %}
+
+            <div id="appliedFilters" class="px-1 md:ps-4 md:pe-5">
+                {% if hasFilter %}
+                    <div class="mb-4 md:mb-8 flex flex-col-reverse md:flex-row md:justify-between items-start gap-2 md:gap-0">
+                        <div class="flex items-center flex-wrap gap-1 md:gap-2">
+                            {%- for filter in collection.filters -%}
+                                {% assign translation_key = 'pages.collection.filter_options.' | append: filter.label | downcase | replace: ' ', '_' %}
+                                {% assign translated_label = translation_key | t %}
+
+                                {%- if filter.type == "price_range" -%}
+                                    {%- if filter.min_value.value or filter.max_value.value -%}
+                                        <button class="active-filters__remove-filter flex items-center gap-1.5 border text-xs md:text-sm text-gray-700 hover:text-gray-950 py-1 px-1.5 rounded-full collection-text_on_hover"
+                                                x-on:click.prevent="$dispatch('filter-updated', { filterUrl: '{{ filter.url_to_remove }}' })"
+                                                style="background-color: {{ button_bg }}; color: {{ button_label }}; border-color: {{ button_color }};"
+                                        >
+                                            <span>
+                                                {%- assign min_value = filter.min_value.value | default: 0 -%}
+                                                {%- assign max_value = filter.max_value.value | default: filter.range_max -%}
+                                                {{ min_value | money }} - {{ max_value | money }}
+                                            </span>
+                                            <span>{% render 'icon-close', classes: 'size-5' %}</span>
+                                        </button>
+                                    {%- endif -%}
+                                {%- else -%}
+                                    {%- for filter_value in filter.active_values -%}
+                                        {% assign filter_value_translation_key = 'pages.collection.filter_options.' | append: filter_value.label | downcase | replace: ' ', '_' %}
+                                        {% assign translated_filter_value_label = filter_value_translation_key | t %}
+
+                                        <button class="active-filters__remove-filter flex items-center gap-1.5 border text-xs md:text-sm text-gray-700 hover:text-gray-950 py-1 px-1.5 rounded-full collection-text_on_hover"
+                                                x-on:click.prevent="$dispatch('filter-updated', { filterUrl: '{{ filter_value.url_to_remove }}' })"
+                                                style="background-color: {{ button_bg }}; color: {{ button_label }}; border-color: {{ button_color }};">
+                                            <span>
+                                                {% if translated_label contains 'Translation missing' %}
+                                                    {{ filter.label }}
+                                                {% else %}
+                                                    {{ translated_label }}
+                                                {% endif %}:
+                                                {% if translated_filter_value_label contains 'Translation missing' %}
+                                                    {{ filter_value.label }}
+                                                {% else %}
+                                                    {{ translated_filter_value_label }}
+                                                {% endif %}
+                                            </span>
+                                            <span>{% render 'icon-close', classes: 'size-5' %}</span>
+                                        </button>
+                                    {%- endfor -%}
+                                {%- endif -%}
+                            {%- endfor -%}
+
+                            <button x-on:click.prevent="$dispatch('filter-updated', { filterUrl: '{{ collection.url }}' })"
+                                    class="active-filters__clear text-xs md:text-sm font-normal leading-normal text-gray-700 hover:text-gray-950 hover:underline hover:underline-offset-4 collection-text_on_hover"
+                                    style="color: {{ secondary_color }};">
+                                {{ 'pages.collection.clear_filter' | t }}
+                            </button>
+
+                        </div>
+
+                        <p class="text-xs md:text-sm self-center font-normal leading-normal text-gray-700 py-1 whitespace-nowrap"
+                           style="color: {{ secondary_color }};">
+                            {{ 'pages.collection.product_count' | t: product_count: collection.products_count, count: collection.all_products_count }}
+                        </p>
+                    </div>
+                {% endif %}
+            </div>
+
+            <div class="flex justify-between md:gap-10">
+                <div class="hidden md:block w-1/4 md:px-5">
+                    <div x-show="isLoadingDesktopFilters"
+                         x-cloak>
+                        {% render 'loader' %}
+                    </div>
+                    <div x-show="!isLoadingDesktopFilters"
+                         x-cloak
+                         id="desktopFilters">
+                        {% render 'filters', type: 'collection', displayMode: 'desktop' %}
+                    </div>
+                </div>
+
+                <!-- Products preview -->
+                <div class="w-full md:w-3/4">
+                    <div x-show="isLoadingProducts"
+                         x-cloak>
+                        {% render 'loader', classes: 'min-h-80 md:min-h-screen' %}
+                    </div>
+
+                    <div x-show="!isLoadingProducts"
+                         x-cloak
+                         id="productsContainer">
+
+                        {% if collection.products_count > 0 %}
+                            <div x-data="{
+                                viewMode: $persist('grid'),
+                                setViewMode(event) {
+                                this.viewMode = event.detail.mode
+                            }
+                        }" x-on:view-mode-change.window="setViewMode($event)">
+                                <!-- Grid view -->
+                                <div x-cloak
+                                     x-show="viewMode === 'grid'"
+                                >
+                                    {% paginate collection.products by section.settings.grid_number_of_products_per_page %}
+                                        <div class="grid grid-cols-2 lg:grid-cols-3 gap-5 lg:gap-2">
+                                            {% for product in collection.products %}
+                                                {% render 'product-card', product: product %}
+                                            {% endfor %}
+                                        </div>
+
+                                        {% render 'pagination', pagination: paginate %}
+                                    {% endpaginate %}
+                                </div>
+
+                                <!-- List view -->
+                                <div x-cloak
+                                     x-show="viewMode === 'list'"
+                                     class="lg:pe-28"
+                                >
+                                    {% paginate collection.products by section.settings.list_number_of_products_per_page %}
+                                        <div class="space-y-3 md:space-y-7">
+                                            {% for product in collection.products %}
+                                                {% render 'product-list-item', product: product %}
+                                            {% endfor %}
+                                        </div>
+
+                                        {% render 'pagination', pagination: paginate %}
+                                    {% endpaginate %}
+                                </div>
+                            </div>
+                        {% else %}
+                            <!-- No products found for chosen filters -->
+                            <div class="py-6 flex justify-center items-center min-h-80 md:min-h-[30rem]">
+                                <div class="flex flex-col justify-center items-center gap-2.5 md:gap-4 text-center">
+                                    <span class="text-primary-main">
+                                        {% render 'icon-cube', classes: 'size-7 md:size-8' %}
+                                    </span>
+
+                                    <p class="text-base md:text-xl leading-normal font-light text-gray-950"
+                                       style="color: {{ primary_color }};">
+                                        {{ 'pages.collection.empty_text' | t }}
+                                    </p>
+                                </div>
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+
+            <div class="md:hidden">
+                {% render 'mobile-filters', type: 'collection' %}
+            </div>
+        </div>
+
+    {% else %}
+        <!-- Collection empty -->
+        <div class="py-6 flex justify-center items-center min-h-80 md:min-h-[30rem]">
+            <div class="flex flex-col justify-center items-center gap-2.5 md:gap-4 text-center">
+                <span class="text-primary-main">
+                    {% render 'icon-cube', classes: 'size-7 md:size-8' %}
+                </span>
+
+                <p class="text-base md:text-xl leading-normal font-light text-gray-950"
+                   style="color: {{ primary_color }};">
+                    {{ 'pages.collection.empty_title' | t }}
+                </p>
+            </div>
+        </div>
+    {% endif %}
+</div>
+
+{% schema %}
+{
+  "name": "t:pages.collection.name",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "enable_collection_image",
+      "default": true,
+      "label": "t:pages.collection.settings.enable_collection_image.label"
+    },
+    {
+      "type": "range",
+      "id": "grid_number_of_products_per_page",
+      "label": "t:pages.collection.settings.grid_number_of_products_per_page.label",
+      "info": "t:pages.collection.settings.grid_number_of_products_per_page.info",
+      "min": 3,
+      "max": 9,
+      "step": 1,
+      "default": 6
+    },
+    {
+      "type": "range",
+      "id": "list_number_of_products_per_page",
+      "label": "t:pages.collection.settings.list_number_of_products_per_page.label",
+      "info": "t:pages.collection.settings.list_number_of_products_per_page.info",
+      "min": 3,
+      "max": 8,
+      "step": 1,
+      "default": 4
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:sections.all.color_scheme.label",
+      "default": "scheme-6"
+    }
+  ]
+}
+{% endschema %}

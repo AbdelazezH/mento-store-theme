@@ -1,0 +1,181 @@
+<div class="bg-white px-2 md:px-6 py-6 md:py-8"
+     style="background-color: {{ section.settings.color_scheme.settings.background }};"
+>
+    <div class="image-with-icons flex flex-col md:flex-row md:items-center gap-4 sm:gap-6 lg:gap-12 page-width">
+        <!-- Image block -->
+        <div class="w-full md:w-1/2
+          {% if section.settings.image_position == 'end' %}
+              {% if request.locale.iso_code == 'ar' %}
+                md:order-2
+              {% else %}
+                md:order-1
+              {% endif %}
+          {% else %}
+              {% if request.locale.iso_code == 'ar' %}
+                md:order-1
+              {% else %}
+                md:order-2
+              {% endif %}
+          {% endif %}
+        ">
+            {% if section.settings.image %}
+                <div class="aspect-w-4 aspect-h-4 overflow-hidden rounded-sm md:rounded-md">
+                    <img class="w-full h-full object-cover object-center"
+                         src="{{ section.settings.image.image | img_url: 'master' }}"
+                         alt="{{ section.settings.image.title }}"
+                         loading="lazy"
+                    >
+                </div>
+            {% else %}
+                <div class="relative border border-gray-400 group aspect-w-4 aspect-h-4 overflow-hidden rounded-sm md:rounded-md">
+                    {{ 'image' | placeholder_svg_tag: 'w-full h-full object-cover object-center' }}
+                    <div class="absolute inset-0 bg-gradient-to-b from-transparent to-black transition-opacity duration-300 opacity-100 group-hover:opacity-0"></div>
+                </div>
+            {% endif %}
+        </div>
+
+        <!-- Content block -->
+        <div class="w-full md:w-1/2 md:flex
+            {% if section.settings.image_position == 'end' %}
+                {% if request.locale.iso_code == 'ar' %}
+                    md:order-1 md:justify-end
+                {% else %}
+                    md:order-2 md:justify-start
+                {% endif %}
+            {% else %}
+                {% if request.locale.iso_code == 'ar' %}
+                    md:order-2 md:justify-start
+                {% else %}
+                    md:order-1 md:justify-end
+                {% endif %}
+            {% endif %}
+         md:py-12 lg:ps-2 lg:pe-6">
+            <div class="max-w-xl flex flex-col items-center md:items-start gap-11 md:gap-16">
+                {% if section.settings.title != blank %}
+                    <h3 class="text-xl md:text-3xl font-medium text-gray-900"
+                        style="color: {{ section.settings.color_scheme.settings.text }};">
+                        {{ section.settings.title }}
+                    </h3>
+                {% endif %}
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-x-32 md:gap-y-16">
+                    {% for block in section.blocks %}
+                        <div class="flex flex-col items-center md:items-start gap-4">
+                            {% if block.settings.icon_block_icon != blank %}
+                                <div class="bg-primary-light text-white rounded-full p-4"
+                                     style="background-color: {{ section.settings.color_scheme.settings.bg_icons }}; color: {{ section.settings.color_scheme.settings.icons }};"
+                                >
+                                    {{ block.settings.icon_block_icon }}
+                                </div>
+                            {% endif %}
+
+                            {% if block.settings.icon_block_title != blank %}
+                                <h3 class="text-xl md:text-2xl font-normal leading-normal text-gray-900"
+                                    style="color: {{ section.settings.color_scheme.settings.text }};"
+                                >
+                                    {{ block.settings.icon_block_title }}
+                                </h3>
+                            {% endif %}
+
+                            {% if block.settings.icon_block_description != blank %}
+                                <p class="text-sm md:text-base font-normal leading-normal text-gray-700"
+                                   style="color: {{ section.settings.color_scheme.settings.secondary }};"
+                                >
+                                    {{ block.settings.icon_block_description }}
+                                </p>
+                            {% endif %}
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% schema %}
+{
+  "name": "t:sections.image-with-icons.name",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "t:sections.image-with-icons.settings.image.label"
+    },
+    {
+      "type": "select",
+      "id": "image_position",
+      "label": "t:sections.image-with-icons.settings.image_position.label",
+      "default": "end",
+      "options": [
+        {
+          "value": "start",
+          "label": "t:sections.image-with-icons.settings.image_position.options.start.label"
+        },
+        {
+          "value": "end",
+          "label": "t:sections.image-with-icons.settings.image_position.options.end.label"
+        }
+      ]
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "t:sections.image-with-icons.settings.title.label",
+      "default": "t:sections.image-with-icons.settings.title.default"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:sections.all.color_scheme.label",
+      "default": "scheme-6"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "icon_block",
+      "name": "t:sections.image-with-icons.blocks.icon_block.name",
+      "limit": 4,
+      "settings": [
+        {
+          "type": "text",
+          "id": "icon_block_title",
+          "label": "t:sections.image-with-icons.blocks.icon_block.settings.icon_block_title.label",
+          "default": "t:sections.image-with-icons.blocks.icon_block.settings.icon_block_title.default"
+        },
+        {
+          "type": "text",
+          "id": "icon_block_description",
+          "label": "t:sections.image-with-icons.blocks.icon_block.settings.icon_block_description.label",
+          "default": "t:sections.image-with-icons.blocks.icon_block.settings.icon_block_description.default"
+        },
+        {
+          "type": "textarea",
+          "id": "icon_block_icon",
+          "label": "t:sections.image-with-icons.blocks.icon_block.settings.icon_block_icon.label",
+          "info": "t:sections.image-with-icons.blocks.icon_block.settings.icon_block_icon.info",
+          "default": "<svg class=\"size-6\" viewBox=\"0 0 24 24\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\"><g clip-path=\"url(#clip0_1_7780)\"><path d=\"M24 0H0V24H24V0Z\" fill=\"currentColor\" fill-opacity=\"0.01\"/><path d=\"M22 7L12 2L2 7V17L12 22L22 17V7Z\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linejoin=\"round\"/><path d=\"M2 7L12 12\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path d=\"M12 22V12\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path d=\"M22 7L12 12\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path d=\"M17 4.5L7 9.5\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></g><defs><clipPath id=\"clip0_1_7780\"><rect width=\"24\" height=\"24\" fill=\"currentColor\"/></clipPath></defs></svg>"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:sections.image-with-icons.name",
+      "blocks": [
+        {
+          "type": "icon_block"
+        },
+        {
+          "type": "icon_block"
+        },
+        {
+          "type": "icon_block"
+        },
+        {
+          "type": "icon_block"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

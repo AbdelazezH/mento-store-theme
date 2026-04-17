@@ -1,0 +1,21 @@
+{
+  "name": "رأس الصفحة",
+  "type": "header",
+  "sections": {
+    "announcement-bar": {
+      "type": "announcement-bar"
+    },
+    "header": {
+      "type": "header",
+      "settings": {
+        "show_search": true,
+        "header_type": "first",
+        "main_menu": "main-menu"
+      }
+    }
+  },
+  "order": [
+    "announcement-bar",
+    "header"
+  ]
+}

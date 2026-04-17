@@ -1,0 +1,251 @@
+{% assign background = section.settings.color_scheme.settings.background %}
+{% assign primary_color = section.settings.color_scheme.settings.text %}
+{% assign secondary_color = section.settings.color_scheme.settings.secondary %}
+{% assign secondary_light_color = section.settings.color_scheme.settings.secondary_light %}
+{% assign icons_color = section.settings.color_scheme.settings.icons %}
+{% assign icons_bg = section.settings.color_scheme.settings.bg_icons %}
+{% assign border_color = section.settings.color_scheme.settings.button_border %}
+
+<style>
+    .footer_text_on_hover:hover {
+        color: {{ secondary_color }} !important;
+    }
+
+    .size-footer-logo {
+        width: {{ section.settings.mobile_footer_logo_width }}px;
+        height: {{ section.settings.mobile_footer_logo_height }}px;
+    }
+
+    @media (min-width: 768px) {
+        .md\:size-footer-logo {
+            width: {{ section.settings.footer_logo_width }}px;
+            height: {{ section.settings.footer_logo_height }}px;
+        }
+    }
+</style>
+
+<footer>
+    <!-- Logo and menu links part -->
+    <div class="bg-white py-8 md:py-12 mx-auto"
+         style="background-color: {{ background }};">
+        <div class="flex flex-col justify-center items-center page-width">
+            <a href="{{ routes.root_url }}">
+                {% if section.settings.footer_logo != blank %}
+                    <div class="size-footer-logo md:size-footer-logo overflow-hidden">
+                        <img class="h-full w-full object-cover object-center"
+                             src="{{ section.settings.footer_logo | img_url: 'master' }}"
+                             alt="{{ section.settings.footer_logo.alt }}"
+                             loading="lazy"
+                        />
+                    </div>
+                {% elsif settings.logo != blank %}
+                    <div class="size-logo md:size-logo overflow-hidden">
+                        <img class="h-full w-full object-cover object-center"
+                             src="{{ settings.logo | img_url: 'medium' }}" alt="{{ shop.name }}"
+                             loading="lazy"
+                        />
+                    </div>
+                {% else %}
+                    <div class="h-8 md:h-10 w-20 md:w-24 overflow-hidden">
+                        <img class="h-full w-full object-cover object-center"
+                             src="{{ 'aquarium.svg' | asset_url }}" alt="{{ shop.name }}" loading="lazy"
+                        />
+                    </div>
+                {% endif %}
+            </a>
+
+            <nav id="footer-nav" class="flex items-center gap-3 md:gap-4 lg:gap-8 mt-4 md:mt-6">
+                {% for link in section.settings.footer_menu.links %}
+                    <a href="{{ link.url }}"
+                       class="text-sm md:text-base text-gray-700 hover:text-gray-900 footer_text_on_hover"
+                       style="color: {{ secondary_light_color }};">
+                        {{ link.title }}
+                    </a>
+                {% else %}
+                    {% for i in (1..4) %}
+                        <a href="#" class="text-sm md:text-base text-gray-700 hover:text-gray-900 footer_text_on_hover"
+                           style="color: {{ secondary_light_color }};">
+                            رابط {{ i }}
+                        </a>
+                    {% endfor %}
+                {% endfor %}
+            </nav>
+        </div>
+    </div>
+
+    <!-- Horizontal line part -->
+    <div class="px-4 md:px-6 page-width">
+        <hr class="bg-gray-100" style="background-color: {{ border_color }};">
+    </div>
+
+    <!-- Copyright and social links part -->
+    {% if section.settings.show_copyright or section.settings.show_social_icons %}
+        <div class="bg-white" style="background-color: {{ background }};">
+            <div class="page-width px-4 md:px-6 py-6 md:py-8 flex flex-col-reverse gap-y-4 md:gap-y-0 md:flex-row md:justify-between items-center">
+                {% if section.settings.show_copyright %}
+                    <div id="copyright">
+                        <p class="text-sm/normal md:text-base/normal text-primary-main"
+                           style="color: {{ primary_color }};">
+                            {{ section.settings.copyright }}
+                        </p>
+                    </div>
+                {% endif %}
+
+                {% if section.settings.show_social_icons %}
+                    <ul id="social-links"
+                        class="text-primary-main flex justify-center items-center gap-5 md:gap-6"
+                        style="color: {{ icons_color }};">
+                        {% if settings.youtube_link != blank %}
+                            <li>
+                                <a href="{{ settings.youtube_link }}" style="background-color: {{ icons_bg }};">
+                                    {% render 'icon-youtube' %}
+                                </a>
+                            </li>
+                        {% endif %}
+                        {% if settings.linkedin_link != blank %}
+                            <li>
+                                <a href="{{ settings.linkedin_link }}" style="background-color: {{ icons_bg }};">
+                                    {% render 'icon-linkedin' %}
+                                </a>
+                            </li>
+                        {% endif %}
+                        {% if settings.x_link != blank %}
+                            <li>
+                                <a href="{{ settings.x_link }}" style="background-color: {{ icons_bg }};">
+                                    {% render 'icon-x' %}
+                                </a>
+                            </li>
+                        {% endif %}
+                        {% if settings.instagram_link != blank %}
+                            <li>
+                                <a href="{{ settings.instagram_link }}" style="background-color: {{ icons_bg }};">
+                                    {% render 'icon-instagram' %}
+                                </a>
+                            </li>
+                        {% endif %}
+                        {% if settings.facebook_link != blank %}
+                            <li>
+                                <a href="{{ settings.facebook_link }}" style="background-color: {{ icons_bg }};">
+                                    {% render 'icon-facebook' %}
+                                </a>
+                            </li>
+                        {% endif %}
+                        {% if settings.tiktok_link != blank %}
+                            <li>
+                                <a href="{{ settings.tiktok_link }}" style="background-color: {{ icons_bg }};">
+                                    {% render 'icon-tiktok' %}
+                                </a>
+                            </li>
+                        {% endif %}
+                        {% if settings.telegram_link != blank %}
+                            <li>
+                                <a href="{{ settings.telegram_link }}" style="background-color: {{ icons_bg }};">
+                                    {% render 'icon-telegram' %}
+                                </a>
+                            </li>
+                        {% endif %}
+                        {% if settings.snapchat_link != blank %}
+                            <li>
+                                <a href="{{ settings.snapchat_link }}" style="background-color: {{ icons_bg }};">
+                                    {% render 'icon-snapchat' %}
+                                </a>
+                            </li>
+                        {% endif %}
+                    </ul>
+                {% endif %}
+            </div>
+        </div>
+    {% endif %}
+</footer>
+
+{% schema %}
+{
+  "name": "t:sections.footer.name",
+  "settings": [
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:sections.all.color_scheme.label",
+      "default": "scheme-7"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.footer.settings.header-1.content"
+    },
+    {
+      "id": "footer_logo",
+      "type": "image_picker",
+      "label": "t:sections.footer.settings.footer_logo.label",
+      "info": "t:sections.footer.settings.footer_logo.info"
+    },
+    {
+      "id": "footer_logo_width",
+      "type": "range",
+      "min": 50,
+      "max": 200,
+      "step": 5,
+      "default": 100,
+      "label": "t:sections.footer.settings.footer_logo_width.label",
+      "unit": "px"
+    },
+    {
+      "id": "footer_logo_height",
+      "type": "range",
+      "min": 20,
+      "max": 120,
+      "step": 1,
+      "default": 40,
+      "label": "t:sections.footer.settings.footer_logo_height.label",
+      "unit": "px"
+    },
+    {
+      "id": "mobile_footer_logo_width",
+      "type": "range",
+      "min": 50,
+      "max": 150,
+      "step": 5,
+      "default": 80,
+      "label": "t:sections.footer.settings.mobile_footer_logo_width.label",
+      "unit": "px"
+    },
+    {
+      "id": "mobile_footer_logo_height",
+      "type": "range",
+      "min": 20,
+      "max": 120,
+      "step": 1,
+      "default": 32,
+      "label": "t:sections.footer.settings.mobile_footer_logo_height.label",
+      "unit": "px"
+    },
+    {
+      "type": "link_list",
+      "id": "footer_menu",
+      "label": "t:sections.footer.settings.footer_menu.label",
+      "default": "footer"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.footer.settings.header-2.content"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_copyright",
+      "label": "t:sections.footer.settings.show_copyright.label",
+      "default": true
+    },
+    {
+      "type": "textarea",
+      "id": "copyright",
+      "label": "t:sections.footer.settings.copyright.label",
+      "default": "t:sections.footer.settings.copyright.default"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_social_icons",
+      "label": "t:sections.footer.settings.show_social_icons.label",
+      "default": true
+    }
+  ]
+}
+{% endschema %}

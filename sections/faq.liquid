@@ -1,0 +1,134 @@
+{% assign background = section.settings.color_scheme.settings.background %}
+{% assign primary_color = section.settings.color_scheme.settings.text %}
+{% assign secondary_color = section.settings.color_scheme.settings.secondary %}
+{% assign secondary_light_color = section.settings.color_scheme.settings.secondary_light %}
+
+<div class="bg-white" style="background-color: {{ background }};">
+    <div class="mx-auto max-w-7xl px-2 py-8 sm:py-14 lg:px-8 lg:py-20">
+        <div class="mx-auto max-w-4xl divide-y divide-gray-900/10">
+            {% if section.settings.title != blank %}
+                <h2 class="mb-6 md:mb-8 lg:mb-10 text-[1.375rem] md:text-2xl lg:text-3xl font-medium leading-10 tracking-tight text-gray-900"
+                    style="color: {{ primary_color }};">
+                    {{ section.settings.title }}
+                </h2>
+            {% endif %}
+            <dl class="space-y-4 lg:space-y-6 divide-y divide-gray-900/10">
+                {%- for block in section.blocks -%}
+                    <div class="pt-4 lg:pt-6" x-data="{ open: false }">
+                        <dt>
+                            <button type="button"
+                                    class="flex w-full items-start justify-between text-start text-gray-800"
+                                    @click="open = !open"
+                                    aria-controls="faq-{{ forloop.index }}"
+                                    aria-expanded="false"
+                                    x-bind:aria-expanded="open.toString()"
+                                    style="color: {{ secondary_color }};"
+                            >
+                                <span class="text-sm md:text-base font-medium leading-7">
+                                    {{ block.settings.question }}
+                                </span>
+                                <span class="ms-6 flex h-7 items-center">
+                                    <svg class="size-5 md:size-6"
+                                         :class="{ 'hidden': open }"
+                                         fill="none"
+                                         viewBox="0 0 24 24"
+                                         stroke-width="1.5"
+                                         stroke="currentColor" aria-hidden="true">
+                                      <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v12m6-6H6"/>
+                                    </svg>
+                                    <svg class="size-5 md:size-6"
+                                         :class="{ 'hidden': !(open) }"
+                                         fill="none"
+                                         viewBox="0 0 24 24"
+                                         stroke-width="1.5"
+                                         stroke="currentColor"
+                                         aria-hidden="true">
+                                      <path stroke-linecap="round" stroke-linejoin="round" d="M18 12H6"/>
+                                    </svg>
+                                </span>
+                            </button>
+                        </dt>
+                        <dd class="pe-4 md:pe-8 lg:pe-12 overflow-hidden" id="faq-{{ forloop.index }}"
+                            x-cloak
+                            x-show="open"
+                            x-collapse.duration.500ms
+                        >
+                            <div class="mt-4 md:mt-5">
+                                <p class="text-[13px] md:text-base !leading-7 text-gray-600"
+                                   style="color: {{ secondary_light_color }};">
+                                    {{ block.settings.answer }}
+                                </p>
+                            </div>
+                        </dd>
+                    </div>
+                {%- endfor -%}
+            </dl>
+        </div>
+    </div>
+</div>
+
+{% schema %}
+{
+  "name": "t:sections.faq.name",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "t:sections.faq.settings.title.label",
+      "default": "t:sections.faq.settings.title.default"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:sections.all.color_scheme.label",
+      "default": "scheme-6"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "faq",
+      "name": "t:sections.faq.blocks.faq.name",
+      "settings": [
+        {
+          "type": "text",
+          "id": "question",
+          "label": "t:sections.faq.blocks.faq.settings.question.label",
+          "default": "t:sections.faq.blocks.faq.settings.question.default"
+        },
+        {
+          "type": "textarea",
+          "id": "answer",
+          "label": "t:sections.faq.blocks.faq.settings.answer.label",
+          "info": "t:sections.faq.blocks.faq.settings.answer.info",
+          "default": "t:sections.faq.blocks.faq.settings.answer.default"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:sections.faq.name",
+      "blocks": [
+        {
+          "type": "faq"
+        },
+        {
+          "type": "faq"
+        },
+        {
+          "type": "faq"
+        },
+        {
+          "type": "faq"
+        },
+        {
+          "type": "faq"
+        },
+        {
+          "type": "faq"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

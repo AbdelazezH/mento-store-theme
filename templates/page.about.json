@@ -1,0 +1,137 @@
+{
+  "sections": {
+    "template": {
+      "type": "about-us",
+      "settings": {}
+    },
+    "about-store": {
+      "type": "image-with-content",
+      "settings": {
+        "title": "متجر أكواريوم",
+        "content": "مرحبًا بكم في قسم العطور في متجر لازورد، حيث ينتظركم عالم من الروائح الساحرة والأناقة الفريدة. نحن نفتخر بتقديم مجموعة متنوعة من العطور الفاخرة التي تأسر الحواس وتعبر عن شخصيتكم بأسلوب راقي وأنيق.<br><br><br>تتميز عطورنا بتركيبات متقنة ومكونات فريدة تجمع بين الروائح الزهرية الرقيقة، والفواكه الطازجة، والعناصر الخشبية الدافئة، مما يخلق تجربة استثنائية للحواس. ستجدون لدينا مجموعة متنوعة من العطور لكل المناسبات والأذواق، سواء كنتم تبحثون عن عطر يومي منعش أو عطر سهرة أنيق يضفي لمسة سحرية على إطلالتكم.<br><br><br>نحن نهتم بتقديم أفضل العلامات التجارية العالمية لتلبية احتياجاتكم، فمن عطور الزهور الرقيقة إلى العطور الخشبية الفاخرة، لدينا كل ما تحتاجونه لتجربة عطرية فريدة ولا تُنسى.",
+        "button_label": ""
+      }
+    },
+    "store-features": {
+      "type": "image-with-icons",
+      "settings": {
+        "title": "مميزات متجر أكواريوم"
+      },
+      "blocks": {
+        "icon_111": {
+          "type": "icon_block",
+          "settings": {
+            "icon_block_title": "جودة عالية",
+            "icon_block_description": "منتجات عالية الجودة وموثوقة",
+            "icon_block_icon": "<svg class=\"size-6\" viewBox=\"0 0 24 24\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\"><path d=\"M10 10L11.33 11.5L14 8.5\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path d=\"M5.79 13.5703L3 17.5603L6.03 18.4603L7.91 21.0003L10.79 16.8903\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path d=\"M18.2109 13.5703L21.0009 17.5603L17.9709 18.4603L16.0909 21.0003L13.2109 16.8903\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path d=\"M12 17C15.866 17 19 13.866 19 10C19 6.13401 15.866 3 12 3C8.13401 3 5 6.13401 5 10C5 13.866 8.13401 17 12 17Z\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg>"
+          }
+        },
+        "icon_112": {
+          "type": "icon_block",
+          "settings": {
+            "icon_block_title": "تنوع المنتجات",
+            "icon_block_description": "مجموعة متنوعة لتلبية احتياجات العملاء",
+            "icon_block_icon": "<svg class=\"size-6\" viewBox=\"0 0 24 24\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\"><g clip-path=\"url(#clip0_1_7780)\"><path d=\"M24 0H0V24H24V0Z\" fill=\"currentColor\" fill-opacity=\"0.01\"/><path d=\"M22 7L12 2L2 7V17L12 22L22 17V7Z\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linejoin=\"round\"/><path d=\"M2 7L12 12\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path d=\"M12 22V12\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path d=\"M22 7L12 12\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path d=\"M17 4.5L7 9.5\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></g><defs><clipPath id=\"clip0_1_7780\"><rect width=\"24\" height=\"24\" fill=\"currentColor\"/></clipPath></defs></svg>"
+          }
+        },
+        "icon_113": {
+          "type": "icon_block",
+          "settings": {
+            "icon_block_title": "أسعار تنافسية",
+            "icon_block_description": " تقديم منتجات بأسعار منافسة",
+            "icon_block_icon": "<svg class=\"size-6\" viewBox=\"0 0 24 24\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\"><path d=\"M11.5003 17.1C9.44031 17.1 8.63031 16.18 8.52031 15H6.32031C6.44031 17.19 8.08031 18.42 10.0003 18.83V21H13.0003V18.85C14.9503 18.48 16.5003 17.35 16.5003 15.3C16.5003 12.46 14.0703 11.49 11.8003 10.9C9.53031 10.31 8.80031 9.7 8.80031 8.75C8.80031 7.66 9.81031 6.9 11.5003 6.9C13.2803 6.9 13.9403 7.75 14.0003 9H16.2103C16.1403 7.28 15.0903 5.7 13.0003 5.19V3H10.0003V5.16C8.06031 5.58 6.50031 6.84 6.50031 8.77C6.50031 11.08 8.41031 12.23 11.2003 12.9C13.7003 13.5 14.2003 14.38 14.2003 15.31C14.2003 16 13.7103 17.1 11.5003 17.1Z\" fill=\"currentColor\"/></svg>"
+          }
+        },
+        "icon_114": {
+          "type": "icon_block",
+          "settings": {
+            "icon_block_title": "تجربة تسوق مميزة",
+            "icon_block_description": "تجربة تسوق سهلة وممتعة مع خدمة عملاء ممتازة",
+            "icon_block_icon": "<svg class=\"size-6\" viewBox=\"0 0 24 24\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\"><path d=\"M16 11V7C16 4.79086 14.2091 3 12 3C9.79086 3 8 4.79086 8 7V11M5 9H19L20 21H4L5 9Z\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg>"
+          }
+        }
+      },
+      "block_order": [
+        "icon_111",
+        "icon_112",
+        "icon_113",
+        "icon_114"
+      ]
+    },
+    "founder-spotlight": {
+      "type": "founder-spotlight",
+      "settings": {
+        "founder_quote": "في متجر لازورد، نؤمن بأن العطور ليست مجرد روائح، بل هي تعبير عن الهوية والأناقة. نسعى جاهدين لتقديم تجربة تسوق استثنائية لعملائنا، حيث يمكنهم اكتشاف روائح فريدة وتأسيس ذكريات لا تنسى. نحن نهتم بتقديم أفضل المنتجات والخدمات، لأن رضا العملاء هو هدفنا الأسمى."
+      }
+    },
+    "store-statistics": {
+      "type": "store-statistics",
+      "blocks": {
+        "number_111": {
+          "type": "number_block",
+          "settings": {
+            "number": 15000,
+            "unit": "موظف",
+            "icon": "<svg class=\"size-6 md:size-10\" viewBox=\"0 0 41 42\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\"><path d=\"M17.1458 18.6667C15.2999 18.6667 13.4954 18.1193 11.9605 17.0937C10.4257 16.0682 9.22938 14.6105 8.52296 12.9051C7.81654 11.1996 7.63171 9.32298 7.99184 7.51249C8.35197 5.70201 9.24088 4.03896 10.5462 2.73367C11.8515 1.42838 13.5145 0.53947 15.325 0.179342C17.1355 -0.180787 19.0121 0.00404398 20.7176 0.710462C22.423 1.41688 23.8807 2.61316 24.9062 4.14802C25.9318 5.68287 26.4792 7.48738 26.4792 9.33334C26.4792 11.8087 25.4958 14.1827 23.7455 15.933C21.9952 17.6833 19.6212 18.6667 17.1458 18.6667ZM17.1458 2.77334C15.8273 2.77334 14.5384 3.16433 13.442 3.89687C12.3457 4.62942 11.4912 5.67061 10.9866 6.88878C10.4821 8.10696 10.35 9.4474 10.6073 10.7406C10.8645 12.0338 11.4994 13.2217 12.4318 14.1541C13.3641 15.0864 14.552 15.7213 15.8452 15.9786C17.1384 16.2358 18.4789 16.1038 19.6971 15.5992C20.9152 15.0946 21.9564 14.2401 22.689 13.1438C23.4215 12.0475 23.8125 10.7585 23.8125 9.44001C23.8125 8.56453 23.6401 7.69762 23.305 6.88878C22.97 6.07994 22.4789 5.34502 21.8599 4.72596C21.2408 4.1069 20.5059 3.61584 19.6971 3.28081C18.8882 2.94578 18.0213 2.77334 17.1458 2.77334Z\" fill=\"currentColor\"/><path d=\"M24.5734 20.2796C17.3579 18.656 9.80941 19.438 3.08005 22.5063C2.15457 22.9484 1.37373 23.6443 0.828444 24.513C0.283161 25.3816 -0.00412401 26.3873 4.47324e-05 27.413V35.3463C4.47324e-05 35.6999 0.14052 36.0391 0.390569 36.2891C0.640617 36.5392 0.979756 36.6796 1.33338 36.6796C1.687 36.6796 2.02614 36.5392 2.27619 36.2891C2.52624 36.0391 2.66671 35.6999 2.66671 35.3463V27.413C2.6551 26.8939 2.79527 26.3827 3.07002 25.9422C3.34476 25.5017 3.74214 25.1509 4.21338 24.933C8.26707 23.0612 12.6818 22.1009 17.1467 22.1196C19.6485 22.1165 22.1417 22.4119 24.5734 22.9996V20.2796Z\" fill=\"currentColor\"/><path d=\"M32.9445 32.9609H24.7578V34.8276H32.9445V32.9609Z\" fill=\"currentColor\"/><path d=\"M39.4675 25.0394H32.5742V27.7061H38.1342V38.8661H19.2409V27.7061H27.6409V28.2661C27.6409 28.6197 27.7814 28.9589 28.0314 29.2089C28.2815 29.459 28.6206 29.5994 28.9742 29.5994C29.3278 29.5994 29.667 29.459 29.917 29.2089C30.1671 28.9589 30.3076 28.6197 30.3076 28.2661V23.0794C30.3076 22.7258 30.1671 22.3867 29.917 22.1366C29.667 21.8866 29.3278 21.7461 28.9742 21.7461C28.6206 21.7461 28.2815 21.8866 28.0314 22.1366C27.7814 22.3867 27.6409 22.7258 27.6409 23.0794V25.0394H17.9076C17.5539 25.0394 17.2148 25.1799 16.9647 25.43C16.7147 25.68 16.5742 26.0191 16.5742 26.3728V40.1994C16.5742 40.553 16.7147 40.8922 16.9647 41.1422C17.2148 41.3923 17.5539 41.5328 17.9076 41.5328H39.4675C39.8212 41.5328 40.1603 41.3923 40.4104 41.1422C40.6604 40.8922 40.8009 40.553 40.8009 40.1994V26.3728C40.8009 26.0191 40.6604 25.68 40.4104 25.43C40.1603 25.1799 39.8212 25.0394 39.4675 25.0394Z\" fill=\"currentColor\"/></svg>"
+          }
+        },
+        "number_112": {
+          "type": "number_block",
+          "settings": {
+            "number": 1000,
+            "unit": "متجر إلكتروني",
+            "icon": "<svg class=\"size-6 md:size-10\" viewBox=\"0 0 49 48\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\"><g clip-path=\"url(#clip0_1_7829)\"><path d=\"M6.13477 42H42.1348\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path d=\"M6.13477 14V16C6.13477 17.5913 6.76691 19.1174 7.89213 20.2426C9.01734 21.3679 10.5435 22 12.1348 22C13.7261 22 15.2522 21.3679 16.3774 20.2426C17.5026 19.1174 18.1348 17.5913 18.1348 16M6.13477 14H42.1348M6.13477 14L10.1348 6H38.1348L42.1348 14M18.1348 16V14M18.1348 16C18.1348 17.5913 18.7669 19.1174 19.8921 20.2426C21.0173 21.3679 22.5435 22 24.1348 22C25.7261 22 27.2522 21.3679 28.3774 20.2426C29.5026 19.1174 30.1348 17.5913 30.1348 16M30.1348 16V14M30.1348 16C30.1348 17.5913 30.7669 19.1174 31.8921 20.2426C33.0173 21.3679 34.5435 22 36.1348 22C37.7261 22 39.2522 21.3679 40.3774 20.2426C41.5026 19.1174 42.1348 17.5913 42.1348 16V14\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path d=\"M10.1348 41.9992V21.6992\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path d=\"M38.1348 41.9992V21.6992\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path d=\"M18.1348 42V34C18.1348 32.9391 18.5562 31.9217 19.3063 31.1716C20.0565 30.4214 21.0739 30 22.1348 30H26.1348C27.1956 30 28.213 30.4214 28.9632 31.1716C29.7133 31.9217 30.1348 32.9391 30.1348 34V42\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></g><defs><clipPath id=\"clip0_1_7829\"><rect width=\"48\" height=\"48\" fill=\"currentColor\" transform=\"translate(0.134766)\"/></clipPath></defs></svg>"
+          }
+        },
+        "number_113": {
+          "type": "number_block",
+          "settings": {
+            "number": 15000,
+            "unit": "جائزة أفضل متجر",
+            "icon": "<svg class=\"size-6 md:size-10\" viewBox=\"0 0 48 48\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\"><g clip-path=\"url(#clip0_1_7818)\"><path d=\"M24.002 30C30.6294 30 36.002 24.6274 36.002 18C36.002 11.3726 30.6294 6 24.002 6C17.3745 6 12.002 11.3726 12.002 18C12.002 24.6274 17.3745 30 24.002 30Z\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path d=\"M24.0059 30.0059L30.8059 41.7838L34.002 35.3197L41.1982 35.7838L34.3982 24.0059\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path d=\"M13.6074 24.0059L6.80742 35.7838L14.0036 35.3197L17.1997 41.7838L23.9997 30.0059\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></g><defs><clipPath id=\"clip0_1_7818\"><rect width=\"48\" height=\"48\" fill=\"currentColor\" transform=\"translate(0.00195312)\"/></clipPath></defs></svg>"
+          }
+        }
+      },
+      "block_order": [
+        "number_111",
+        "number_112",
+        "number_113"
+      ]
+    },
+    "team-members": {
+      "type": "team-members",
+      "blocks": {
+        "member_101": {
+          "type": "member"
+        },
+        "member_102": {
+          "type": "member"
+        },
+        "member_103": {
+          "type": "member"
+        },
+        "member_104": {
+          "type": "member"
+        },
+        "member_105": {
+          "type": "member"
+        }
+      },
+      "block_order": [
+        "member_101",
+        "member_102",
+        "member_103",
+        "member_104",
+        "member_105"
+      ]
+    }
+  },
+  "order": [
+    "template",
+    "about-store",
+    "store-features",
+    "founder-spotlight",
+    "store-statistics",
+    "team-members"
+  ]
+}

@@ -1,0 +1,43 @@
+{% assign how_to_use_entries = product.metafields.custom.how_to_use.value %}
+
+{% if how_to_use_entries %}
+    <div class="bg-white px-2 md:px-6 py-6 md:py-8"
+         style="background-color: {{ section.settings.color_scheme.settings.background }};">
+        <div class="flex flex-col gap-8 page-width">
+            {% for entry in how_to_use_entries %}
+                {% assign image_position = entry.image_position | default: 'start' %}
+                {% render
+                        'image-with-content',
+                        title: entry.title,
+                        content: entry.content,
+                        button_label: entry.button_label,
+                        button_link: entry.button_link,
+                        image: entry.image,
+                        image_position: image_position,
+                        title_color: section.settings.color_scheme.settings.text,
+                        content_color: section.settings.color_scheme.settings.secondary,
+                        btn_bg_color: section.settings.color_scheme.settings.button,
+                        btn_text_color: section.settings.color_scheme.settings.button_label
+                %}
+            {% endfor %}
+        </div>
+
+        <div class="px-3 md:px-8 pt-12 md:pt-16">
+            <hr class="h-[1px] border-0 page-width" style="background-color: {{ section.settings.color_scheme.settings.secondary_lighter }};">
+        </div>
+    </div>
+{% endif %}
+
+{% schema %}
+{
+  "name": "t:sections.how-to-use.name",
+  "settings": [
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:sections.all.color_scheme.label",
+      "default": "scheme-5"
+    }
+  ]
+}
+{% endschema %}

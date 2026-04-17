@@ -1,0 +1,46 @@
+<div class="swiper-slide group relative max-w-40 md:max-w-full">
+    <a href="{{ article.url }}"
+       class="block overflow-hidden w-full bg-gray-200 group-hover:opacity-75 rounded-t-sm md:rounded-md aspect-h-4 aspect-w-4">
+        {% if article.image %}
+            <img src="{{ article.image | img_url: 'master' }}" alt="{{ article.image.alt }}"
+                 class="w-full h-full object-cover object-center" loading="lazy">
+        {% else %}
+            {{ 'image' | placeholder_svg_tag: 'w-full h-full object-cover object-center' }}
+        {% endif %}
+    </a>
+
+    <div class="mt-2 md:mt-5 ps-1.5 md:ps-0 flex flex-col justify-between gap-3 md:gap-5">
+        <div class="flex flex-col justify-between gap-1.5 md:gap-4">
+            <div class="flex flex-col gap-1 md:gap-2">
+                <a href="{{ article.url }}" class="text-[0.625rem]/3 md:text-xl font-normal text-gray-900"
+                   style="color: {{ primary_color }};">
+                    {{ article.title }}
+                </a>
+                <h4 class="text-[0.375rem]/3 md:text-xs/6 font-normal text-gray-500"
+                    style="color: {{ secondary_light }};">
+                    {{ article.published_at | date: "%d/%m/%Y" }}
+                </h4>
+            </div>
+
+            <div class="text-[0.5rem]/4 md:text-sm/6 font-normal text-gray-700 line-clamp-2"
+                 style="color: {{ secondary_color }};">
+                {% if article.excerpt.size > 0 %}
+                    {{ article.excerpt | strip_html | truncatewords: 40 }}
+                {% else %}
+                    {{ article.content | strip_html | truncatewords: 40 }}
+                {% endif %}
+            </div>
+        </div>
+
+        <a href="{{ article.url }}"
+           class="flex items-center gap-2 md:gap-6 text-[0.5rem] md:text-sm/6 text-gray-900 hover:font-medium"
+           style="color: {{ primary_color }};">
+            <span>
+                {{ 'pages.blog.read_more' | t }}
+            </span>
+            <span>
+                {% render 'icon-arrow-long-left', classes: 'size-3 md:size-6 ltr:rotate-180' %}
+            </span>
+        </a>
+    </div>
+</div>

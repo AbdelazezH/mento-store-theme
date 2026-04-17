@@ -1,0 +1,169 @@
+{% if section.blocks.size > 0 %}
+    {% assign background = section.settings.color_scheme.settings.background %}
+    {% assign title_color = section.settings.color_scheme.settings.text %}
+    {% assign sub_color = section.settings.color_scheme.settings.secondary_light %}
+    {% assign icons_color = section.settings.color_scheme.settings.icons %}
+    {% assign border_color = section.settings.color_scheme.settings.button_border %}
+
+    <div class="{% if section.settings.padding_enabled %}mx-auto px-2 sm:px-4 md:px-10 lg:px-12 mt-4 md:-mt-8 pb-6{% endif %}">
+        <div class="relative border bg-white px-12 py-8 page-width"
+             style="background-color: {{ background }}; border-color: {{ border_color }};">
+            <div class="md:hidden">
+
+                <!-- for customizer preview -->
+                <div class="store-features__preview">
+                    {% for block in section.blocks limit: 1 %}
+                        <div class="flex justify-center items-center gap-x-4">
+                            <!-- Icon -->
+                            <div class="size-16 flex justify-center items-center text-primary-main"
+                                 style="color: {{ icons_color }};">
+                                {{ block.settings.feature_icon }}
+                            </div>
+
+                            <!-- Info -->
+                            <div class="flex flex-col">
+                                <h3 class="text-lg font-medium"
+                                    style="color: {{ title_color }};">
+                                    {{ block.settings.feature_title }}
+                                </h3>
+                                <p class="text-sm text-gray-500 mt-2"
+                                   style="color: {{ sub_color }};">
+                                    {{ block.settings.feature_description }}
+                                </p>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+
+                <div id="swiper_{{ section.id }}"
+                     class="store-features__swiper swiper !hidden">
+                    <div class="swiper-wrapper">
+                        {% for block in section.blocks %}
+                            <div class="swiper-slide">
+                                <div class="flex justify-center items-center gap-x-4">
+                                    <!-- Icon -->
+                                    <div class="size-16 flex justify-center items-center text-primary-main"
+                                         style="color: {{ icons_color }};">
+                                        {{ block.settings.feature_icon }}
+                                    </div>
+
+                                    <!-- Info -->
+                                    <div class="flex flex-col">
+                                        <h3 class="text-lg font-medium"
+                                            style="color: {{ title_color }};">
+                                            {{ block.settings.feature_title }}
+                                        </h3>
+                                        <p class="text-sm text-gray-500 mt-2"
+                                           style="color: {{ sub_color }};">
+                                            {{ block.settings.feature_description }}
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+
+                    <div class="swiper-pagination"></div>
+                </div>
+            </div>
+            <div class="hidden page-width
+                {% if section.blocks.size > 2 %}
+                    md:flex justify-between items-center
+                {% elsif section.blocks.size == 2 %}
+                    md:grid grid-cols-2
+                {% else %}
+                    md:flex justify-center items-center
+                {% endif %}">
+                {% for block in section.blocks %}
+                    <div class="flex justify-center md:justify-start items-center gap-x-4">
+                        <!-- Icon -->
+                        <div class="size-16 flex justify-center items-center text-primary-main"
+                             style="color: {{ icons_color }};">
+                            {{ block.settings.feature_icon }}
+                        </div>
+
+                        <!-- Info -->
+                        <div class="flex flex-col">
+                            <h3 class="text-lg md:text-xl/normal font-medium"
+                                style="color: {{ title_color }};">
+                                {{ block.settings.feature_title }}
+                            </h3>
+                            <p class="text-sm md:text-base/snug text-gray-500 mt-2"
+                               style="color: {{ sub_color }};">
+                                {{ block.settings.feature_description }}
+                            </p>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+{% endif %}
+
+{% schema %}
+{
+  "name": "t:sections.store-features.name",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "padding_enabled",
+      "default": false,
+      "label": "t:sections.store-features.settings.padding_enabled.label",
+      "info": "t:sections.store-features.settings.padding_enabled.info"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:sections.all.color_scheme.label",
+      "default": "scheme-5"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "feature",
+      "name": "t:sections.store-features.blocks.feature.name",
+      "limit": 4,
+      "settings": [
+        {
+          "id": "feature_title",
+          "type": "text",
+          "label": "t:sections.store-features.blocks.feature.settings.feature_title.label",
+          "default": "t:sections.store-features.blocks.feature.settings.feature_title.default"
+        },
+        {
+          "id": "feature_description",
+          "type": "text",
+          "label": "t:sections.store-features.blocks.feature.settings.feature_description.label",
+          "default": "t:sections.store-features.blocks.feature.settings.feature_description.default"
+        },
+        {
+          "id": "feature_icon",
+          "type": "textarea",
+          "label": "t:sections.store-features.blocks.feature.settings.feature_icon.label",
+          "info": "t:sections.store-features.blocks.feature.settings.feature_icon.info",
+          "default": "<svg class=\"size-7\" viewBox=\"0 0 28 28\" fill=\"none\"> <path d=\"M24.5 19.3928V8.60843C24.4992 8.45266 24.4573 8.29986 24.3785 8.16544C24.2998 8.03101 24.187 7.91974 24.0515 7.84281L14.4265 2.42875C14.2969 2.35387 14.1498 2.31445 14 2.31445C13.8502 2.31445 13.7031 2.35387 13.5735 2.42875L3.94843 7.84281C3.81298 7.91974 3.7002 8.03101 3.62146 8.16544C3.54274 8.29986 3.50084 8.45266 3.5 8.60843V19.3928C3.50084 19.5486 3.54274 19.7014 3.62146 19.8358C3.7002 19.9702 3.81298 20.0815 3.94843 20.1584L13.5735 25.5725C13.7031 25.6473 13.8502 25.6868 14 25.6868C14.1498 25.6868 14.2969 25.6473 14.4265 25.5725L24.0515 20.1584C24.187 20.0815 24.2998 19.9702 24.3785 19.8358C24.4573 19.7014 24.4992 19.5486 24.5 19.3928Z\" stroke=\"currentColor\" stroke-linecap=\"round\"/> <path d=\"M19.3594 16.6797V10.9922L8.75 5.14062\" stroke=\"currentColor\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/> <path d=\"M24.3805 8.1593L14.0992 13.9999L3.62109 8.1593\" stroke=\"currentColor\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/> <path d=\"M14.0985 14L14 25.6813\" stroke=\"currentColor\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/> </svg>"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:sections.store-features.name",
+      "blocks": [
+        {
+          "type": "feature"
+        },
+        {
+          "type": "feature"
+        },
+        {
+          "type": "feature"
+        },
+        {
+          "type": "feature"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

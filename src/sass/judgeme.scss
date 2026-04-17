@@ -1,0 +1,164 @@
+// judge me app styles
+#rating-badge_element .jdgm-prev-badge, #product-rating__badge .jdgm-prev-badge {
+  @apply flex items-center gap-3 lg:gap-4 !important;
+
+  .jdgm-prev-badge__text {
+    @apply text-xs/4 md:text-sm/4 lg:text-base/4 text-gray-700;
+  }
+
+  .jdgm-prev-badge__stars {
+    @apply flex items-center gap-1;
+
+    .jdgm-star {
+      @apply p-0 !important;
+    }
+  }
+}
+
+[dir="rtl"] #rating-badge_element .jdgm-star.jdgm--half,
+[dir="rtl"] #product-rating__badge .jdgm-star.jdgm--half{
+  transform: scaleX(-1);
+}
+
+// judge me product reviews widget
+#judgeme_product_reviews {
+  .jdgm-rev-widg {
+    @apply px-2 md:px-10 lg:px-14 py-6 md:py-8 max-w-page mx-auto !important;
+
+    .jdgm-rev-widg__header {
+      .jdgm-rev-widg__title {
+        @apply text-xl md:text-2xl lg:text-3xl text-gray-900 font-medium;
+      }
+
+      .jdgm-row-stars {
+        .jdgm-rev-widg__summary {
+          .jdgm-rev-widg__summary-inner {
+            @apply flex flex-col items-center gap-2 !important;
+
+            .jdgm-rev-widg__summary-stars {
+              @apply flex items-center gap-1.5;
+              .jdgm-star {
+                @apply p-0 !important;
+              }
+            }
+          }
+        }
+
+        .jdgm-histogram {
+          .jdgm-histogram__row {
+            @apply flex justify-between items-center;
+            .jdgm-histogram__star {
+              @apply flex items-center gap-0.5;
+            }
+          }
+        }
+      }
+
+      .jdgm-form-wrapper {
+        .jdgm-form {
+          .jdgm-form__rating {
+            @apply flex justify-center items-center gap-1.5 !important;
+            .jdgm-star {
+              @apply p-0 !important;
+            }
+
+            div.jdgm-input-error {
+              @apply mt-0 ms-2;
+            }
+          }
+
+          .jdgm-countdown {
+            @apply ml-0 ms-2 !important;
+          }
+
+          .jdgm-sort-dropdown-wrapper {
+            .jdgm-sort-dropdown {
+              @apply pe-7 text-sm rounded !important;
+              outline: none;
+              padding: 10px;
+            }
+            .jdgm-sort-dropdown-arrow {
+              @apply rtl:left-1 rtl:right-auto ltr:right-1 !important;
+            }
+          }
+
+          div.jdgm-input-error {
+            @apply text-start;
+          }
+
+          div.jdgm-input-error::before {
+            margin-right: 0;
+            @apply me-2;
+          }
+        }
+      }
+    }
+
+    .jdgm-row-actions {
+      .jdgm-sort-dropdown {
+        @apply pe-10 md:pe-16 text-sm md:text-base rounded md:rounded-sm !important;
+        border: 1px solid rgba(0, 0, 0, 0.2);
+        outline: none;
+        padding: 10px;
+      }
+      .jdgm-sort-dropdown-arrow {
+        @apply rtl:left-1.5 rtl:right-auto ltr:right-1.5 !important;
+      }
+    }
+
+    .jdgm-rev-widg__body {
+      .jdgm-rev-widg__reviews {
+        .jdgm-rev__header {
+          .jdgm-row-rating {
+            @apply flex justify-between items-center !important;
+            .jdgm-rev__rating {
+              @apply flex items-center gap-1.5;
+              .jdgm-star {
+                @apply p-0 !important;
+              }
+            }
+          }
+
+          .jdgm-row-profile {
+            @apply flex items-center gap-2;
+            .jdgm-rev__icon {
+              @apply m-0;
+            }
+
+            .jdgm-rev__author-wrapper {
+              @apply text-sm md:text-lg;
+            }
+          }
+        }
+
+        .jdgm-rev__content {
+          .jdgm-rev__pics {
+            @apply overflow-x-auto overflow-y-hidden;
+            .jdgm-rev__pic-link {
+              @apply mr-0 me-2;
+            }
+          }
+        }
+      }
+
+      .jdgm-paginate {
+        @apply flex justify-center items-center !important;
+
+        .jdgm-paginate__next-page, .jdgm-paginate__last-page, .jdgm-paginate__prev-page, .jdgm-paginate__first-page {
+          @apply rtl:rotate-180;
+        }
+      }
+    }
+  }
+}
+
+[dir="rtl"] #judgeme_product_reviews .jdgm-star.jdgm--half{
+  transform: scaleX(-1);
+}
+
+[dir="rtl"] #judgeme_product_reviews .jdgm-form {
+  input[type="text"] {
+    @apply text-right;
+    direction: ltr;
+  }
+}

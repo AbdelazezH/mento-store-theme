@@ -1,0 +1,197 @@
+{% assign background = section.settings.color_scheme.settings.background %}
+{% assign title_color = section.settings.color_scheme.settings.text %}
+{% assign sub_color = section.settings.color_scheme.settings.secondary_light %}
+{% assign btn_color = section.settings.color_scheme.settings.button %}
+{% assign btn_label = section.settings.color_scheme.settings.button_label %}
+
+<section role="banner">
+    <div class="bg-secondary-light
+        {% if section.settings.full_width %}
+            w-full
+        {% else %}
+            page-width
+        {% endif %}
+        {% unless section.settings.image_position == 'background' %}
+            px-2 sm:px-8 md:px-12 lg:px-24 py-2 md:py-8
+        {% endunless %}" style="background-color: {{ background }};">
+        <div class="flex flex-col md:flex-row md:justify-around items-center
+            {% if section.settings.image_position == 'background' %}
+                relative overflow-hidden aspect-h-7 aspect-w-8 md:aspect-w-16
+                {% if section.settings.full_width %}
+                    md:aspect-h-7
+                {% else %}
+                    md:aspect-h-9
+                {% endif %}
+            {% endif %}">
+
+            {% if section.settings.image_position == 'background' %}
+                <div class="absolute inset-0">
+                    {% if section.settings.banner_image != blank %}
+                        <img src="{{ section.settings.banner_image | img_url: 'master' }}"
+                             alt="{{ section.settings.banner_image.alt }}"
+                             class="object-cover object-center h-full w-full"
+                             loading="lazy"
+                        >
+                    {% else %}
+                        {{ 'product-1' | placeholder_svg_tag: 'object-cover object-center h-full w-full' }}
+                    {% endif %}
+                    {% comment %}<div class="bg-gradient-to-t from-transparent to-black opacity-60 absolute inset-0"></div>{% endcomment %}
+                </div>
+            {% else %}
+                <!-- Hero image -->
+                <div class="flex justify-start
+                {% if section.settings.image_position == 'start' %}
+                  {% if request.locale.iso_code == 'ar' %}
+                    md:order-1
+                  {% else %}
+                    md:order-2
+                  {% endif %}
+                {% else %}
+                  {% if request.locale.iso_code == 'ar' %}
+                    md:order-2
+                  {% else %}
+                    md:order-1
+                  {% endif %}
+                {% endif %}">
+
+                    {% if section.settings.banner_image != blank %}
+                        <div class="w-full md:w-[432px] max-w-full overflow-hidden h-[300px] md:h-auto">
+                            <img class="h-full w-full object-cover object-center"
+                                 src="{{ section.settings.banner_image | img_url: 'master' }}"
+                                 alt="{{ section.settings.banner_image.alt }}"
+                                 loading="lazy"
+                            >
+                        </div>
+                    {% else %}
+                        <div class="w-full md:w-[432px] max-w-full overflow-hidden h-[300px] aspect-1/1 md:aspect-h-6 md:aspect-w-5">
+                            {{ 'product-1' | placeholder_svg_tag: 'h-full w-full object-cover object-center' }}
+                        </div>
+                    {% endif %}
+                </div>
+            {% endif %}
+
+            <!-- Hero content -->
+            <div class="flex flex-col items-center gap-6 md:gap-16
+                 {% if section.settings.image_position == 'background' %}
+                    absolute inset-0 z-10 justify-center p-3 max-w-2xl mx-auto text-center
+                {% elsif section.settings.image_position == 'start' %}
+                    md:items-start max-w-xl mt-4 md:mt-0 text-center md:text-start
+                    {% if request.locale.iso_code == 'ar' %}
+                      md:order-2
+                    {% else %}
+                      md:order-1
+                    {% endif %}
+                {% else %}
+                    md:items-start max-w-xl md:order-1 mt-4 md:mt-0 text-center md:text-start
+                    {% if request.locale.iso_code == 'ar' %}
+                      md:order-1
+                    {% else %}
+                      md:order-2
+                    {% endif %}
+                {% endif %}">
+                {% if section.settings.title != blank %}
+                    <h1 class="text-2xl md:text-5xl md:leading-relaxed font-bold"
+                        style="color: {{ title_color }};">
+                        {{ section.settings.title }}
+                    </h1>
+                {% endif %}
+
+                {% if section.settings.description != blank %}
+                    <p class="text-sm md:text-base text-gray-500"
+                       style="color: {{ sub_color }};">
+                        {{ section.settings.description }}
+                    </p>
+                {% endif %}
+
+                {% if section.settings.btn_text != blank and section.settings.btn_link != blank %}
+                    <div class="flex justify-start">
+                        <a href="{{ section.settings.btn_link }}"
+                           class="text-sm md:text-lg text-white font-bold bg-primary-main hover:bg-opacity-90 transition duration-200 rounded px-6 md:px-8 py-3.5 md:py-5"
+                           style="background-color: {{ btn_color }}; color: {{ btn_label }};">
+                            {{ section.settings.btn_text }}
+                        </a>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</section>
+
+{% schema %}
+{
+  "name": "t:sections.store-banner-1.name",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "t:sections.store-banner-1.settings.title.label",
+      "default": "t:sections.store-banner-1.settings.title.default"
+    },
+    {
+      "type": "textarea",
+      "id": "description",
+      "label": "t:sections.store-banner-1.settings.description.label",
+      "default": "t:sections.store-banner-1.settings.description.default"
+    },
+    {
+      "type": "text",
+      "id": "btn_text",
+      "label": "t:sections.store-banner-1.settings.btn_text.label",
+      "default": "t:sections.store-banner-1.settings.btn_text.default"
+    },
+    {
+      "type": "url",
+      "id": "btn_link",
+      "label": "t:sections.store-banner-1.settings.btn_link.label",
+      "default": "/collections/all"
+    },
+    {
+      "id": "banner_image",
+      "type": "image_picker",
+      "label": "t:sections.store-banner-1.settings.banner_image.label",
+      "info": "t:sections.store-banner-1.settings.banner_image.info"
+    },
+    {
+      "type": "select",
+      "id": "image_position",
+      "label": "t:sections.store-banner-1.settings.image_position.label",
+      "default": "end",
+      "options": [
+        {
+          "value": "start",
+          "label": "t:sections.store-banner-1.settings.image_position.options.start.label"
+        },
+        {
+          "value": "end",
+          "label": "t:sections.store-banner-1.settings.image_position.options.end.label"
+        },
+        {
+          "value": "background",
+          "label": "t:sections.store-banner-1.settings.image_position.options.background.label"
+        }
+      ]
+    },
+    {
+      "type": "header",
+      "content": "t:sections.store-banner-1.settings.header-1.content"
+    },
+    {
+      "type": "checkbox",
+      "id": "full_width",
+      "label": "t:sections.store-banner-1.settings.full_width.label",
+      "default": true
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:sections.all.color_scheme.label",
+      "default": "scheme-4"
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:sections.store-banner-1.name"
+    }
+  ]
+}
+{% endschema %}

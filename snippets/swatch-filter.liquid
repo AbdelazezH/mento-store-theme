@@ -1,0 +1,30 @@
+<div x-data="{
+    checkedValues: [{% for filter_value in filter.values %}{% if filter_value.active %}'{{ filter_value.value }}'{% if forloop.last == false %}, {% endif %}{% endif %}{% endfor %}],
+    toggle(value) {
+        if (this.checkedValues.includes(value)) {
+            this.checkedValues = this.checkedValues.filter(v => v !== value);
+        } else {
+            this.checkedValues.push(value);
+        }
+
+        this.$dispatch('filter-updated', { component: this });
+    }
+}" class="mt-4 max-w-44 flex flex-wrap gap-3.5">
+    {% for filter_value in filter.values %}
+        <label class="relative -m-0.5 flex cursor-pointer items-center justify-center rounded-full p-0.5 focus:outline-none color-filter-label"
+           :class="{
+                'ring-2 ring-gray-400 ring-offset-1': checkedValues.includes('{{ filter_value.value }}')
+           }"
+        >
+            <input type="checkbox"
+                   name="{{ filter_value.param_name }}"
+                   value="{{ filter_value.value }}"
+                   {% if filter_value.count == 0 and filter_value.active == false %}disabled{% endif %}
+                   :checked="checkedValues.includes('{{ filter_value.value }}')"
+                   @change="toggle('{{ filter_value.value }}')"
+                   class="sr-only">
+            <span class="size-8 bg-gray-400 rounded-full border border-black border-opacity-10"
+                  style="background-color: {{ filter_value.swatch.color }};"></span>
+        </label>
+    {% endfor %}
+</div>

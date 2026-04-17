@@ -1,0 +1,111 @@
+{% assign background = section.settings.color_scheme.settings.background %}
+{% assign primary_color = section.settings.color_scheme.settings.text %}
+{% assign secondary_color = section.settings.color_scheme.settings.secondary %}
+{% assign secondary_light_color = section.settings.color_scheme.settings.secondary_light %}
+{% assign icons_color = section.settings.color_scheme.settings.icons %}
+
+<div class="bg-white" style="background-color: {{ background }};">
+    <div class="page-width px-2 sm:px-6 lg:px-8">
+        <!-- Breadcrumbs -->
+        <div class="py-6 md:py-8 breadcrumbs flex items-center gap-2">
+            <a href="{{ routes.root_url }}"
+               class="text-xs md:text-base leading-normal font-normal text-black"
+               style="color: {{ primary_color }};">
+                {{ 'general.breadcrumbs.home' | t }}
+            </a>
+            <span style="color: {{ primary_color }};">
+                {% render 'icon-chevron-left', classes: 'size-4 ltr:rotate-180' %}
+            </span>
+            <span class="text-xs md:text-base leading-normal font-normal text-gray-500"
+                  style="color: {{ secondary_light_color }};">
+                {{ 'general.breadcrumbs.list-collections' | t }}
+            </span>
+        </div>
+
+        <div class="mx-auto max-w-2xl py-3 sm:py-8 lg:max-w-none lg:py-12">
+            <h2 class="text-xl lg:text-2xl font-medium text-gray-900"
+                style="color: {{ primary_color }};">
+                {{ 'pages.list-collections.title' | t }}
+            </h2>
+            {% if section.settings.collection_list and section.settings.collection_list != blank %}
+                {% comment %}{% assign hidden_collections = 'all,all-products,frontpage' | split: ',' %}{% endcomment %}
+                {% paginate section.settings.collection_list by section.settings.number_of_items_per_page %}
+                    <div class="mt-6 space-y-8 lg:grid lg:grid-cols-3 lg:gap-x-6 lg:gap-y-12 lg:space-y-0">
+                        {% for collection in section.settings.collection_list %}
+                            {% comment %}{% unless hidden_collections contains collection.handle or collection.all_products_count == 0 %}{% endcomment %}
+                            <div class="group relative">
+                                <div class="relative h-80 w-full overflow-hidden rounded-lg bg-white sm:aspect-h-1 sm:aspect-w-2 lg:aspect-h-1 lg:aspect-w-1 group-hover:opacity-75 sm:h-64">
+                                    {% if collection.featured_image %}
+                                        {% assign collection_image = collection.featured_image %}
+                                    {% else %}
+                                        {% assign collection_image = collection.products.first.image %}
+                                    {% endif %}
+
+                                    <img src="{{ collection_image | img_url: 'master' }}"
+                                         alt="{{ collection.title | escape }}"
+                                         class="h-full w-full object-cover object-center"
+                                         loading="lazy"
+                                    >
+                                </div>
+                                <h3 class="mt-2.5 lg:mt-6 text-base lg:text-lg text-center lg:text-start font-medium text-gray-700"
+                                    style="color: {{ secondary_color }};">
+                                    <a href="{{ collection.url }}">
+                                        <span class="absolute inset-0"></span>
+                                        {{ collection.title }}
+                                    </a>
+                                </h3>
+                            </div>
+                            {% comment %}{% endunless %}{% endcomment %}
+                        {% endfor %}
+                    </div>
+
+                    {% render 'pagination', pagination: paginate %}
+                {% endpaginate %}
+
+            {% else %}
+                <div class="min-h-64 lg:min-h-96 flex justify-center items-center">
+                    <div class="flex flex-col justify-center items-center gap-2.5 md:gap-4 text-center">
+                        <span class="text-primary-main" style="color: {{ icons_color }};">
+                            {% render 'icon-square-stack', classes: 'size-7 md:size-8' %}
+                        </span>
+
+                        <p class="text-base md:text-xl leading-normal font-light text-gray-950"
+                           style="color: {{ primary_color }};">
+                            {{ 'pages.list-collections.empty_title' | t }}
+                        </p>
+                    </div>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+{% schema %}
+{
+  "name": "t:pages.list-collection.name",
+  "settings": [
+    {
+      "type": "collection_list",
+      "id": "collection_list",
+      "label": "t:pages.list-collection.settings.collection_list.label",
+      "info": "t:pages.list-collection.settings.collection_list.info"
+    },
+    {
+      "type": "range",
+      "id": "number_of_items_per_page",
+      "label": "t:pages.list-collection.settings.number_of_items_per_page.label",
+      "info": "t:pages.list-collection.settings.number_of_items_per_page.info",
+      "min": 3,
+      "max": 12,
+      "step": 1,
+      "default": 6
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:sections.all.color_scheme.label",
+      "default": "scheme-5"
+    }
+  ]
+}
+{% endschema %}

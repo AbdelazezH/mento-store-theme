@@ -1,0 +1,123 @@
+{% assign background = section.settings.color_scheme.settings.background %}
+{% assign primary_text_color = section.settings.color_scheme.settings.text %}
+{% assign secondary_light_color = section.settings.color_scheme.settings.secondary_light %}
+{% assign border_color = section.settings.color_scheme.settings.button_border %}
+
+<style>
+    .placeholder_color::placeholder {
+        color: {{ primary_text_color }} !important;
+    }
+</style>
+<!-- Newsletter part -->
+<div class="bg-primary-light text-white px-4 md:px-6 py-6 md:py-12"
+     style="background-color: {{ background }}; color: {{ primary_text_color }};">
+    <div class="flex flex-col md:flex-row {% if section.settings.title != blank or section.settings.description != blank %}md:justify-between {% else %}md:justify-center {% endif %} md:items-center md:gap-12 page-width">
+        {% if section.settings.title != blank or section.settings.description != blank %}
+            <div>
+                {% if section.settings.title != blank %}
+                    <h2 class="text-base md:text-xl font-semibold">
+                        {{ section.settings.title | escape }}
+                    </h2>
+                {% endif %}
+
+                {% if section.settings.description != blank %}
+                    <p class="text-xs/6 md:text-base/9 font-normal mt-2 md:mt-4"
+                       style="color: {{ secondary_light_color }};">
+                        {{ section.settings.description | escape }}
+                    </p>
+                {% endif %}
+            </div>
+        {% endif %}
+
+        <div class="w-full mt-4 md:mt-0 md:w-1/2 lg:w-2/5">
+            {% form 'customer', class: 'newsletter-form w-full', id: 'newsletter_form' %}
+                <input type="hidden" name="contact[tags]" value="newsletter">
+                <div class="flex justify-between border-b-2 border-white py-1"
+                     style="border-color: {{ border_color }};">
+                    <label for="email-newsletter"
+                           class="sr-only">{{ 'sections.newsletter.email_label' | t }}</label>
+                    <input type="email" name="contact[email]" id="email-newsletter"
+                           placeholder="{{ 'sections.newsletter.email_placeholder' | t }}"
+                           autocomplete="off"
+                           class="w-full bg-transparent h-10 focus:outline-none text-base/snug lg:text-xl/snug placeholder:text-base/snug lg:placeholder:text-xl/snug placeholder_color">
+                    <button type="submit" class="py-2 text-base/snug lg:text-xl/snug">
+                        {{ 'sections.newsletter.subscribe' | t }}
+                    </button>
+                </div>
+                {%- if form.posted_successfully? -%}
+                    <div class="flex items-center md:items-start text-xs md:text-base font-medium text-green-900 mt-2">
+                        <span>
+                            {% render 'icon-success', classes: 'size-5 md:size-6' %}
+                        </span>
+                        <p class="ms-1 md:ms-1.5">
+                            {{ 'sections.newsletter.success_message' | t }}
+                        </p>
+                    </div>
+                {%- endif -%}
+                {%- if form.errors -%}
+                    <div class="flex items-center md:items-start text-xs md:text-base font-medium text-red-900 mt-2">
+                        <span>
+                            {% render 'icon-error', classes: 'size-5 md:size-6' %}
+                        </span>
+                        <p class="ms-1 md:ms-1.5">
+                            {{ 'sections.newsletter.error_message' | t }}
+                        </p>
+                    </div>
+                {%- endif -%}
+            {% endform %}
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        // Check if the URL contains the unwanted anchor
+        if (window.location.href.indexOf("#contact_form") > -1) {
+            // Replace #contact_form with #newsletter_form
+            window.location.hash = 'newsletter_form';
+
+            const url = new URL(window.location.href);
+            window.history.replaceState(null, null, url);
+
+            // Scroll to the #newsletter_form element smoothly
+            const targetElement = document.getElementById("newsletter_form");
+            if (targetElement) {
+                // Delay to ensure layout is stable before scrolling
+                setTimeout(() => {
+                    targetElement.scrollIntoView({behavior: "smooth", block: "center"});
+                }, 1000);
+            }
+        }
+    });
+</script>
+
+{% schema %}
+{
+  "name": "t:sections.newsletter.name",
+  "settings": [
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:sections.all.color_scheme.label",
+      "default": "scheme-1"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "t:sections.newsletter.settings.title.label",
+      "default": "t:sections.newsletter.settings.title.default"
+    },
+    {
+      "type": "textarea",
+      "id": "description",
+      "label": "t:sections.newsletter.settings.description.label",
+      "default": "t:sections.newsletter.settings.description.default"
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:sections.newsletter.name"
+    }
+  ]
+}
+{% endschema %}

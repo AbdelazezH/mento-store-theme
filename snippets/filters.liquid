@@ -1,0 +1,98 @@
+{% if type == 'search' %}
+    {% assign filters = search.filters %}
+{% elsif type == 'collection' %}
+    {% assign filters = collection.filters %}
+{% else %}
+    {% assign filters = '' %}
+{% endif %}
+
+<div class="filters">
+    <form x-ref="filterForm">
+        <div class="grid grid-cols-1 gap-6">
+
+            {% if type == 'search' %}
+                <div>
+                    <h3 class="text-base font-normal leading-normal text-gray-950 pb-4 border-b border-black border-opacity-10"
+                        style="color: {{ section.settings.color_scheme.settings.text }};">
+                        {{ 'pages.search.search_heading' | t }}
+                    </h3>
+
+                    <div x-data="{
+                            searchQuery: '{{ search.terms | escape }}',
+                            debounceTimeout: null,
+                            updateFilter() {
+                                clearTimeout(this.debounceTimeout);
+                                this.debounceTimeout = setTimeout(() => {
+                                    this.$dispatch('filter-updated', { component: this });
+                                }, 800);
+                            }
+                        }" class="mt-4">
+                        <div x-cloak class="relative">
+                            <label for="Filter-q" class="sr-only">
+                                {{ 'pages.search.search_heading' | t }}
+                            </label>
+
+                            <input type="search"
+                                   id="Filter-q"
+                                   name="q"
+                                   value="{{ search.terms | escape }}"
+                                   x-model="searchQuery"
+                                   x-on:input="updateFilter()"
+                                   placeholder="{{ 'pages.search.search_input' | t }}"
+                                   class="w-full pe-2 ps-8 md:ps-10 py-2.5 text-sm md:text-base font-normal bg-transparent leading-normal text-gray-950 border border-gray-400 rounded placeholder:text-gray-700 placeholder:text-sm placeholder:md:text-base focus:outline-none collection_placeholder_color"
+                                   style="color: {{ section.settings.color_scheme.settings.secondary }}; border-color: {{ section.settings.color_scheme.settings.button_border }};"
+                            >
+
+                            <span class="absolute top-0 start-5 mt-3 -ms-3"
+                                  style="color: {{ section.settings.color_scheme.settings.secondary }};">
+                                {% render 'icon-search', classes: 'size-5 md:size-6' %}
+                            </span>
+
+                            <input type="hidden" name="type" value="product">
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+
+            {% if filters and filters != blank %}
+                {% for filter in filters %}
+                    <div>
+                        {% assign translation_key = 'pages.collection.filter_options.' | append: filter.label | downcase | replace: ' ', '_' %}
+                        {% assign translated_label = translation_key | t %}
+                        <h3 class="text-base font-normal leading-normal text-gray-950 pb-4 border-b border-black border-opacity-10"
+                            style="color: {{ section.settings.color_scheme.settings.text }};">
+                            {% if translated_label contains 'Translation missing' %}
+                                {{ filter.label }}
+                            {% else %}
+                                {{ translated_label }}
+                            {% endif %}
+                        </h3>
+
+                        {%- case filter.type -%}
+                            {%- when 'boolean' or 'list' -%}
+                                {% if filter.presentation == "swatch" %}
+                                    {% render 'select-filter', filter: filter, displayMode: displayMode %}
+                                {% else %}
+                                    {% render 'checkbox-filter', filter: filter %}
+                                {% endif %}
+                            {%- when 'price_range' -%}
+                                {% render 'price-filter', filter: filter %}
+                        {%- endcase -%}
+                    </div>
+                {% endfor %}
+
+            {% else %}
+                <div>
+                    <h3 class="text-base font-normal leading-normal text-gray-950 pb-4 border-b border-black border-opacity-10"
+                        style="color: {{ section.settings.color_scheme.settings.text }};">
+                        {{ 'pages.search.filters' | t }}
+                    </h3>
+
+                    <p class="mt-4" style="color: {{ section.settings.color_scheme.settings.secondary }};">
+                        {{ 'pages.search.no_filters' | t }}
+                    </p>
+                </div>
+            {% endif %}
+        </div>
+    </form>
+</div>

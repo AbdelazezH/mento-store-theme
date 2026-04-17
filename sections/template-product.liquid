@@ -1,0 +1,418 @@
+{% assign background = section.settings.color_scheme.settings.background %}
+{% assign primary_color = section.settings.color_scheme.settings.text %}
+{% assign secondary_color = section.settings.color_scheme.settings.secondary %}
+{% assign secondary_light_color = section.settings.color_scheme.settings.secondary_light %}
+{% assign secondary_lighter_color = section.settings.color_scheme.settings.secondary_lighter %}
+{% assign button_label = section.settings.color_scheme.settings.button_label %}
+{% assign button_bg = section.settings.color_scheme.settings.button %}
+{% assign border_color = section.settings.color_scheme.settings.button_border %}
+
+<div class="bg-white px-2 md:px-6 py-6 md:py-8" style="background-color: {{ background }};">
+    <!-- Breadcrumbs -->
+    <div class="mb-6 md:mb-10">
+        <div class="breadcrumbs flex items-center gap-2 page-width">
+            <a href="{{ routes.root_url }}"
+               class="text-xs md:text-base leading-normal font-normal text-black" style="color: {{ secondary_color }};">
+                {{ 'general.breadcrumbs.home' | t }}
+            </a>
+            <span style="color: {{ secondary_color }};">
+            {% render 'icon-chevron-left', classes: 'size-4 ltr:rotate-180' %}
+        </span>
+            <a href="{{ routes.all_products_collection_url }}"
+               class="text-xs md:text-base leading-normal font-normal text-black" style="color: {{ secondary_color }};">
+                {{ 'general.breadcrumbs.products' | t }}
+            </a>
+            <span style="color: {{ secondary_color }};">
+            {% render 'icon-chevron-left', classes: 'size-4 ltr:rotate-180' %}
+        </span>
+            <span class="text-xs md:text-base leading-normal font-normal text-gray-500"
+                  style="color: {{ secondary_light_color }};">
+            {{ product.title }}
+        </span>
+        </div>
+    </div>
+
+    <div class="flex flex-col md:flex-row justify-start items-start gap-4 sm:gap-6 lg:gap-12 page-width">
+        <!-- Product media desktop -->
+        <div class="hidden md:w-1/2 md:grid md:grid-cols-2 gap-1" x-data>
+            {% for media in product.media limit: 5 %}
+                <div x-data="zoomableImage(1.75)" class="aspect-w-4 aspect-h-4 overflow-hidden
+                    {% if forloop.first %}
+                        col-span-2
+                    {% endif %}
+                rounded-sm md:rounded-md relative group"
+                     :class="isZoomed ? 'cursor-zoom-out' : 'cursor-zoom-in'"
+                     x-on:mousemove="updateMouseOffset($event)"
+                     x-on:mouseleave="resetZoomState()"
+                     x-on:click="toggleZoom()"
+                >
+                    {% case media.media_type %}
+                        {% when 'image' %}
+                            <img src="{{ media | img_url: 'master' }}"
+                                 alt="{{ media.preview_image.alt }}"
+                                 class="w-full h-full object-cover object-center"
+                                 :style="zoomStyles"
+                                 loading="lazy"
+                            >
+                    {% endcase %}
+
+                    {% if forloop.index == 5 and product.media.size > 5 %}
+                        <!-- Overlay for the last image if there are more images -->
+                        <div class="absolute inset-0 bg-black bg-opacity-90 flex items-center justify-center text-white text-lg font-medium cursor-pointer opacity-80 group-hover:opacity-100 transition-opacity duration-300"
+                             x-on:click="$dispatch('lightbox-open', { startIndex: 4 })">
+                            <div class="flex flex-col justify-center items-center gap-1.5">
+                                <span class="text-2xl font-semibold">
+                                    + {{ product.media.size | minus: 4 }}
+                                </span>
+                                <p class="text-base font-medium text-gray-100">
+                                    {{ 'pages.product.text_more' | t }}
+                                </p>
+                            </div>
+                        </div>
+                    {% endif %}
+                </div>
+            {% endfor %}
+        </div>
+
+        <!-- Product media mobile -->
+        <div class="block md:hidden w-full">
+            <div id="swiper_{{ section.id }}" class="swiper product-gallery-mobile__swiper !hidden">
+                <div class="swiper-wrapper">
+                    {% for media in product.media %}
+                        <div class="swiper-slide">
+                            {% case media.media_type %}
+                                {% when 'image' %}
+                                    <div class="aspect-w-4 aspect-h-4 overflow-hidden rounded-sm">
+                                        <img src="{{ media | img_url: 'master' }}"
+                                             alt="{{ media.preview_image.alt }}"
+                                             class="w-full h-full object-cover object-center"
+                                             loading="lazy"
+                                        >
+                                    </div>
+                            {% endcase %}
+                        </div>
+                    {% endfor %}
+                </div>
+
+                <div class="flex justify-center items-center gap-x-14 mt-2">
+
+                    <div class="swiper-button-prev !my-auto !text-gray-950" style="color: {{ secondary_color }};">
+                    </div>
+
+                    <div class="swiper-pagination !text-gray-900 text-sm/6 font-medium"
+                         dir="ltr" style="color: {{ secondary_color }};"></div>
+
+                    <div class="swiper-button-next !my-auto !text-gray-950" style="color: {{ secondary_color }};">
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <!-- Product details -->
+        <div class="w-full sticky top-5 md:w-1/2 md:py-12 lg:ps-2 lg:pe-6">
+            {% assign product_form_id = 'product-form-' | append: section.id %}
+            {% assign selected_variant = product.selected_or_first_available_variant %}
+
+            {% form 'product', product, id: product_form_id, novalidate: 'novalidate' %}
+                <input type="hidden" name="id" value="{{ selected_variant.id }}">
+
+                <div class="py-3 lg:py-6 flex justify-between items-center">
+
+                    <h2 class="text-xl/4 lg:text-3xl/4 font-medium text-gray-950" style="color: {{ secondary_color }};">
+                        {{ product.title | escape }}
+                    </h2>
+
+                    <div class="flex justify-center items-center gap-2" id="price-{{ section.id }}">
+                            <span class="text-lg/4 lg:text-2xl/4 text-primary-main" style="color: {{ primary_color }};">
+                                {{ selected_variant.price | money }}
+                            </span>
+                        <span class="text-sm/4 lg:text-lg/4 text-gray-300 line-through"
+                              style="color: {{ secondary_lighter_color }};">
+                                {{ selected_variant.compare_at_price | money }}
+                            </span>
+                    </div>
+                </div>
+
+                {% if product.metafields.judgeme %}
+                    <div class="py-3 lg:py-6">
+                        <div class="flex items-center" id="rating-badge_element">
+                            <!-- Start of Judge.me code -->
+                            <div class='jdgm-widget jdgm-preview-badge' data-id='{{ product.id }}'>
+                                {{ product.metafields.judgeme.badge }}
+                            </div>
+                            <!-- End of Judge.me code -->
+                        </div>
+                    </div>
+                {% endif %}
+
+                {% unless product.has_only_default_variant %}
+                    <variant-radios class="py-3 lg:py-6" data-url="{{ product.url }}"
+                                    data-section="{{ section.id }}" data-update-url="true">
+                        {% for option in product.options_with_values %}
+                            <div class="py-2">
+                                <h3 class="text-[13px]/snug md:text-sm/snug lg:text-base/6 text-gray-950"
+                                    style="color: {{ secondary_color }};">
+                                    {{ option.name | escape }}
+                                </h3>
+
+                                {% assign isSwatchType = false %}
+                                {% if option.values.size > 0 and option.values[0].swatch and option.values[0].swatch.color %}
+                                    {% assign isSwatchType = true %}
+                                {% endif %}
+
+                                <fieldset class="mt-3 product-form__input">
+                                    {% if isSwatchType %}
+                                        <div class="flex items-center ps-1.5 md:ps-0 gap-4 lg:gap-5">
+                                            {% for value in option.values %}
+                                                {% if value.swatch.color %}
+                                                    <label id="{{ section.id }}-{{ value | handleize }}"
+                                                           class="relative -m-0.5 flex cursor-pointer items-center justify-center rounded-full p-0.5 focus:outline-none ring-gray-400 color-variant__label">
+                                                        <input type="radio" name="{{ option.name }}"
+                                                               id="{{ section.id }}-{{ option.position }}-{{ forloop.index0 }}"
+                                                               value="{{ value | escape }}"
+                                                               {% if option.selected_value == value %}checked{% endif %}
+                                                               class="sr-only">
+                                                        <span class="size-5 lg:size-8 bg-gray-400 rounded-full border border-black border-opacity-10"
+                                                              style="background-color: {{ value.swatch.color }};"></span>
+                                                    </label>
+                                                {% endif %}
+                                            {% endfor %}
+                                        </div>
+                                    {% else %}
+                                        <div class="flex items-center gap-2 lg:gap-3">
+                                            {% for value in option.values %}
+                                                <label class="variant__label relative flex items-center justify-center min-w-8 md:min-w-10 lg:min-w-12 min-h-8 md:min-h-10 lg:min-h-12 rounded-sm border py-1.5 px-1.5 lg:py-3 lg:px-3 text-[10px]/snug md:text-sm/snug text-gray-500 font-normal uppercase hover:bg-gray-50 bg-white cursor-pointer focus:outline-none"
+                                                       style="background-color: {{ background }};">
+                                                    <input type="radio" value="{{ value | escape }}"
+                                                           name="{{ option.name }}"
+                                                           id="{{ section.id }}-{{ option.position }}-{{ forloop.index0 }}"
+                                                           {% if option.selected_value == value %}checked{% endif %}
+                                                           class="sr-only">
+                                                    <span>{{ value | escape }}</span>
+                                                    <span id="{{ section.id }}-{{ value | handleize }}"
+                                                          aria-hidden="true"
+                                                          class="hidden pointer-events-none absolute -inset-px rounded-sm border-2 border-gray-200"
+                                                          style="border-color: {{ border_color }}; color: {{ border_color }};">
+                                                            <svg class="absolute inset-0 h-full w-full stroke-2"
+                                                                 viewBox="0 0 100 100" preserveAspectRatio="none"
+                                                                 stroke="currentColor">
+                                                              <line x1="0" y1="100" x2="100" y2="0"
+                                                                    vector-effect="non-scaling-stroke"/>
+                                                            </svg>
+                                                        </span>
+                                                </label>
+                                            {% endfor %}
+                                        </div>
+                                    {% endif %}
+                                </fieldset>
+                            </div>
+                        {% endfor %}
+
+                        <script type="application/json">{{ product.variants | json }}</script>
+                    </variant-radios>
+                {% endunless %}
+
+                <div class="py-3 lg:py-6">
+                    <div class="flex justify-between items-center gap-2 lg:gap-4">
+                        <div class="border border-gray-200" style="border-color: {{ border_color }};">
+                            <div class="flex items-center gap-x-2" x-data="{
+                                        quantity: 1,
+                                        init() {
+                                           this.$watch('quantity', value => {
+                                               if (value <= 1) {
+                                                   this.quantity = 1
+                                               } else if (value >= 10) {
+                                                   this.quantity = 10
+                                               } else {
+                                                   this.quantity = value
+                                               }
+                                           })
+                                        },
+                                        increment() {
+                                            this.quantity >= 10 ? this.quantity = 10 : this.quantity++;
+                                        },
+                                        decrement() {
+                                            this.quantity <= 1 ? this.quantity = 1 : this.quantity--;
+                                        }
+
+                                    }">
+                                <button x-on:click.prevent="increment()"
+                                        x-bind:class="{'opacity-25 cursor-not-allowed': quantity >= 10 }"
+                                        class="inline-flex justify-center items-center px-3 lg:px-6 py-[11px] lg:py-[13px]"
+                                        style="color: {{ secondary_color }};">
+                                    {% render 'icon-plus', classes: 'size-4 lg:size-5' %}
+                                </button>
+                                <span class="w-4 md:w-6 lg:w-8 p-0 bg-transparent border-0 text-base md:text-lg text-primary-main text-center"
+                                      x-text="quantity" style="color: {{ primary_color }};"></span>
+                                <label for="quantity-{{ section.id }}" class="sr-only"></label>
+                                <input type="hidden" name="quantity" id="quantity-{{ section.id }}"
+                                       class="w-4 md:w-6 lg:w-8 p-0 bg-transparent border-0 outline-none text-base md:text-lg text-primary-main text-center focus:ring-0 [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
+                                       style="-moz-appearance: textfield;"
+                                       x-model="quantity" min="1" max="10">
+                                <button x-on:click.prevent="decrement()"
+                                        x-bind:class="{'opacity-25 cursor-not-allowed': quantity <= 1}"
+                                        class="inline-flex justify-center items-center px-3 lg:px-6 py-[11px] lg:py-[13px]"
+                                        style="color: {{ secondary_color }};">
+                                    {% render 'icon-minus', classes: 'size-4 lg:size-5' %}
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="flex-1">
+                            <button type="submit" name="add"
+                                    data-text-add-to-cart="{{ 'pages.product.add_to_cart' | t }}"
+                                    data-text-out-of-stock="{{ 'pages.product.out_of_stock' | t }}"
+                                    class="w-full text-sm/4 lg:text-base/normal font-medium text-white bg-primary-main rounded-sm py-3 disabled:cursor-not-allowed disabled:opacity-25"
+                                    {% if selected_variant.available == false %}
+                                        disabled
+                                    {% endif %}
+                                    style="background-color: {{ button_bg }}; color: {{ button_label }};"
+                            >
+                                    <span>
+                                        {% if selected_variant.available == false %}
+                                            {{ 'pages.product.out_of_stock' | t }}
+                                        {% else %}
+                                            {{ 'pages.product.add_to_cart' | t }}
+                                        {% endif %}
+                                    </span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="py-3 lg:py-6">
+                    {% if product.description != blank %}
+                        <div class="product__description mb-4 md:mb-6">
+                            <div class="collapse__element" x-data="{ expanded: false }">
+                                <button type="button"
+                                        class="w-full flex justify-between items-center px-2 py-1.5 md:px-3.5 md:py-2 border rounded"
+                                        x-on:click="expanded = ! expanded" style="border-color: {{ border_color }};">
+                                    <span class="text-[13px] md:text-base leading-normal font-normal text-gray-700"
+                                          style="color: {{ secondary_light_color }};">
+                                        {{ 'pages.product.description_heading' | t }}
+                                    </span>
+
+                                    <span style="color: {{ secondary_light_color }};">
+                                        <svg class="size-6 md:size-8"
+                                             x-bind:class="{ 'rotate-180': expanded }"
+                                             viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M12.0008 15L7.75781 10.757L9.17281 9.34302L12.0008 12.172L14.8288 9.34302L16.2438 10.757L12.0008 15Z"
+                                                  fill="currentColor"/>
+                                        </svg>
+                                    </span>
+                                </button>
+
+                                <div x-cloak
+                                     x-show="expanded"
+                                     x-collapse.duration.500ms
+                                     class="text-xs md:text-sm leading-relaxed font-normal text-gray-700"
+                                     style="color: {{ secondary_light_color }};">
+                                    <div class="py-2 md:py-4">
+                                        {{ product.description }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {% endif %}
+
+                    {% if product.metafields.custom.shipping_information or settings.global_shipping_information != blank %}
+                        <div class="shipping_information mb-4 md:mb-6">
+                            <div class="collapse__element" x-data="{ expanded: false }">
+                                <button type="button"
+                                        class="w-full flex justify-between items-center px-2 py-1.5 md:px-3.5 md:py-2 border rounded"
+                                        x-on:click="expanded = ! expanded" style="border-color: {{ border_color }};">
+                                    <span class="text-[13px] md:text-base leading-normal font-normal text-gray-700"
+                                          style="color: {{ secondary_light_color }};">
+                                        {{ 'pages.product.shipping_heading' | t }}
+                                    </span>
+
+                                    <span style="color: {{ secondary_light_color }};">
+                                        <svg class="size-6 md:size-8"
+                                             x-bind:class="{ 'rotate-180': expanded }"
+                                             viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M12.0008 15L7.75781 10.757L9.17281 9.34302L12.0008 12.172L14.8288 9.34302L16.2438 10.757L12.0008 15Z"
+                                                  fill="currentColor"/>
+                                        </svg>
+                                    </span>
+                                </button>
+
+                                <div x-cloak
+                                     x-show="expanded"
+                                     x-collapse.duration.500ms
+                                     class="text-xs md:text-sm leading-relaxed font-normal text-gray-700"
+                                     style="color: {{ secondary_light_color }};">
+                                    <div class="py-2 md:py-4">
+                                        {% if product.metafields.custom.shipping_information %}
+                                            {{ product.metafields.custom.shipping_information }}
+                                        {% else %}
+                                            {{ settings.global_shipping_information }}
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {% endif %}
+
+                    {% if product.metafields.custom.additional_information or settings.global_additional_information != blank %}
+                        <div class="additional_information mb-4 md:mb-6">
+                            <div class="collapse__element" x-data="{ expanded: false }">
+                                <button type="button"
+                                        class="w-full flex justify-between items-center px-2 py-1.5 md:px-3.5 md:py-2 border rounded"
+                                        x-on:click="expanded = ! expanded" style="border-color: {{ border_color }};">
+                                    <span class="text-[13px] md:text-base leading-normal font-normal text-gray-700"
+                                          style="color: {{ secondary_light_color }};">
+                                        {{ 'pages.product.additional_info_heading' | t }}
+                                    </span>
+
+                                    <span style="color: {{ secondary_light_color }};">
+                                        <svg class="size-6 md:size-8"
+                                             x-bind:class="{ 'rotate-180': expanded }"
+                                             viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M12.0008 15L7.75781 10.757L9.17281 9.34302L12.0008 12.172L14.8288 9.34302L16.2438 10.757L12.0008 15Z"
+                                                  fill="currentColor"/>
+                                        </svg>
+                                    </span>
+                                </button>
+
+                                <div x-cloak
+                                     x-show="expanded"
+                                     x-collapse.duration.500ms
+                                     class="text-xs md:text-sm leading-relaxed font-normal text-gray-700"
+                                     style="color: {{ secondary_light_color }};">
+                                    <div class="py-2 md:py-4">
+                                        {% if product.metafields.custom.additional_information %}
+                                            {{ product.metafields.custom.additional_information }}
+                                        {% else %}
+                                            {{ settings.global_additional_information }}
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {% endif %}
+                </div>
+            {% endform %}
+        </div>
+    </div>
+
+    <div class="px-3 md:px-8 pt-5 md:pt-16">
+        <hr class="bg-[#E1E2E2] page-width" style="background-color: {{ secondary_lighter_color }};">
+    </div>
+</div>
+
+{% render 'lightbox' %}
+
+{% schema %}
+{
+  "name": "t:pages.product.name",
+  "settings": [
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:sections.all.color_scheme.label",
+      "default": "scheme-7"
+    }
+  ]
+}
+{% endschema %}

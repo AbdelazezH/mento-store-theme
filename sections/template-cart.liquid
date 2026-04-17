@@ -1,0 +1,612 @@
+{% assign background = section.settings.color_scheme.settings.background %}
+{% assign primary_color = section.settings.color_scheme.settings.text %}
+{% assign secondary_color = section.settings.color_scheme.settings.secondary %}
+{% assign secondary_light_color = section.settings.color_scheme.settings.secondary_light %}
+{% assign secondary_lighter_color = section.settings.color_scheme.settings.secondary_lighter %}
+{% assign button_label = section.settings.color_scheme.settings.button_label %}
+{% assign button_bg = section.settings.color_scheme.settings.button %}
+{% assign border_color = section.settings.color_scheme.settings.button_border %}
+{% assign secondary_button_label = section.settings.color_scheme.settings.secondary_button_label %}
+{% assign secondary_button_bg = section.settings.color_scheme.settings.secondary_button %}
+{% assign icons_color = section.settings.color_scheme.settings.icons %}
+
+<style>
+    .btn__primary {
+        background-color: {{ button_bg }};
+        color: {{ button_label }};
+        border-color: {{ border_color }};
+    }
+
+    .btn__primary:hover {
+        background-color: {{ secondary_button_bg }};
+        color: {{ secondary_button_label }};
+        border-color: {{ border_color }};
+    }
+
+    .btn__secondary {
+        background-color: {{ secondary_button_bg }};
+        color: {{ secondary_button_label }};
+        border-color: {{ border_color }};
+    }
+
+    .btn__secondary:hover {
+        background-color: {{ button_bg }};
+        color: {{ button_label }};
+        border-color: {{ border_color }};
+    }
+</style>
+
+<div class="bg-white px-2 md:px-6 py-6 md:py-8" style="background-color: {{ background }};">
+    <!-- Breadcrumbs -->
+    <div class="breadcrumbs flex items-center gap-2 page-width">
+        <a href="{{ routes.root_url }}"
+           class="text-xs md:text-base leading-normal font-normal text-black"
+           style="color: {{ primary_color }};">
+            {{ 'general.breadcrumbs.home' | t }}
+        </a>
+        <span style="color: {{ primary_color }};">
+            {% render 'icon-chevron-left', classes: 'size-4 ltr:rotate-180' %}
+        </span>
+        <span class="text-xs md:text-base leading-normal font-normal text-gray-500"
+              style="color: {{ secondary_light_color }};">
+            {{ 'general.breadcrumbs.cart' | t }}
+        </span>
+    </div>
+
+    {% if section.settings.enable_image %}
+        <div class="mt-6 md:mt-8">
+            <div class="w-full page-width">
+                {% if section.settings.image != blank %}
+                    <div class="relative aspect-w-4 aspect-h-4 md:aspect-w-16 md:aspect-h-7 overflow-hidden rounded-sm md:rounded-md">
+                        <img src="{{ section.settings.image | img_url: 'master' }}"
+                             alt="{{ section.settings.image.alt }}"
+                             class="w-full h-full object-cover object-center"
+                             loading="lazy"
+                        >
+                        <div class="flex justify-center items-center absolute inset-0">
+                            <div class="p-3 flex flex-col justify-center items-center bg-black/30 h-40 w-full md:w-1/3 md:h-full">
+                                <h1 class="text-3xl md:text-5xl font-medium leading-normal text-white">
+                                    {{ 'pages.cart.title' | t }}
+                                </h1>
+                            </div>
+                        </div>
+                    </div>
+                {% else %}
+                    <div class="relative border border-gray-400 aspect-w-4 aspect-h-4 md:aspect-w-16 md:aspect-h-7 overflow-hidden rounded-sm md:rounded-md">
+                        <img class="h-full w-full object-cover object-center"
+                             src="{{ 'lifestyle-2.svg' | asset_url }}"
+                             alt="lifestyle-2 placeholder image" loading="lazy"/>
+                        <div class="flex justify-center items-center absolute inset-0">
+                            <div class="p-3 flex flex-col justify-center items-center bg-black/30 h-40 w-full md:w-1/3 md:h-full">
+                                <h1 class="text-3xl md:text-5xl font-medium leading-normal text-white">
+                                    {{ 'pages.cart.title' | t }}
+                                </h1>
+                            </div>
+                        </div>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    {% endif %}
+
+    {% if section.settings.product and section.settings.product != blank %}
+        {% assign featured_product = section.settings.product %}
+        {% assign selected_variant = featured_product.selected_or_first_available_variant %}
+        {% assign matching_items = cart.items | where: 'product_id', featured_product.id %}
+
+        {% if matching_items.size > 0 %}
+            {% assign show_featured_product = false %}
+        {% else %}
+            {% assign show_featured_product = true %}
+        {% endif %}
+
+        {% assign featured_product_id = featured_product.id %}
+    {% else %}
+        {% assign show_featured_product = false %}
+        {% assign featured_product_id = 'null' %}
+    {% endif %}
+
+    <div x-data="Cart(
+            {{ section.settings.enable_free_shipping_threshold }},
+            {{ section.settings.free_shipping_threshold }},
+            {{ cart.item_count }},
+            {{ show_featured_product }},
+            '{{ featured_product_id }}'
+        )" class="min-h-64 md:min-h-80 page-width">
+
+        <div x-cloak
+             x-show="totalItemsCount > 0"
+             class="mt-0 md:mt-8">
+            <div class="flex flex-col md:flex-row md:justify-between md:gap-4">
+                <div class="w-full md:w-[70%]">
+                    <div class="md:border md:border-gray-200 md:rounded-lg overflow-hidden"
+                         style="border-color: {{ border_color }};">
+                        <template x-if="loading">
+                            <div class="loading-indicator flex items-center justify-center min-h-64 md:min-h-80">
+                                <svg class="animate-spin h-7 w-7 md:h-9 md:w-9 text-primary-main"
+                                     xmlns="http://www.w3.org/2000/svg"
+                                     fill="none" viewBox="0 0 24 24"
+                                     style="color: {{ icons_color }};">
+                                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor"
+                                            stroke-width="4"></circle>
+                                    <path class="opacity-75" fill="currentColor"
+                                          d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"></path>
+                                </svg>
+                            </div>
+                        </template>
+
+                        <template x-if="!loading">
+                            <table class="table-auto w-full">
+                                <thead class="bg-primary-main bg-opacity-5 hidden md:table-header-group">
+                                <tr>
+                                    <th class="px-6 py-4 text-start text-base leading-normal font-normal text-gray-950"
+                                        style="color: {{ primary_color }};">
+                                        {{ 'pages.cart.product' | t }}
+                                    </th>
+                                    <th class="px-6 py-4 text-start text-base leading-normal font-normal text-gray-950"
+                                        style="color: {{ primary_color }};">
+                                        {{ 'pages.cart.price' | t }}
+                                    </th>
+                                    <th class="px-6 py-4 text-start text-base leading-normal font-normal text-gray-950"
+                                        style="color: {{ primary_color }};">
+                                        {{ 'pages.cart.quantity' | t }}
+                                    </th>
+                                    <th class="px-6 py-4 text-start text-base leading-normal font-normal text-gray-950"
+                                        style="color: {{ primary_color }};">
+                                        {{ 'pages.cart.total_price_1' | t }}
+                                    </th>
+                                </tr>
+                                </thead>
+
+                                <tbody>
+                                <template x-for="(item, index) in cartItems" :key="item.id">
+                                    <tr class="align-middle"
+                                        :class="{ 'border-b border-gray-200/60 md:border-none': shouldShowBorder(index) }"
+                                        style="border-color: {{ border_color }};">
+                                        <td class="md:px-6 flex items-center gap-4 first-td-content"
+                                            :class="{
+                                            'pt-5 pb-5 md:pt-7 md:pb-7': getPaddingCase(index) === 'single',
+                                            'pt-5 pb-2.5 md:pt-7 md:pb-3': getPaddingCase(index) === 'first',
+                                            'pb-5 pt-2.5 md:pb-7 md:pt-3': getPaddingCase(index) === 'last',
+                                            'pt-2.5 pb-2.5 md:pt-3 md:pb-3': getPaddingCase(index) === 'middle'
+                                        }"
+                                        >
+                                            <a :href="item.url"
+                                               class="block flex-shrink-0">
+                                                <template x-if="item.image">
+                                                    <img :src="item.image"
+                                                         :alt="item.title"
+                                                         class="w-[6.25rem] h-32 object-cover border border-gray-400 rounded-sm">
+                                                </template>
+
+                                                <template x-if="!item.image">
+                                                    {{ 'product-1' | placeholder_svg_tag: 'w-[6.25rem] h-32 object-cover border border-gray-400 rounded-sm' }}
+                                                </template>
+                                            </a>
+
+                                            <div class="flex flex-col gap-3.5 md:gap-3 title-variants flex-grow">
+                                                <a :href="item.url"
+                                                   class="text-base font-bold leading-normal text-gray-950"
+                                                   style="color: {{ primary_color }};">
+                                                    <span x-text="truncateWords(item.product_title, 5)"></span>
+                                                </a>
+                                                <div class="text-xs font-normal leading-normal flex items-center gap-1.5">
+                                                    <span class="text-gray-400"
+                                                          style="color: {{ secondary_light_color }};">
+                                                        {{ 'pages.cart.variants' | t }}:
+                                                    </span>
+                                                    <span class="text-gray-950" style="color: {{ primary_color }};">
+                                                        <template x-if="item.variant_title">
+                                                            <span x-text="item.variant_title"></span>
+                                                        </template>
+
+                                                        <template x-if="!item.variant_title">
+                                                            <span>{{ 'pages.cart.no_variants' | t }}</span>
+                                                        </template>
+                                                    </span>
+                                                </div>
+
+                                                <div class="block md:hidden">
+                                                    {% render 'cart-quantity-control',
+                                                            primary_color: primary_color,
+                                                            secondary_light_color: secondary_light_color,
+                                                            border_color: border_color
+                                                    %}
+                                                </div>
+                                            </div>
+                                        </td>
+
+                                        <td class="md:px-6 text-base text-gray-950 hidden md:table-cell"
+                                            :class="{
+                                                'pt-5 pb-5 md:pt-7 md:pb-7': getPaddingCase(index) === 'single',
+                                                'pt-5 pb-2.5 md:pt-7 md:pb-3': getPaddingCase(index) === 'first',
+                                                'pb-5 pt-2.5 md:pb-7 md:pt-3': getPaddingCase(index) === 'last',
+                                                'pt-2.5 pb-2.5 md:pt-3 md:pb-3': getPaddingCase(index) === 'middle'
+                                            }"
+                                            style="color: {{ primary_color }};"
+                                        >
+                                            <span x-text="formatMoney(item.price)"></span>
+                                        </td>
+
+                                        <td class="md:px-6 text-base text-gray-950 hidden md:table-cell third-td"
+                                            :class="{
+                                                'pt-5 pb-5 md:pt-7 md:pb-7': getPaddingCase(index) === 'single',
+                                                'pt-5 pb-2.5 md:pt-7 md:pb-3': getPaddingCase(index) === 'first',
+                                                'pb-5 pt-2.5 md:pb-7 md:pt-3': getPaddingCase(index) === 'last',
+                                                'pt-2.5 pb-2.5 md:pt-3 md:pb-3': getPaddingCase(index) === 'middle'
+                                            }"
+                                            style="color: {{ primary_color }};"
+                                        >
+                                            {% render 'cart-quantity-control',
+                                                    primary_color: primary_color,
+                                                    secondary_light_color: secondary_light_color,
+                                                    border_color: border_color
+                                            %}
+                                        </td>
+
+                                        <td class="md:px-6 text-base text-gray-950 hidden md:table-cell"
+                                            :class="{
+                                                'pt-5 pb-5 md:pt-7 md:pb-7': getPaddingCase(index) === 'single',
+                                                'pt-5 pb-2.5 md:pt-7 md:pb-3': getPaddingCase(index) === 'first',
+                                                'pb-5 pt-2.5 md:pb-7 md:pt-3': getPaddingCase(index) === 'last',
+                                                'pt-2.5 pb-2.5 md:pt-3 md:pb-3': getPaddingCase(index) === 'middle'
+                                            }"
+                                            style="color: {{ primary_color }};"
+                                        >
+                                            <span x-text="formatMoney(item.line_price)"></span>
+                                        </td>
+                                    </tr>
+                                </template>
+                                </tbody>
+                            </table>
+                        </template>
+                    </div>
+                </div>
+
+                <div class="w-full md:w-[30%] flex flex-col gap-6">
+                    <template x-if="enableFreeShippingThreshold">
+                        <div class="border border-gray-200 rounded-lg px-3 py-3 md:px-6 md:py-5"
+                             style="border-color: {{ border_color }};">
+
+                            <template x-if="loading">
+                                <div class="loading-indicator flex items-center justify-center min-h-8">
+                                    <svg class="animate-spin h-6 w-6 text-primary-main"
+                                         xmlns="http://www.w3.org/2000/svg"
+                                         fill="none" viewBox="0 0 24 24"
+                                         style="color: {{ icons_color }};">
+                                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor"
+                                                stroke-width="4"></circle>
+                                        <path class="opacity-75" fill="currentColor"
+                                              d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"></path>
+                                    </svg>
+                                </div>
+                            </template>
+
+                            <template x-if="!loading">
+                                <div>
+                                    <template x-if="!meetsFreeShippingThreshold">
+                                        <div>
+                                            <p class="text-sm md:text-base leading-normal font-normal text-gray-950"
+                                               style="color: {{ primary_color }};">
+                                                {{ 'pages.cart.shipping_free_threshold_before_amount' | t }}
+                                                <span dir="ltr" x-text="formatMoney(remainingAmount)"></span>
+                                                {{ 'pages.cart.shipping_free_threshold_after_amount' | t }}
+                                            </p>
+
+                                            <div class="mt-2.5">
+                                                <div class="w-full bg-gray-200 rounded-full h-1 md:h-1.5"
+                                                     style="background-color: {{ secondary_lighter_color }};">
+                                                    <div class="bg-primary-main rounded-full h-1 md:h-1.5"
+                                                         :style="{ width: `${progressPercentage}%` }"
+                                                         style="background-color: {{ icons_color }};"
+                                                    ></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </template>
+                                    <template x-if="meetsFreeShippingThreshold">
+                                        <p class="text-sm md:text-base leading-normal font-normal text-gray-950"
+                                           style="color: {{ primary_color }};">
+                                            {{ 'pages.cart.text_shipping_free' | t }}
+                                        </p>
+                                    </template>
+                                </div>
+                            </template>
+                        </div>
+                    </template>
+
+                    <template x-if="showFeaturedProduct">
+                        {% if section.settings.product and section.settings.product != blank %}
+                            <div class="border border-gray-200 rounded-lg px-3 py-3 md:px-6 md:py-9"
+                                 style="border-color: {{ border_color }};">
+                                <template x-if="loading">
+                                    <div class="loading-indicator flex items-center justify-center min-h-32">
+                                        <svg class="animate-spin h-6 w-6 text-primary-main"
+                                             xmlns="http://www.w3.org/2000/svg"
+                                             fill="none" viewBox="0 0 24 24"
+                                             style="color: {{ icons_color }};">
+                                            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor"
+                                                    stroke-width="4"></circle>
+                                            <path class="opacity-75" fill="currentColor"
+                                                  d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"></path>
+                                        </svg>
+                                    </div>
+                                </template>
+                                <template x-if="!loading">
+                                    <div>
+                                        <div>
+                                            <h2 class="text-base leading-normal font-normal text-gray-950 pb-3 md:pb-4 border-b border-black border-opacity-10"
+                                                style="color: {{ primary_color }}; border-color: {{ border_color }};">
+                                                {{ 'pages.cart.new_product' | t }}
+                                            </h2>
+                                        </div>
+
+                                        <div class="mt-5 md:mt-6 relative group flex justify-between gap-1.5">
+                                            <div class="w-1/3">
+                                                <a href="{{ featured_product.url }}"
+                                                   class="block border border-gray-400 group-hover:opacity-80 aspect-h-4 aspect-w-3 overflow-hidden rounded-sm md:rounded">
+                                                    {% if featured_product.featured_image %}
+                                                        <img src="{{ featured_product.featured_image | img_url: 'master' }}"
+                                                             alt="{{ featured_product.featured_image.alt }}"
+                                                             class="w-full h-full object-cover object-center"
+                                                             loading="lazy"
+                                                        >
+                                                    {% else %}
+                                                        {{ 'product-1' | placeholder_svg_tag: 'w-full h-full object-cover object-center' }}
+                                                        <div class="absolute inset-0 bg-gradient-to-b from-transparent to-black transition-opacity duration-300 opacity-70 group-hover:opacity-0"></div>
+                                                    {% endif %}
+
+                                                    <div x-data="productCardButtons({{ selected_variant.available }})"
+                                                         class="absolute inset-0 top-1 start-1 md:top-1.5 md:start-1.5 md:opacity-0 md:group-hover:opacity-100 transition-opacity duration-300">
+                                                        <div x-cloak
+                                                             class="inline-flex flex-col bg-gray-700 rounded-full">
+                                                            <script>
+                                                                const optionsWithValues = [
+                                                                    {% for option in featured_product.options_with_values %}
+                                                                    {% assign isSwatchType = false %}
+                                                                    {% if option.values.size > 0 and option.values[0].swatch and option.values[0].swatch.color %}
+                                                                    {% assign isSwatchType = true %}
+                                                                    {% endif %}
+                                                                    {
+                                                                        name: '{{ option.name }}',
+                                                                        position: parseInt('{{ option.position }}', 10),
+                                                                        selected_value: '{{ option.values[0] }}',
+                                                                        values: [
+                                                                            {% for value in option.values %}
+                                                                            {% if value.swatch %}
+                                                                            {
+                                                                                name: '{{ value }}',
+                                                                                swatch: {
+                                                                                    color: '{{ value.swatch.color }}'
+                                                                                }
+                                                                            }
+                                                                            {% else %}
+                                                                            '{{ value }}'
+                                                                            {% endif %}
+                                                                            {% if forloop.last == false %},{% endif %}
+                                                                            {% endfor %}
+                                                                        ],
+                                                                        isSwatchType: '{{ isSwatchType }}' === 'true'
+                                                                    }
+                                                                    {% if forloop.last == false %},{% endif %}
+                                                                    {% endfor %}
+                                                                ];
+                                                            </script>
+
+                                                            <button x-on:click.prevent="openQuickView('{{ featured_product.handle }}', optionsWithValues)"
+                                                                    :disabled="loading"
+                                                                    :class="loading ? 'opacity-50': 'opacity-100'"
+                                                                    class="p-1.5 md:p-2 text-gray-100 hover:bg-primary-main hover:text-white rounded-full btn__primary">
+                                                                <span x-show="!loading">
+                                                                    {% render 'icon-eye', classes: 'size-3 md:size-4.5' %}
+                                                                </span>
+
+                                                                <!-- Spinner, shown when loading -->
+                                                                <span x-show="loading"
+                                                                      class="flex justify-center items-center">
+                                                                    <svg class="animate-spin size-3 md:size-4.5"
+                                                                         xmlns="http://www.w3.org/2000/svg" fill="none"
+                                                                         viewBox="0 0 24 24">
+                                                                        <circle class="opacity-25" cx="12" cy="12"
+                                                                                r="10" stroke="currentColor"
+                                                                                stroke-width="4"></circle>
+                                                                        <path class="opacity-75" fill="currentColor"
+                                                                              d="M4 12a8 8 0 018-8v2a6 6 0 00-6 6H4z"></path>
+                                                                    </svg>
+                                                                </span>
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                </a>
+                                            </div>
+
+                                            <div class="w-2/3 flex flex-col justify-between p-0.5 md:p-1.5">
+                                                <div class="flex items-center gap-3">
+                                                    <span class="text-xs text-gray-950 font-normal leading-normal"
+                                                          style="color: {{ primary_color }};">
+                                                        {{ selected_variant.price | money }}
+                                                    </span>
+                                                    <span class="text-[0.625rem] text-gray-500 font-normal leading-normal line-through"
+                                                          style="color: {{ secondary_light_color }};">
+                                                        {{ selected_variant.compare_at_price | money }}
+                                                    </span>
+                                                </div>
+
+                                                <div>
+                                                    <a href="{{ featured_product.url }}"
+                                                       class="text-sm font-semibold leading-snug text-gray-950"
+                                                       style="color: {{ primary_color }};">
+                                                        {{ featured_product.title | escape }}
+                                                    </a>
+                                                </div>
+
+                                                {% if featured_product.metafields.judgeme %}
+                                                    <div class="hidden">
+                                                        <div class="py-3 lg:py-6 product-rating-badge product-{{ featured_product.id }}-rating-badge">
+                                                            <div class="flex items-center">
+                                                                <!-- Start of Judge.me code -->
+                                                                <div class='jdgm-widget jdgm-preview-badge'
+                                                                     data-id='{{ featured_product.id }}'>
+                                                                    {{ featured_product.metafields.judgeme.badge }}
+                                                                </div>
+                                                                <!-- End of Judge.me code -->
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                {% endif %}
+
+                                                {% if featured_product.tags.size > 0 %}
+                                                    <div class="flex gap-0.5 md:gap-1">
+                                                        {% for tag in featured_product.tags limit: 3 %}
+                                                            <a href="{{ routes.all_products_collection_url }}"
+                                                               class="text-[0.5rem] md:text-[0.625rem] font-normal bg-gray-100 text-gray-500 rounded-full px-1.5 py-1 md:px-2.5 md:py-1">
+                                                                {{ tag }}
+                                                            </a>
+                                                        {% endfor %}
+                                                    </div>
+                                                {% endif %}
+
+                                                <div>
+                                                    <form x-on:submit="addFeatured($event)"
+                                                          novalidate="novalidate"
+                                                          data-message="{{ 'pages.cart.item_added_successfully' | t }}"
+                                                    >
+                                                        <input type="hidden" name="id"
+                                                               value="{{ selected_variant.id }}">
+                                                        <button type="submit"
+                                                                class="block w-full text-xs font-normal leading-normal text-center py-1.5 sm:py-2 border border-gray-600 rounded-sm md:rounded hover:bg-primary-main hover:text-white hover:border-primary-main btn__secondary disabled:cursor-not-allowed disabled:opacity-50"
+                                                                {% if selected_variant.available == false %}
+                                                                    disabled
+                                                                {% endif %}
+                                                        >
+                                                            {% if selected_variant.available == false %}
+                                                                {{ 'pages.product.out_of_stock' | t }}
+                                                            {% else %}
+                                                                {{ 'pages.cart.add_to_cart' | t }}
+                                                            {% endif %}
+                                                        </button>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </template>
+                            </div>
+                        {% endif %}
+                    </template>
+                    <div class="border border-gray-200 rounded-lg px-3 py-3 md:px-6 md:py-6">
+                        <template x-if="loading">
+                            <div class="loading-indicator flex items-center justify-center min-h-20">
+                                <svg class="animate-spin h-6 w-6 text-primary-main"
+                                     xmlns="http://www.w3.org/2000/svg"
+                                     fill="none" viewBox="0 0 24 24"
+                                     style="color: {{ icons_color }};">
+                                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor"
+                                            stroke-width="4"></circle>
+                                    <path class="opacity-75" fill="currentColor"
+                                          d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"></path>
+                                </svg>
+                            </div>
+                        </template>
+
+                        <template x-if="!loading">
+                            <div>
+                                <div class="flex justify-between items-center pb-3 md:pb-4 md:ps-4 md:pe-2 border-b border-black border-opacity-10">
+                                    <h3 class="text-base leading-normal font-normal text-gray-950"
+                                        style="color: {{ primary_color }};">
+                                        {{ 'pages.cart.total_price' | t }}
+                                    </h3>
+
+                                    <span class="text-base leading-normal font-bold text-gray-950"
+                                          x-text="formatMoney(totalPrice)" style="color: {{ primary_color }};"></span>
+                                </div>
+
+                                <p class="py-4 md:ps-6 text-[15px] leading-normal font-normal text-gray-700"
+                                   style="color: {{ secondary_color }};">
+                                    {{ 'pages.cart.info' | t }}
+                                </p>
+
+                                <div>
+                                    {% form 'cart', cart, novalidate: 'novalidate' %}
+                                        <button type="submit" name="checkout"
+                                                class="block w-full text-base font-normal leading-normal text-center border text-white bg-primary-main hover:bg-opacity-75 py-3 rounded-sm md:rounded btn__primary">
+                                            {{ 'pages.cart.checkout_btn' | t }}
+                                        </button>
+                                    {% endform %}
+                                </div>
+                            </div>
+                        </template>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div x-cloak
+             x-show="totalItemsCount <= 0"
+             class="py-6 flex justify-center items-center min-h-64 md:min-h-80">
+            <div class="flex flex-col justify-center items-center gap-2.5 md:gap-4 text-center">
+                <span class="text-primary-main" style="color: {{ icons_color }};">
+                    {% render 'icon-cart', classes: 'size-10' %}
+                </span>
+
+                <p class="text-base md:text-lg leading-normal font-light text-gray-950"
+                   style="color: {{ primary_color }};">
+                    {{ 'pages.cart.empty_text' | t }}
+                </p>
+
+                <a href="{{ routes.all_products_collection_url }}"
+                   class="mt-6 inline-flex items-center justify-center gap-3 text-base md:text-lg leading-normal font-normal border bg-primary-main hover:bg-opacity-75 text-white px-3.5 md:px-5 py-2.5 rounded-sm md:rounded btn__primary">
+                    <span>
+                        {{ 'pages.cart.empty_btn' | t }}
+                    </span>
+
+                    {% render 'icon-arrow-long-left', classes: 'size-6 md:size-7 ltr:rotate-180' %}
+                </a>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+{% schema %}
+{
+  "name": "t:pages.cart.name",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "enable_image",
+      "default": true,
+      "label": "t:pages.cart.settings.enable_image.label"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "t:pages.cart.settings.image.label"
+    },
+    {
+      "type": "product",
+      "id": "product",
+      "label": "t:pages.cart.settings.product.label"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_free_shipping_threshold",
+      "label": "t:pages.cart.settings.enable_free_shipping_threshold.label",
+      "default": true
+    },
+    {
+      "type": "number",
+      "id": "free_shipping_threshold",
+      "label": "t:pages.cart.settings.free_shipping_threshold.label",
+      "default": 500
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:sections.all.color_scheme.label",
+      "default": "scheme-5"
+    }
+  ]
+}
+{% endschema %}

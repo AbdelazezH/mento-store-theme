@@ -1,0 +1,295 @@
+{% assign background = section.settings.color_scheme.settings.background %}
+{% assign primary_color = section.settings.color_scheme.settings.text %}
+{% assign secondary_color = section.settings.color_scheme.settings.secondary %}
+{% assign secondary_light_color = section.settings.color_scheme.settings.secondary_light %}
+{% assign button_label = section.settings.color_scheme.settings.button_label %}
+{% assign button_bg = section.settings.color_scheme.settings.button %}
+
+<section class="bg-secondary-light mx-auto px-2 py-10 md:py-16" style="background-color: {{ background }};">
+    <div class="flex flex-col justify-center items-center gap-8 md:gap-12">
+        <div class="w-full lg:max-w-xl flex flex-col justify-center items-center text-center gap-6 md:gap-4">
+            <h2 class="text-xl md:text-3xl text-gray-900 font-medium" style="color: {{ primary_color }}">
+                {{ section.settings.title | escape }}
+            </h2>
+
+            {% if section.settings.description != blank %}
+                <p class="text-sm/6 md:text-base/6 text-gray-500 font-normal"
+                   style="color: {{ secondary_light_color }}">
+                    {{ section.settings.description | escape }}
+                </p>
+            {% endif %}
+        </div>
+
+        <!-- video -->
+        <div class="w-full flex items-center justify-center page-width">
+            {% if section.settings.video %}
+                {% if section.settings.cover_image %}
+                    {% assign poster = section.settings.cover_image | img_url: 'master' %}
+                {% elsif section.settings.video.preview_image %}
+                    {% assign poster = section.settings.video.preview_image | img_url: 'master' %}
+                {% endif %}
+
+                <div x-data="videoPlayer({{ section.settings.autoplay }})"
+                     class="relative overflow-hidden w-full max-w-7xl border border-gray-300 rounded-sm md:rounded-md">
+
+                    <div class="aspect-w-16 aspect-h-9">
+                        {{ section.settings.video | video_tag: autoplay: section.settings.autoplay, loop: section.settings.loop, muted: section.settings.muted, controls: section.settings.controls, poster: poster, x-ref: 'videoPlayer', class: 'w-full h-full object-cover object-center' }}
+                    </div>
+
+                    {% unless section.settings.controls %}
+                        <div x-cloak x-on:click="playPause();"
+                             x-bind:class="{
+                            'opacity-80': paused,
+                            'opacity-20': !paused,
+                            'pointer-events-none': loading,
+                            'pointer-events-auto': !loading
+                         }"
+                             class="flex justify-center items-center cursor-pointer bg-black absolute inset-0">
+                            <button type="button"
+                                    x-show="paused && !loading"
+                                    class="bg-white text-primary-main rounded-full size-11 sm:size-14 md:size-16 lg:size-20 flex justify-center items-center"
+                                    style="background-color: {{ button_bg }}; color: {{ button_label }};">
+                                {% render 'icon-play', classes: 'size-5 sm:size-6 md:size-7 lg:size-9 me-1' %}
+                            </button>
+
+                            <div x-show="loading"
+                                 class="animate-spin rounded-full h-12 w-12 border-t-4 border-primary-main border-opacity-50"></div>
+
+                        </div>
+                    {% endunless %}
+                </div>
+            {% elsif section.settings.video_url != blank %}
+                {% assign video_url = section.settings.video_url %}
+                {% assign autoplay = section.settings.autoplay %}
+                {% assign muted = section.settings.muted %}
+                {% assign loop = section.settings.loop %}
+                {% assign controls = section.settings.controls %}
+
+                {% if video_url contains "youtu.be" or video_url contains "youtube.com" %}
+                    {%- comment -%} Handle YouTube URL {%- endcomment -%}
+                    {% if video_url contains "youtu.be" %}
+                        {% assign video_id = video_url | split: "/" | last %}
+                    {% elsif video_url contains "youtube.com/watch" %}
+                        {% assign video_id = video_url | split: "v=" | last %}
+                        {% assign video_id = video_id | split: "&" | first %}
+                    {% elsif video_url contains "youtube.com/embed" %}
+                        {% assign video_id = video_url | split: "/" | last %}
+                    {% endif %}
+
+                    {% if controls %}
+                        {% assign controls_param = 1 %}
+                    {% else %}
+                        {% assign controls_param = 0 %}
+                    {% endif %}
+
+                    {% if autoplay %}
+                        {% assign autoplay_param = 1 %}
+                    {% else %}
+                        {% assign autoplay_param = 0 %}
+                    {% endif %}
+
+                    {% if muted %}
+                        {% assign muted_param = 1 %}
+                    {% else %}
+                        {% assign muted_param = 0 %}
+                    {% endif %}
+
+                    {% if loop %}
+                        {% assign loop_param = 1 %}
+                    {% else %}
+                        {% assign loop_param = 0 %}
+                    {% endif %}
+
+                    {% if loop_param == 1 %}
+                        {% assign playlist_param = '&playlist=' | append: video_id %}
+                    {% else %}
+                        {% assign playlist_param = '' %}
+                    {% endif %}
+
+                    <div x-data="videoPlayer({{ autoplay }}, 'youtube')"
+                         class="relative overflow-hidden w-full max-w-7xl border border-gray-300 rounded-sm md:rounded-md">
+                        <div class="aspect-w-16 aspect-h-9">
+                            <iframe x-ref="videoPlayer"
+                                    src="https://www.youtube.com/embed/{{ video_id }}?controls={{ controls_param }}&autoplay={{ autoplay_param }}&mute={{ muted_param }}&loop={{ loop_param }}{{ playlist_param }}&rel=0&enablejsapi=1"
+                                    frameborder="0"
+                                    allowfullscreen></iframe>
+                        </div>
+                        {% unless controls %}
+                            <div x-cloak x-on:click="playPause()"
+                                 x-bind:class="{
+                                    'opacity-100': !hasStarted,
+                                    'opacity-80': paused && hasStarted,
+                                    'opacity-20': !paused && hasStarted,
+                                    'pointer-events-none': loading,
+                                    'pointer-events-auto': !loading
+                                }"
+                                 class="flex justify-center items-center cursor-pointer bg-black absolute inset-0">
+                                {% if section.settings.cover_image != blank %}
+                                    <img src="{{ section.settings.cover_image | img_url: 'master' }}"
+                                         alt="{{ section.settings.cover_image.alt }}"
+                                         class="w-full h-full object-cover object-center"
+                                         loading="lazy"
+                                         x-show="!hasStarted"
+                                    >
+                                {% endif %}
+                                <button type="button"
+                                        x-show="paused && !loading"
+                                        class="bg-white text-primary-main rounded-full size-11 sm:size-14 md:size-16 lg:size-20 flex justify-center items-center absolute inset-0 mx-auto my-auto"
+                                        style="background-color: {{ button_bg }}; color: {{ button_label }};">
+                                    {% render 'icon-play', classes: 'size-5 sm:size-6 md:size-7 lg:size-9 me-1' %}
+                                </button>
+
+                                <div x-show="loading"
+                                     class="animate-spin rounded-full h-12 w-12 border-t-4 border-primary-main border-opacity-50 absolute inset-0 mx-auto my-auto"></div>
+                            </div>
+                        {% endunless %}
+                    </div>
+                {% elsif video_url contains "vimeo.com" %}
+                    {%- comment -%} Handle Vimeo URL {%- endcomment -%}
+                    {% assign video_id = video_url | split: "/" | last %}
+
+                    <div x-data="videoPlayer({{ autoplay }}, 'vimeo')"
+                         class="relative overflow-hidden w-full max-w-7xl border border-gray-300 rounded-sm md:rounded-md">
+                        <div class="aspect-w-16 aspect-h-9">
+                            <iframe x-ref="videoPlayer"
+                                    src="https://player.vimeo.com/video/{{ video_id }}?autoplay={{ autoplay }}&muted={{ muted }}&loop={{ loop }}&controls={{ controls }}"
+                                    frameborder="0"
+                                    allow="autoplay; fullscreen" allowfullscreen></iframe>
+                        </div>
+                        {% unless controls %}
+                            <div x-cloak x-on:click="playPause();"
+                                 x-bind:class="{
+                                    'opacity-100': !hasStarted,
+                                    'opacity-80': paused && hasStarted,
+                                    'opacity-20': !paused && hasStarted
+                                }"
+                                 class="flex justify-center items-center cursor-pointer bg-black absolute inset-0">
+
+                                {% if section.settings.cover_image != blank %}
+                                    <img src="{{ section.settings.cover_image | img_url: 'master' }}"
+                                         alt="{{ section.settings.cover_image.alt }}"
+                                         class="w-full h-full object-cover object-center"
+                                         loading="lazy"
+                                         x-show="!hasStarted"
+                                    >
+                                {% endif %}
+
+                                <button type="button"
+                                        x-show="paused && !loading"
+                                        class="bg-white text-primary-main rounded-full size-11 sm:size-14 md:size-16 lg:size-20 flex justify-center items-center absolute inset-0 mx-auto my-auto"
+                                        style="background-color: {{ button_bg }}; color: {{ button_label }};">
+                                    {% render 'icon-play', classes: 'size-5 sm:size-6 md:size-7 lg:size-9 me-1' %}
+                                </button>
+
+                                <div x-show="loading"
+                                     class="animate-spin rounded-full h-12 w-12 border-t-4 border-primary-main border-opacity-50 absolute inset-0 mx-auto my-auto"></div>
+                            </div>
+                        {% endunless %}
+                    </div>
+                {% else %}
+                    <p class="self-center">
+                        {{ 'sections.store-video.video_url_not_valid' | t }}
+                    </p>
+                {% endif %}
+            {% else %}
+                <div class="relative overflow-hidden group w-full max-w-7xl border border-gray-200 md:border-gray-300 rounded-sm md:rounded-md">
+                    <div class="aspect-w-16 aspect-h-9">
+                        {% if section.settings.cover_image != blank %}
+                            <img src="{{ section.settings.cover_image | img_url: 'master' }}"
+                                 alt="{{ section.settings.cover_image.alt }}"
+                                 class="w-full h-full object-cover object-center"
+                                 loading="lazy"
+                            >
+                        {% else %}
+                            {{ 'collection-5' | placeholder_svg_tag: 'object-cover object-center group-hover:opacity-75' }}
+                        {% endif %}
+                    </div>
+
+                    <div class="flex justify-center items-center cursor-pointer bg-gradient-to-b from-transparent to-black opacity-75 absolute inset-0 transition-opacity duration-300 group-hover:opacity-0">
+                        <button class="bg-secondary-light text-gray-700 rounded-full size-11 sm:size-14 md:size-16 lg:size-20 flex justify-center items-center"
+                                style="background-color: {{ background }}; color: {{ secondary_color }};">
+                            {% render 'icon-play', classes: 'size-5 sm:size-6 md:size-7 lg:size-9 me-1' %}
+                        </button>
+                    </div>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</section>
+
+{% schema %}
+{
+  "name": "t:sections.store-video.name",
+  "settings": [
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:sections.all.color_scheme.label",
+      "default": "scheme-4"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "t:sections.store-video.settings.title.label",
+      "default": "t:sections.store-video.settings.title.default"
+    },
+    {
+      "type": "textarea",
+      "id": "description",
+      "label": "t:sections.store-video.settings.description.label"
+    },
+    {
+      "type": "video",
+      "id": "video",
+      "label": "t:sections.store-video.settings.video.label"
+    },
+    {
+      "type": "text",
+      "id": "video_url",
+      "label": "t:sections.store-video.settings.video_url.label",
+      "info": "t:sections.store-video.settings.video_url.info"
+    },
+    {
+      "type": "image_picker",
+      "id": "cover_image",
+      "label": "t:sections.store-video.settings.cover_image.label"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.store-video.settings.header-1.content"
+    },
+    {
+      "type": "checkbox",
+      "id": "controls",
+      "label": "t:sections.store-video.settings.controls.label",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "autoplay",
+      "label": "t:sections.store-video.settings.autoplay.label",
+      "default": false,
+      "info": "t:sections.store-video.settings.autoplay.info"
+    },
+    {
+      "type": "checkbox",
+      "id": "loop",
+      "label": "t:sections.store-video.settings.loop.label",
+      "default": false,
+      "info": "t:sections.store-video.settings.loop.info"
+    },
+    {
+      "type": "checkbox",
+      "id": "muted",
+      "label": "t:sections.store-video.settings.muted.label",
+      "default": true,
+      "info": "t:sections.store-video.settings.muted.info"
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:sections.store-video.name"
+    }
+  ]
+}
+{% endschema %}

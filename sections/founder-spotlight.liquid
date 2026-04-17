@@ -1,0 +1,91 @@
+<div class="bg-white px-2 md:px-6 py-6 md:py-8">
+    <div class="bg-primary-light py-12 rounded sm:rounded-md page-width"
+         style="background-color: {{ section.settings.color_scheme.settings.background }};"
+    >
+        <div class="max-w-80 sm:max-w-md md:max-w-xl lg:max-w-3xl mx-auto text-center pb-9 md:pb-0">
+            <div class="flex flex-col items-center justify-center gap-12 text-white"
+                 style="color: {{ section.settings.color_scheme.settings.text }};"
+            >
+                <div class="flex flex-col items-center justify-center gap-2">
+                    {% if section.settings.enable_founder_img %}
+                        <div class="size-12 md:size-14 bg-gray-300 rounded-full">
+                            {% if section.settings.founder_img != blank %}
+                                <img src="{{ section.settings.founder_img | img_url: 'master' }}"
+                                     alt="{{ section.settings.founder_img.alt }}"
+                                     class="w-full h-full object-cover object-center rounded-full"
+                                     loading="lazy"
+                                >
+                            {% endif %}
+                        </div>
+                    {% endif %}
+
+                    {% if section.settings.founder_name != blank %}
+                        <h2 class="text-xl md:text-2xl lg:text-3xl font-normal leading-snug">
+                            {{ section.settings.founder_name }}
+                        </h2>
+                    {% endif %}
+
+                    {% if section.settings.founder_role != blank %}
+                        <span class="text-xs md:text-base font-normal leading-snug">
+                            {{ section.settings.founder_role }}
+                        </span>
+                    {% endif %}
+                </div>
+
+                {% if section.settings.founder_quote != blank %}
+                    <p class="text-xs md:text-xl font-normal !leading-loose">
+                        "{{ section.settings.founder_quote }}"
+                    </p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+{% schema %}
+{
+  "name": "t:sections.founder-spotlight.name",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "enable_founder_img",
+      "label": "t:sections.founder-spotlight.settings.enable_founder_img.label",
+      "default": true
+    },
+    {
+      "type": "image_picker",
+      "id": "founder_img",
+      "label": "t:sections.founder-spotlight.settings.founder_img.label"
+    },
+    {
+      "type": "text",
+      "id": "founder_name",
+      "label": "t:sections.founder-spotlight.settings.founder_name.label",
+      "default": "t:sections.founder-spotlight.settings.founder_name.default"
+    },
+    {
+      "type": "text",
+      "id": "founder_role",
+      "label": "t:sections.founder-spotlight.settings.founder_role.label",
+      "default": "t:sections.founder-spotlight.settings.founder_role.default"
+    },
+    {
+      "type": "textarea",
+      "id": "founder_quote",
+      "label": "t:sections.founder-spotlight.settings.founder_quote.label",
+      "default": "t:sections.founder-spotlight.settings.founder_quote.default"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:sections.all.color_scheme.label",
+      "default": "scheme-1"
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:sections.founder-spotlight.name"
+    }
+  ]
+}
+{% endschema %}

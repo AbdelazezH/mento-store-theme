@@ -1,0 +1,15 @@
+{
+  "sections": {
+    "contact-form": {
+      "type": "contact-form",
+      "settings": {
+        "title": "تواصل معنا",
+        "enable_phone": true,
+        "enable_subject": false
+      }
+    }
+  },
+  "order": [
+    "contact-form"
+  ]
+}

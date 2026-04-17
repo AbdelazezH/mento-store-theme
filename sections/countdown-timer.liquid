@@ -1,0 +1,293 @@
+{% assign background = section.settings.color_scheme.settings.background %}
+{% assign primary_color = section.settings.color_scheme.settings.text %}
+{% assign secondary_color = section.settings.color_scheme.settings.secondary %}
+{% assign button_label = section.settings.color_scheme.settings.button_label %}
+{% assign button_bg = section.settings.color_scheme.settings.button %}
+
+<div class="bg-white mx-auto px-2 py-6 md:py-10" style="background-color: {{ background }};">
+    <div class="flex items-center justify-center page-width">
+        <div class="relative overflow-hidden w-full rounded-sm">
+            <div class="aspect-w-4 aspect-h-4 md:aspect-w-16 md:aspect-h-9">
+                {% if section.settings.image != blank %}
+                    <img src="{{ section.settings.image | img_url: 'master' }}" alt="{{ section.settings.image.alt }}"
+                         class="object-cover object-center w-full h-full" loading="lazy">
+                {% else %}
+                    {{ 'collection-5' | placeholder_svg_tag: 'object-cover object-center w-full h-full' }}
+                {% endif %}
+            </div>
+
+            {% assign enable_overlay = section.settings.enable_overlay %}
+            {% assign overlay_color = section.settings.overlay_color %}
+            {% assign overlay_opacity = section.settings.overlay_opacity | times: 1.0 | divided_by: 100 %}
+
+            <div class="flex {{ section.settings.justify_content }} {{ section.settings.align_items }} absolute inset-0"
+                style="{% if enable_overlay %}background-color: rgba({{ overlay_color.red }}, {{ overlay_color.green }}, {{ overlay_color.blue }}, {{ overlay_opacity }});{% endif %}">
+                <div class="max-w-xs md:max-w-lg xl:max-w-2xl flex flex-col items-center text-center p-3 gap-6">
+
+                    {% if section.settings.title != blank %}
+                        <h2 class="text-xl/snug md:text-2xl/snug lg:text-5xl/snug text-white font-semibold"
+                            style="color: {{ primary_color }};">
+                            {{ section.settings.title }}
+                        </h2>
+                    {% endif %}
+
+                    {% if section.settings.sub != blank %}
+                        <p class="text-sm/5 md:text-lg/snug lg:text-xl/snug text-gray-100 font-normal"
+                           style="color: {{ secondary_color }};">
+                            {{ section.settings.sub }}
+                        </p>
+                    {% endif %}
+
+                    {% liquid
+                        assign autoplay = section.settings.autoplay
+                        assign endDate = section.settings.end_date
+                        assign show_days = section.settings.show_days
+                        assign show_countdown = section.settings.show_countdown
+                    %}
+
+                    {% if show_countdown %}
+                        <!-- Countdown timer -->
+                        <div x-data="Countdown('{{ endDate }}', {{ autoplay }}, {{ show_days }})" dir="rtl">
+                            <div x-cloak class="flex flex-row justify-center items-center gap-2 md:gap-2.5 text-white"
+                                 style="color: {{ primary_color }};">
+                                <div class="flex gap-1 md:gap-1.5">
+                                    <div class="flex flex-col items-center">
+                                        <div class="text-3xl/snug md:text-4xl/snug lg:text-6xl/snug">
+                                            <span x-text="seconds"></span>
+                                        </div>
+                                        <span class="text-[10px] md:text-base font-bold">
+                                        {{ section.settings.seconds_label }}
+                                    </span>
+                                    </div>
+                                    <div class="flex flex-col items-center">
+                                        <div class="flex gap-1 md:gap-1.5 text-3xl/snug md:text-4xl/snug lg:text-6xl/snug">
+                                            <span class="-mt-0.5 md:-mt-1">:</span>
+                                            <span x-text="minutes"></span>
+                                            <span class="-mt-0.5 md:-mt-1">:</span>
+                                        </div>
+                                        <span class="text-[10px] md:text-base font-bold">
+                                        {{ section.settings.minutes_label }}
+                                    </span>
+                                    </div>
+                                    <div class="flex flex-col items-center">
+                                        <div class="text-3xl/snug md:text-4xl/snug lg:text-6xl/snug">
+                                            <span x-text="hours"></span>
+                                        </div>
+                                        <span class="text-[10px] md:text-base font-bold">
+                                        {{ section.settings.hours_label }}
+                                    </span>
+                                    </div>
+                                </div>
+
+                                {% if show_days %}
+                                    <div>
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                             stroke-width="1.5" stroke="currentColor"
+                                             class="-mt-4 md:-mt-6 size-8 md:size-[4.5rem]">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="m9 20.247 6-16.5"/>
+                                        </svg>
+                                    </div>
+
+                                    <!-- days -->
+                                    <div class="flex flex-col items-center">
+                                        <div class="text-3xl/snug md:text-4xl/snug lg:text-6xl/snug">
+                                            <span x-text="days"></span>
+                                        </div>
+                                        <span class="text-[10px] md:text-base font-bold">
+                                        {{ section.settings.days_label }}
+                                    </span>
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                        <!-- End -->
+                    {% endif %}
+
+                    {% if section.settings.btn_text != blank %}
+                        <a href="{{ section.settings.btn_link }}"
+                           class="text-xs md:text-xl leading-normal bg-white hover:bg-opacity-90 text-primary-main rounded-sm md:mt-4 px-6 py-3"
+                           style="color: {{ button_label }}; background-color: {{ button_bg }};">
+                            {{ section.settings.btn_text }}
+                        </a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% schema %}
+{
+  "name": "t:sections.countdown-timer.name",
+  "settings": [
+    {
+      "type": "header",
+      "content": "t:sections.countdown-timer.settings.header-1.content"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "t:sections.countdown-timer.settings.image.label",
+      "info": "t:sections.countdown-timer.settings.image.info"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "t:sections.countdown-timer.settings.title.label",
+      "default": "t:sections.countdown-timer.settings.title.default"
+    },
+    {
+      "type": "text",
+      "id": "sub",
+      "label": "t:sections.countdown-timer.settings.sub.label",
+      "default": "t:sections.countdown-timer.settings.sub.default"
+    },
+    {
+      "type": "text",
+      "id": "btn_text",
+      "label": "t:sections.countdown-timer.settings.btn_text.label",
+      "default": "t:sections.countdown-timer.settings.btn_text.default"
+    },
+    {
+      "type": "url",
+      "id": "btn_link",
+      "label": "t:sections.countdown-timer.settings.btn_url.label",
+      "default": "/collections/all"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.countdown-timer.settings.header-2.content"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:sections.all.color_scheme.label",
+      "default": "scheme-8"
+    },
+    {
+      "type": "select",
+      "id": "justify_content",
+      "label": "t:sections.countdown-timer.settings.justify_content.label",
+      "default": "justify-center",
+      "options": [
+        {
+          "value": "justify-right",
+          "label": "t:sections.countdown-timer.settings.justify_content.options.justify-right.label"
+        },
+        {
+          "value": "justify-center",
+          "label": "t:sections.countdown-timer.settings.justify_content.options.justify-center.label"
+        },
+        {
+          "value": "justify-left",
+          "label": "t:sections.countdown-timer.settings.justify_content.options.justify-left.label"
+        }
+      ]
+    },
+    {
+      "type": "select",
+      "id": "align_items",
+      "label": "t:sections.countdown-timer.settings.align_items.label",
+      "default": "items-center",
+      "options": [
+        {
+          "value": "items-start",
+          "label": "t:sections.countdown-timer.settings.align_items.options.items-start.label"
+        },
+        {
+          "value": "items-center",
+          "label": "t:sections.countdown-timer.settings.align_items.options.items-center.label"
+        },
+        {
+          "value": "items-end",
+          "label": "t:sections.countdown-timer.settings.align_items.options.items-end.label"
+        }
+      ]
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_overlay",
+      "label": "t:sections.countdown-timer.settings.enable_overlay.label",
+      "default": true
+    },
+    {
+      "type": "color",
+      "id": "overlay_color",
+      "label": "t:sections.countdown-timer.settings.overlay_color.label",
+      "default": "#000000"
+    },
+    {
+      "type": "range",
+      "id": "overlay_opacity",
+      "label": "t:sections.countdown-timer.settings.overlay_opacity.label",
+      "default": 60,
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "%"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.countdown-timer.settings.header-3.content"
+    },
+    {
+      "type": "text",
+      "id": "end_date",
+      "label": "t:sections.countdown-timer.settings.end_date.label",
+      "default": "October 11, 2024 23:59:59 GMT+01",
+      "info": "t:sections.countdown-timer.settings.end_date.info"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_countdown",
+      "label": "t:sections.countdown-timer.settings.show_countdown.label",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "autoplay",
+      "label": "t:sections.countdown-timer.settings.autoplay.label",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_days",
+      "label": "t:sections.countdown-timer.settings.show_days.label",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "days_label",
+      "label": "t:sections.countdown-timer.settings.days_label.label",
+      "default": "t:sections.countdown-timer.settings.days_label.default",
+      "info": "t:sections.countdown-timer.settings.days_label.info"
+    },
+    {
+      "type": "text",
+      "id": "hours_label",
+      "label": "t:sections.countdown-timer.settings.hours_label.label",
+      "default": "t:sections.countdown-timer.settings.hours_label.default",
+      "info": "t:sections.countdown-timer.settings.hours_label.info"
+    },
+    {
+      "type": "text",
+      "id": "minutes_label",
+      "label": "t:sections.countdown-timer.settings.minutes_label.label",
+      "default": "t:sections.countdown-timer.settings.minutes_label.default",
+      "info": "t:sections.countdown-timer.settings.minutes_label.info"
+    },
+    {
+      "type": "text",
+      "id": "seconds_label",
+      "label": "t:sections.countdown-timer.settings.seconds_label.label",
+      "default": "t:sections.countdown-timer.settings.seconds_label.default",
+      "info": "t:sections.countdown-timer.settings.seconds_label.info"
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:sections.countdown-timer.name"
+    }
+  ]
+}
+{% endschema %}

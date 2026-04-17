@@ -1,0 +1,41 @@
+<div x-data="{
+    checkedValues: [{% for filter_value in filter.values %}{% if filter_value.active %}'{{ filter_value.value }}'{% if forloop.last == false %}, {% endif %}{% endif %}{% endfor %}],
+    toggle(value) {
+        if (this.checkedValues.includes(value)) {
+            this.checkedValues = this.checkedValues.filter(v => v !== value);
+        } else {
+            this.checkedValues.push(value);
+        }
+
+        this.$dispatch('filter-updated', { component: this });
+    }
+}" class="mt-4 flex flex-col gap-2">
+    {%- for filter_value in filter.values -%}
+        {% assign filter_value_translation_key = 'pages.collection.filter_options.' | append: filter_value.label | downcase | replace: ' ', '_' %}
+        {% assign translated_filter_value_label = filter_value_translation_key | t %}
+
+        <label class="flex items-center gap-3 cursor-pointer filter-label">
+            <input type="checkbox"
+                   name="{{ filter_value.param_name }}"
+                   value="{{ filter_value.value }}"
+                   {% if filter_value.count == 0 and filter_value.active == false -%}disabled{%- endif %}
+                   :checked="checkedValues.includes('{{ filter_value.value }}')"
+                   @change="toggle('{{ filter_value.value }}')"
+                   class="sr-only"/>
+            <span class="size-[1.125rem] md:size-6 flex justify-center items-center border border-gray-400 rounded md:rounded-md">
+                <span class="text-primary-main"
+                      x-show="checkedValues.includes('{{ filter_value.value }}')">
+                    {% render 'icon-checkbox', classes: 'size-4 md:size-[1.125rem]' %}
+                </span>
+            </span>
+            <span class="text-sm md:text-base text-gray-900"
+                  style="color: {{ section.settings.color_scheme.settings.text }};">
+                {% if translated_filter_value_label contains 'Translation missing' %}
+                    {{ filter_value.label }}
+                {% else %}
+                    {{ translated_filter_value_label }}
+                {% endif %}
+            </span>
+        </label>
+    {%- endfor -%}
+</div>

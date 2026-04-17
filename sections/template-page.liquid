@@ -1,0 +1,58 @@
+{% assign background = section.settings.color_scheme.settings.background %}
+{% assign primary_color = section.settings.color_scheme.settings.text %}
+{% assign secondary_color = section.settings.color_scheme.settings.secondary %}
+{% assign secondary_light_color = section.settings.color_scheme.settings.secondary_light %}
+
+<style>
+    .page__content p,
+    .page__content ul li,
+    .page__content ol li {
+        color: {{ secondary_color }};
+    }
+</style>
+
+<div class="bg-white px-2 md:px-6 py-6 md:py-8" style="background-color: {{ background }};">
+    <!-- Breadcrumbs -->
+    <div class="breadcrumbs flex items-center gap-2 page-width">
+        <a href="{{ routes.root_url }}"
+           class="text-xs md:text-base leading-normal font-normal text-black"
+           style="color: {{ primary_color }};">
+            {{ 'general.breadcrumbs.home' | t }}
+        </a>
+        <span style="color: {{ primary_color }}">
+            {% render 'icon-chevron-left', classes: 'size-4 ltr:rotate-180' %}
+        </span>
+        <span class="text-xs md:text-base leading-normal font-normal text-gray-500"
+              style="color: {{ secondary_light_color }};">
+            {{ page.title }}
+        </span>
+    </div>
+
+    <div class="mx-auto max-w-7xl py-6 sm:py-12 lg:px-8 lg:py-24">
+        <div class="flex justify-start items-center">
+            <h2 class="text-[1.375rem] md:text-2xl lg:text-3xl font-medium leading-10 text-gray-900"
+                style="color: {{ primary_color }};">
+                {{ page.title }}
+            </h2>
+        </div>
+
+        <div class="page__content mt-8 md:mt-14">
+            {{ page.content }}
+        </div>
+    </div>
+
+</div>
+
+{% schema %}
+{
+  "name": "t:pages.page.name",
+  "settings": [
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:sections.all.color_scheme.label",
+      "default": "scheme-6"
+    }
+  ]
+}
+{% endschema %}

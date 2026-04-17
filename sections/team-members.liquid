@@ -1,0 +1,222 @@
+<div class="bg-white px-2 md:px-6 py-6 md:py-8 lg:py-10"
+     style="background-color: {{ section.settings.color_scheme.settings.background }};">
+    <div class="flex justify-center items-center mb-6 md:mb-12">
+        {% if section.settings.title != blank %}
+            <h2 class="text-xl md:text-4xl font-normal leading-normal text-gray-900"
+                style="color: {{ section.settings.color_scheme.settings.secondary }};">
+                {{ section.settings.title }}
+            </h2>
+        {% endif %}
+    </div>
+
+    {% assign items_count = section.blocks.size %}
+
+    {% if items_count > 0 %}
+        {% if items_count <= 4 %}
+            {% case items_count %}
+                {% when 1 %}
+                    {% assign grid_cols = 'grid-cols-4 md:grid-cols-8' %}
+                {% when 2 %}
+                    {% assign grid_cols = 'grid-cols-2 md:grid-cols-4' %}
+                {% when 3 %}
+                    {% assign grid_cols = 'grid-cols-4 md:grid-cols-8' %}
+                {% else %}
+                    {% assign grid_cols = 'grid-cols-2 md:grid-cols-4' %}
+            {% endcase %}
+            <div class="grid {{ grid_cols }} gap-6 md:gap-16 page-width">
+                {% for block in section.blocks %}
+                    {% if items_count == 1 %}
+                        {% assign start_class = 'col-span-2 col-start-2 md:col-start-4' %}
+                    {% elsif items_count == 2 %}
+                        {% if forloop.index == 1 %}
+                            {% assign start_class = 'md:col-start-2' %}
+                        {% else %}
+                            {% assign start_class = 'md:col-start-3' %}
+                        {% endif %}
+                    {% elsif items_count == 3 %}
+                        {% if forloop.index == 1 %}
+                            {% assign start_class = 'col-span-2 md:col-start-2' %}
+                        {% elsif forloop.index == 2 %}
+                            {% assign start_class = 'col-span-2 md:col-start-4' %}
+                        {% else %}
+                            {% assign start_class = 'col-span-2 col-start-2 md:col-start-6' %}
+                        {% endif %}
+                    {% else %}
+                        {% assign start_class = '' %}
+                    {% endif %}
+                    <div class="{{ start_class }}">
+                        {% render 'team-member', member: block.settings %}
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <div id="swiper_{{ section.id }}"
+                 class="swiper team-members__swiper page-width !hidden"
+                 data-autoplay="{{ section.settings.enable_autoplay }}">
+                <div class="swiper-wrapper">
+                    {% for block in section.blocks %}
+                        {% render 'team-member', member: block.settings %}
+                    {% endfor %}
+                </div>
+
+                {% if section.settings.enable_navigation %}
+                    <div class="navigation__btns">
+                        <div class="swiper-button-prev" style="color: {{ section.settings.nav_btn_color }};"></div>
+                        <div class="swiper-button-next" style="color: {{ section.settings.nav_btn_color }};"></div>
+                    </div>
+                {% endif %}
+            </div>
+        {% endif %}
+    {% endif %}
+</div>
+
+{% schema %}
+{
+  "name": "t:sections.team-members.name",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "t:sections.team-members.settings.title.label",
+      "default": "t:sections.team-members.settings.title.default"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:sections.all.color_scheme.label",
+      "default": "scheme-7"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.team-members.settings.header-1.content"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_navigation",
+      "label": "t:sections.team-members.settings.enable_navigation.label",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_autoplay",
+      "label": "t:sections.team-members.settings.enable_autoplay.label",
+      "default": false
+    },
+    {
+      "type": "color",
+      "id": "nav_btn_color",
+      "label": "t:sections.team-members.settings.nav_btn_color.label",
+      "default": "#217BAF"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.team-members.settings.header-2.content"
+    },
+    {
+      "type": "textarea",
+      "id": "icon_1",
+      "label": "t:sections.team-members.settings.icon_1.label",
+      "info": "t:sections.team-members.settings.icon_1.info",
+      "default": "<svg class=\"size-5 md:size-6\" xmlns=\"http://www.w3.org/2000/svg\" fill=\"none\" viewBox=\"0 0 24 24\" stroke-width=\"1.5\" stroke=\"currentColor\"> <path stroke-linecap=\"round\" stroke-linejoin=\"round\" d=\"M12 21a9.004 9.004 0 0 0 8.716-6.747M12 21a9.004 9.004 0 0 1-8.716-6.747M12 21c2.485 0 4.5-4.03 4.5-9S14.485 3 12 3m0 18c-2.485 0-4.5-4.03-4.5-9S9.515 3 12 3m0 0a8.997 8.997 0 0 1 7.843 4.582M12 3a8.997 8.997 0 0 0-7.843 4.582m15.686 0A11.953 11.953 0 0 1 12 10.5c-2.998 0-5.74-1.1-7.843-2.918m15.686 0A8.959 8.959 0 0 1 21 12c0 .778-.099 1.533-.284 2.253m0 0A17.919 17.919 0 0 1 12 16.5c-3.162 0-6.133-.815-8.716-2.247m0 0A9.015 9.015 0 0 1 3 12c0-1.605.42-3.113 1.157-4.418\" /></svg>"
+    },
+    {
+      "type": "textarea",
+      "id": "icon_2",
+      "label": "t:sections.team-members.settings.icon_2.label",
+      "info": "t:sections.team-members.settings.icon_2.info",
+      "default": "<svg class=\"size-5 md:size-6\" xmlns=\"http://www.w3.org/2000/svg\" fill=\"currentColor\" viewBox=\"0 0 24 24\"> <path d=\"M13.795 10.533 20.68 2h-3.073l-5.255 6.517L7.69 2H1l7.806 10.91L1.47 22h3.074l5.705-7.07L15.31 22H22l-8.205-11.467Zm-2.38 2.95L9.97 11.464 4.36 3.627h2.31l4.528 6.317 1.443 2.02 6.018 8.409h-2.31l-4.934-6.89Z\"/></svg>"
+    },
+    {
+      "type": "textarea",
+      "id": "icon_3",
+      "label": "t:sections.team-members.settings.icon_3.label",
+      "info": "t:sections.team-members.settings.icon_3.info",
+      "default": "<svg class=\"size-5 md:size-6\" viewBox=\"0 0 18 19\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\"> <path fill-rule=\"evenodd\" clip-rule=\"evenodd\" d=\"M1.5 0.242676C0.67157 0.242676 0 0.914246 0 1.74268V16.7427C0 17.5711 0.67157 18.2427 1.5 18.2427H16.5C17.3284 18.2427 18 17.5711 18 16.7427V1.74268C18 0.914246 17.3284 0.242676 16.5 0.242676H1.5ZM5.52076 4.2454C5.52639 5.20165 4.81061 5.79087 3.96123 5.78665C3.16107 5.78243 2.46357 5.1454 2.46779 4.24681C2.47201 3.40165 3.13998 2.72243 4.00764 2.74212C4.88795 2.76181 5.52639 3.40728 5.52076 4.2454ZM9.2797 7.00444H6.75971H6.7583V15.5643H9.4217V15.3646C9.4217 14.9847 9.4214 14.6047 9.4211 14.2246C9.4203 13.2108 9.4194 12.1959 9.4246 11.1824C9.426 10.9363 9.4372 10.6804 9.5005 10.4455C9.7381 9.56798 10.5271 9.00128 11.4074 9.14058C11.9727 9.22908 12.3467 9.55678 12.5042 10.0898C12.6013 10.423 12.6449 10.7816 12.6491 11.129C12.6605 12.1766 12.6589 13.2242 12.6573 14.2719C12.6567 14.6417 12.6561 15.0117 12.6561 15.3815V15.5629H15.328V15.3576C15.328 14.9056 15.3278 14.4537 15.3275 14.0018C15.327 12.8723 15.3264 11.7428 15.3294 10.6129C15.3308 10.1024 15.276 9.59898 15.1508 9.10538C14.9638 8.37128 14.5771 7.76378 13.9485 7.32508C13.5027 7.01287 13.0133 6.81178 12.4663 6.78928C12.404 6.78669 12.3412 6.7833 12.2781 6.77989C11.9984 6.76477 11.7141 6.74941 11.4467 6.80334C10.6817 6.95662 10.0096 7.30678 9.5019 7.92408C9.4429 7.99488 9.3852 8.06678 9.2991 8.17408L9.2797 8.19838V7.00444ZM2.68164 15.5671H5.33242V7.01001H2.68164V15.5671Z\" fill=\"currentColor\"/></svg>"
+    },
+    {
+      "type": "textarea",
+      "id": "icon_4",
+      "label": "t:sections.team-members.settings.icon_4.label",
+      "info": "t:sections.team-members.settings.icon_4.info",
+      "default": "<svg class=\"size-5 md:size-6\" xmlns=\"http://www.w3.org/2000/svg\" fill=\"currentColor\" viewBox=\"0 0 24 24\"> <path fill-rule=\"evenodd\" d=\"M12.006 2a9.847 9.847 0 0 0-6.484 2.44 10.32 10.32 0 0 0-3.393 6.17 10.48 10.48 0 0 0 1.317 6.955 10.045 10.045 0 0 0 5.4 4.418c.504.095.683-.223.683-.494 0-.245-.01-1.052-.014-1.908-2.78.62-3.366-1.21-3.366-1.21a2.711 2.711 0 0 0-1.11-1.5c-.907-.637.07-.621.07-.621.317.044.62.163.885.346.266.183.487.426.647.71.135.253.318.476.538.655a2.079 2.079 0 0 0 2.37.196c.045-.52.27-1.006.635-1.37-2.219-.259-4.554-1.138-4.554-5.07a4.022 4.022 0 0 1 1.031-2.75 3.77 3.77 0 0 1 .096-2.713s.839-.275 2.749 1.05a9.26 9.26 0 0 1 5.004 0c1.906-1.325 2.74-1.05 2.74-1.05.37.858.406 1.828.101 2.713a4.017 4.017 0 0 1 1.029 2.75c0 3.939-2.339 4.805-4.564 5.058a2.471 2.471 0 0 1 .679 1.897c0 1.372-.012 2.477-.012 2.814 0 .272.18.592.687.492a10.05 10.05 0 0 0 5.388-4.421 10.473 10.473 0 0 0 1.313-6.948 10.32 10.32 0 0 0-3.39-6.165A9.847 9.847 0 0 0 12.007 2Z\" clip-rule=\"evenodd\"/></svg>"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "member",
+      "name": "t:sections.team-members.blocks.member.name",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "t:sections.team-members.blocks.member.settings.image.label"
+        },
+        {
+          "type": "text",
+          "id": "name",
+          "label": "t:sections.team-members.blocks.member.settings.name.label",
+          "default": "t:sections.team-members.blocks.member.settings.name.default"
+        },
+        {
+          "type": "text",
+          "id": "job_title",
+          "label": "t:sections.team-members.blocks.member.settings.job_title.label",
+          "default": "t:sections.team-members.blocks.member.settings.job_title.default"
+        },
+        {
+          "type": "text",
+          "id": "description",
+          "label": "t:sections.team-members.blocks.member.settings.description.label",
+          "default": "t:sections.team-members.blocks.member.settings.description.default"
+        },
+        {
+          "type": "header",
+          "content": "t:sections.team-members.blocks.member.settings.header-1.content"
+        },
+        {
+          "type": "text",
+          "id": "link_1",
+          "label": "t:sections.team-members.blocks.member.settings.link_1.label",
+          "default": "#"
+        },
+        {
+          "type": "text",
+          "id": "link_2",
+          "label": "t:sections.team-members.blocks.member.settings.link_2.label",
+          "default": "#"
+        },
+        {
+          "type": "text",
+          "id": "link_3",
+          "label": "t:sections.team-members.blocks.member.settings.link_3.label",
+          "default": "#"
+        },
+        {
+          "type": "text",
+          "id": "link_4",
+          "label": "t:sections.team-members.blocks.member.settings.link_4.label"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:sections.team-members.name",
+      "blocks": [
+        {
+          "type": "member"
+        },
+        {
+          "type": "member"
+        },
+        {
+          "type": "member"
+        },
+        {
+          "type": "member"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

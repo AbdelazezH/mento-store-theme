@@ -1,0 +1,83 @@
+<div class="bg-white px-2 md:px-6 py-6 md:py-8"
+     style="background-color: {{ section.settings.color_scheme.settings.background }};">
+    <div class="page-width">
+      {% render
+              'image-with-content',
+              title: section.settings.title,
+              content: section.settings.content,
+              button_label: section.settings.button_label,
+              button_link: section.settings.button_link,
+              image: section.settings.image,
+              image_position: section.settings.image_position,
+              title_color: section.settings.color_scheme.settings.text,
+              content_color: section.settings.color_scheme.settings.secondary,
+              btn_bg_color: section.settings.color_scheme.settings.button,
+              btn_text_color: section.settings.color_scheme.settings.button_label
+      %}
+    </div>
+</div>
+
+{% schema %}
+{
+  "name": "t:sections.image-with-content.name",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "t:sections.image-with-content.settings.image.label"
+    },
+    {
+      "type": "select",
+      "id": "image_position",
+      "label": "t:sections.image-with-content.settings.image_position.label",
+      "default": "start",
+      "options": [
+        {
+          "value": "start",
+          "label": "t:sections.image-with-content.settings.image_position.options.start.label"
+        },
+        {
+          "value": "end",
+          "label": "t:sections.image-with-content.settings.image_position.options.end.label"
+        }
+      ]
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "t:sections.image-with-content.settings.title.label",
+      "default": "t:sections.image-with-content.settings.title.default"
+    },
+    {
+      "type": "textarea",
+      "id": "content",
+      "label": "t:sections.image-with-content.settings.content.label",
+      "default": "t:sections.image-with-content.settings.content.default",
+      "info": "t:sections.image-with-content.settings.content.info"
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "t:sections.image-with-content.settings.button_label.label",
+      "default": "t:sections.image-with-content.settings.button_label.default"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "t:sections.image-with-content.settings.button_link.label",
+      "default": "/collections/all"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:sections.all.color_scheme.label",
+      "default": "scheme-5"
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:sections.image-with-content.name"
+    }
+  ]
+}
+{% endschema %}

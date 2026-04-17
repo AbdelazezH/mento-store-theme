@@ -1,0 +1,183 @@
+.store-features__swiper {
+  position: static !important;
+
+  .swiper-pagination-progressbar {
+    @apply bg-gray-50 h-0.5 !important;
+  }
+
+  .swiper-pagination-progressbar-fill {
+    @apply bg-primary-main !important;
+  }
+}
+
+.testimonials__swiper {
+  .swiper-backface-hidden {
+    .swiper-slide {
+      @apply scale-95 md:scale-90 !important;
+    }
+
+    .swiper-slide.swiper-slide-active{
+      @apply scale-100 !important;
+    }
+  }
+
+  .swiper-slide.swiper-slide-active {
+    @apply scale-100 opacity-100 !important;
+  }
+
+  .swiper-pagination {
+    @apply static w-auto h-auto flex justify-center gap-1 md:gap-2 !important;
+  }
+
+  .swiper-pagination-bullet {
+    @apply size-1.5 md:size-2.5 bg-slate-600 rounded-full;
+  }
+
+  .swiper-pagination-bullet-active {
+    @apply w-3.5 h-1.5 md:w-7 md:h-2.5 rounded-full;
+  }
+
+  .swiper-button-next,
+  .swiper-button-prev {
+    @apply static w-auto h-auto my-auto !important;
+  }
+
+  .swiper-button-prev::after,
+  .swiper-button-next::after {
+    @apply text-xl md:text-3xl font-semibold;
+  }
+}
+
+.featured-collection__swiper,
+.product-recommendations__swiper {
+  .swiper-button-next,
+  .swiper-button-prev {
+    @apply left-auto right-auto top-[35%] md:top-[40%] !important;
+  }
+
+  .swiper-button-prev::after,
+  .swiper-button-next::after {
+    @apply text-[22px] md:text-5xl font-medium md:font-normal;
+  }
+
+  .swiper-button-next {
+    @apply end-0.5 md:end-2.5 !important;
+  }
+
+  .swiper-button-prev {
+    @apply start-0.5 md:start-2.5 !important;
+  }
+}
+
+.latest-articles__swiper {
+  .swiper-button-next,
+  .swiper-button-prev {
+    @apply left-auto right-auto top-[31%] md:top-[36%] !important;
+  }
+
+  .swiper-button-prev::after,
+  .swiper-button-next::after {
+    @apply text-[22px] md:text-5xl font-medium md:font-normal;
+  }
+
+  .swiper-button-next {
+    @apply end-0.5 md:end-2.5 !important;
+  }
+
+  .swiper-button-prev {
+    @apply start-0.5 md:start-2.5 !important;
+  }
+}
+
+.team-members__swiper {
+  .swiper-button-next,
+  .swiper-button-prev {
+    @apply left-auto right-auto top-[31%] md:top-[32%] !important;
+  }
+
+  .swiper-button-prev::after,
+  .swiper-button-next::after {
+    @apply text-[22px] md:text-5xl font-medium md:font-normal;
+  }
+
+  .swiper-button-next {
+    @apply end-0.5 md:end-2.5 !important;
+  }
+
+  .swiper-button-prev {
+    @apply start-0.5 md:start-2.5 !important;
+  }
+}
+
+.store-statistics__swiper {
+  .swiper-button-next,
+  .swiper-button-prev {
+    @apply left-auto right-auto !important;
+  }
+
+  .swiper-button-prev::after,
+  .swiper-button-next::after {
+    @apply text-[22px] md:text-[40px] font-medium md:font-normal;
+  }
+
+  .swiper-button-next {
+    @apply end-0.5 md:end-2.5 !important;
+  }
+
+  .swiper-button-prev {
+    @apply start-0.5 md:start-2.5 !important;
+  }
+}
+
+.thumbnail__swiper {
+  .swiper-button-next,
+  .swiper-button-prev {
+    @apply left-auto right-auto !important;
+  }
+
+  .swiper-button-prev::after,
+  .swiper-button-next::after {
+    @apply text-[22px] md:text-3xl font-medium md:font-normal;
+  }
+
+  .swiper-button-next {
+    @apply end-0.5 md:end-2.5 !important;
+  }
+
+  .swiper-button-prev {
+    @apply start-0.5 md:start-2.5 !important;
+  }
+}
+
+.featured-product__swiper .swiper-pagination,
+.featured-product__swiper .swiper-button-next,
+.featured-product__swiper .swiper-button-prev {
+  @apply static w-auto h-auto !important;
+}
+
+.featured-product__swiper .swiper-button-next::after,
+.featured-product__swiper .swiper-button-prev::after {
+  content: "" !important;
+}
+
+.quick-view-modal__swiper, .product-gallery-mobile__swiper {
+  .swiper-pagination, .swiper-button-next, .swiper-button-prev {
+    @apply static w-auto h-auto !important;
+  }
+
+  .swiper-button-prev::after,
+  .swiper-button-next::after {
+    @apply text-lg;
+  }
+}
+
+.lightbox__swiper {
+  .swiper-pagination, .swiper-button-next, .swiper-button-prev {
+    @apply static w-auto h-auto !important;
+  }
+
+  .swiper-button-prev::after,
+  .swiper-button-next::after {
+    @apply text-2xl;
+  }
+}

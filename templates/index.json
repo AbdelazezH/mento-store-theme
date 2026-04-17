@@ -1,0 +1,237 @@
+{
+  "sections": {
+    "store-banner-1": {
+      "type": "store-banner-1"
+    },
+    "store-features-1": {
+      "type": "store-features",
+      "blocks": {
+        "feature_101": {
+          "type": "feature",
+          "settings": {
+            "feature_title": "توصيل مجاني",
+            "feature_description": "استمتع بتجربة تسوق سلسة",
+            "feature_icon": "<svg class=\"size-7\" viewBox=\"0 0 28 28\" fill=\"none\"> <path d=\"M24.5 19.3928V8.60843C24.4992 8.45266 24.4573 8.29986 24.3785 8.16544C24.2998 8.03101 24.187 7.91974 24.0515 7.84281L14.4265 2.42875C14.2969 2.35387 14.1498 2.31445 14 2.31445C13.8502 2.31445 13.7031 2.35387 13.5735 2.42875L3.94843 7.84281C3.81298 7.91974 3.7002 8.03101 3.62146 8.16544C3.54274 8.29986 3.50084 8.45266 3.5 8.60843V19.3928C3.50084 19.5486 3.54274 19.7014 3.62146 19.8358C3.7002 19.9702 3.81298 20.0815 3.94843 20.1584L13.5735 25.5725C13.7031 25.6473 13.8502 25.6868 14 25.6868C14.1498 25.6868 14.2969 25.6473 14.4265 25.5725L24.0515 20.1584C24.187 20.0815 24.2998 19.9702 24.3785 19.8358C24.4573 19.7014 24.4992 19.5486 24.5 19.3928Z\" stroke=\"currentColor\" stroke-linecap=\"round\"/> <path d=\"M19.3594 16.6797V10.9922L8.75 5.14062\" stroke=\"currentColor\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/> <path d=\"M24.3805 8.1593L14.0992 13.9999L3.62109 8.1593\" stroke=\"currentColor\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/> <path d=\"M14.0985 14L14 25.6813\" stroke=\"currentColor\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/> </svg>"
+          }
+        },
+        "feature_102": {
+          "type": "feature",
+          "settings": {
+            "feature_title": "توصيل مجاني",
+            "feature_description": "استمتع بتجربة تسوق سلسة",
+            "feature_icon": "<svg class=\"size-7\" viewBox=\"0 0 28 28\" fill=\"none\"> <path d=\"M24.5 19.3928V8.60843C24.4992 8.45266 24.4573 8.29986 24.3785 8.16544C24.2998 8.03101 24.187 7.91974 24.0515 7.84281L14.4265 2.42875C14.2969 2.35387 14.1498 2.31445 14 2.31445C13.8502 2.31445 13.7031 2.35387 13.5735 2.42875L3.94843 7.84281C3.81298 7.91974 3.7002 8.03101 3.62146 8.16544C3.54274 8.29986 3.50084 8.45266 3.5 8.60843V19.3928C3.50084 19.5486 3.54274 19.7014 3.62146 19.8358C3.7002 19.9702 3.81298 20.0815 3.94843 20.1584L13.5735 25.5725C13.7031 25.6473 13.8502 25.6868 14 25.6868C14.1498 25.6868 14.2969 25.6473 14.4265 25.5725L24.0515 20.1584C24.187 20.0815 24.2998 19.9702 24.3785 19.8358C24.4573 19.7014 24.4992 19.5486 24.5 19.3928Z\" stroke=\"currentColor\" stroke-linecap=\"round\"/> <path d=\"M19.3594 16.6797V10.9922L8.75 5.14062\" stroke=\"currentColor\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/> <path d=\"M24.3805 8.1593L14.0992 13.9999L3.62109 8.1593\" stroke=\"currentColor\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/> <path d=\"M14.0985 14L14 25.6813\" stroke=\"currentColor\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/> </svg>"
+          }
+        },
+        "feature_103": {
+          "type": "feature",
+          "settings": {
+            "feature_title": "رضا مضمون",
+            "feature_description": "جميع منتجاتنا تحمل جودة لا مثيل لها",
+            "feature_icon": "<svg class=\"size-8\" viewBox=\"0 0 36 35\" fill=\"none\"> <path d=\"M23.6686 10.208L10.5345 24.3878C10.0361 24.9258 9.22819 24.9258 8.72986 24.3878L3.25195 18.4738M17.8267 24.3878L30.9609 10.208\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\"/> </svg>"
+          }
+        },
+        "feature_104": {
+          "type": "feature",
+          "settings": {
+            "feature_title": "خدمة عملاء متميزة",
+            "feature_description": "نقدم دعمًا فوريًا وسريعا",
+            "feature_icon": "<svg class=\"size-7\" viewBox=\"0 0 29 29\" fill=\"none\"> <path d=\"M14.5 3.625C8.49326 3.625 3.625 8.49326 3.625 14.5V24.6953C3.625 25.072 3.92803 25.375 4.30469 25.375H9.51562C10.5153 25.375 11.3281 24.5622 11.3281 23.5625V17.6719C11.3281 16.6722 10.5153 15.8594 9.51562 15.8594H5.66406V14.5C5.66406 9.62041 9.62041 5.66406 14.5 5.66406C19.3796 5.66406 23.3359 9.62041 23.3359 14.5V15.8594H19.4844C18.4847 15.8594 17.6719 16.6722 17.6719 17.6719V23.5625C17.6719 24.5622 18.4847 25.375 19.4844 25.375H24.6953C25.072 25.375 25.375 25.072 25.375 24.6953V14.5C25.375 8.49326 20.5067 3.625 14.5 3.625ZM9.28906 17.8984V23.3359H5.66406V17.8984H9.28906ZM23.3359 23.3359H19.7109V17.8984H23.3359V23.3359Z\" fill=\"currentColor\"/> </svg>"
+          }
+        }
+      },
+      "block_order": [
+        "feature_101",
+        "feature_102",
+        "feature_103",
+        "feature_104"
+      ],
+      "settings": {
+        "padding_enabled": true
+      }
+    },
+    "store-banner-2": {
+      "type": "store-banner-2",
+      "blocks": {
+        "banner_101": {
+          "type": "banner",
+          "settings": {
+            "banner_title": "أحدث أنواع الساعات"
+          }
+        },
+        "banner_102": {
+          "type": "banner",
+          "settings": {
+            "banner_title": "أحدث أنواع العطور"
+          }
+        },
+        "banner_103": {
+          "type": "banner",
+          "settings": {
+            "banner_title": "أحدث أنواع ربطات العنق"
+          }
+        }
+      },
+      "block_order": [
+        "banner_101",
+        "banner_102",
+        "banner_103"
+      ]
+    },
+    "store-features-2": {
+      "type": "store-features",
+      "blocks": {
+        "feature_111": {
+          "type": "feature"
+        },
+        "feature_112": {
+          "type": "feature"
+        },
+        "feature_113": {
+          "type": "feature"
+        },
+        "feature_114": {
+          "type": "feature"
+        }
+      },
+      "block_order": [
+        "feature_111",
+        "feature_112",
+        "feature_113",
+        "feature_114"
+      ]
+    },
+    "featured-collection": {
+      "type": "featured-collection",
+      "settings": {
+        "title": "شاهد أحدث انواع من عطورنا",
+        "description": "اشتري الان واحصل على خصم 20% اشتري الان واحصل على خصم 20% اشتري الان واحصل على خصم 20% اشتري الان واحصل على خصم 20% اشتري الان واحصل على خصم 20%",
+        "number_of_products_to_show": 8,
+        "featured_collection": ""
+      }
+    },
+    "video": {
+      "type": "store-video",
+      "settings": {
+        "title": "شاهد أحدث انواع من عطورنا",
+        "description": "اشتري الان واحصل على خصم 20%"
+      }
+    },
+    "testimonials": {
+      "type": "testimonials",
+      "settings": {
+        "title": "تعليقات عملائنا",
+        "description": "آراء زبائننا تُعَدُّ لنا مصدر فخر وسرور، تُعَبِّر عن الثقة التي بنيناها معهم وعن مدى سعادتهم بخدماتنا"
+      },
+      "blocks": {
+        "testimonial_101": {
+          "type": "testimonial",
+          "settings": {
+            "testimonial": "طلبت عطر مخصص من عالم عطور لازورد وكانت التجربة رائعة! الزجاجة مصممة بأناقة والعناية بالتفاصيل مذهلة. المستلم أحب العطر، وسأعود مرة أخرى لهذا المتجر للحصول على المزيد من التجارب العطرية الرائعة.",
+            "customer_name": "أحمد علي",
+            "created_at": "21/07/2023"
+          }
+        },
+        "testimonial_102": {
+          "type": "testimonial",
+          "settings": {
+            "testimonial": "لقد كانت تجربتي مع هذا المتجر رائعة بالفعل. منتجاتهم مدهشة وتعزيزت منزلي بشكل لا يصدق. شكراً لهذا المتجر على جعل منزلي أجمل!",
+            "customer_name": "سارة الجمل",
+            "created_at": "12/05/2024"
+          }
+        },
+        "testimonial_103": {
+          "type": "testimonial",
+          "settings": {
+            "testimonial": "أنا سعيدة جداً بالمنتجات التي اشتريتها من هذا المتجر. إنهم يقدمون منتجات عالية الجودة بأسعار معقولة. سأعود بالتأكيد لشراء المزيد!",
+            "customer_name": "سالم أحمد",
+            "created_at": "11/11/2023"
+          }
+        },
+        "testimonial_104": {
+          "type": "testimonial",
+          "settings": {
+            "testimonial": "أنا سعيدة جداً بالمنتجات التي اشتريتها من هذا المتجر. إنهم يقدمون منتجات عالية الجودة بأسعار معقولة. سأعود بالتأكيد لشراء المزيد!",
+            "customer_name": "إيمان الفهري",
+            "created_at": "12/01/2024"
+          }
+        }
+      },
+      "block_order": [
+        "testimonial_101",
+        "testimonial_102",
+        "testimonial_103",
+        "testimonial_104"
+      ]
+    },
+    "featured-product": {
+      "type": "featured-product"
+    },
+    "countdown-timer": {
+      "type": "countdown-timer",
+      "settings": {
+        "title": "خصومات شهر مايو",
+        "sub": "وفّر حتى 20% على المجموعة لفترة محدودة فقط"
+      }
+    },
+    "thumbnail-slider": {
+      "type": "thumbnail-slider",
+      "blocks": {
+        "thumbnail_101": {
+          "type": "thumbnail"
+        },
+        "thumbnail_102": {
+          "type": "thumbnail"
+        },
+        "thumbnail_103": {
+          "type": "thumbnail"
+        },
+        "thumbnail_104": {
+          "type": "thumbnail"
+        },
+        "thumbnail_105": {
+          "type": "thumbnail"
+        },
+        "thumbnail_106": {
+          "type": "thumbnail"
+        },
+        "thumbnail_107": {
+          "type": "thumbnail"
+        },
+        "thumbnail_108": {
+          "type": "thumbnail"
+        }
+      },
+      "block_order": [
+        "thumbnail_101",
+        "thumbnail_102",
+        "thumbnail_103",
+        "thumbnail_104",
+        "thumbnail_105",
+        "thumbnail_106",
+        "thumbnail_107",
+        "thumbnail_108"
+      ]
+    },
+    "latest-articles": {
+      "type": "featured-articles",
+      "settings": {
+        "title": "المدونة",
+        "description": "تصفح أحدث المقالات",
+        "number_of_articles_to_show": 4
+      }
+    }
+  },
+  "order": [
+    "store-banner-1",
+    "store-features-1",
+    "store-banner-2",
+    "store-features-2",
+    "featured-collection",
+    "video",
+    "testimonials",
+    "featured-product",
+    "countdown-timer",
+    "thumbnail-slider",
+    "latest-articles"
+  ]
+}

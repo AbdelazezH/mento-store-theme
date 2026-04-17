@@ -1,0 +1,359 @@
+[
+  {
+    "name": "theme_info",
+    "theme_name": "أكواريوم",
+    "theme_version": "1.0",
+    "theme_author": "Shopify",
+    "theme_documentation_url": "https://documentation-link//",
+    "theme_support_url": "http://support-link-or-email/"
+  },
+  {
+    "name": "إعدادات الاتجاه واللغة",
+    "settings": [
+      {
+        "id": "rtl_ltr_direction",
+        "type": "select",
+        "label": "خيار الاتجاه",
+        "default": "auto",
+        "info": "الخيار التلقائي سيغير إتجاه المتجر تلقائيا حسب اللغة",
+        "options": [
+          {
+            "value": "auto",
+            "label": "تلقائي"
+          },
+          {
+            "value": "rtl",
+            "label": "من اليمين الى اليسار"
+          }
+        ]
+      },
+      {
+        "id": "show_lang_picker",
+        "type": "checkbox",
+        "label": "إظهار محدد اللغة",
+        "default": false
+      },
+      {
+        "id": "default_language_code",
+        "type": "text",
+        "default": "ar",
+        "label": "رمز اللغة الأساسية",
+        "info": "تأكد من أنها نفس اللغة الأساسية (الافتراضية) في إعدادات المتجر"
+      }
+    ]
+  },
+  {
+    "name": "شعار المتجر",
+    "settings": [
+      {
+        "id": "logo",
+        "type": "image_picker",
+        "label": "حمل الشعار هنا"
+      },
+      {
+        "id": "logo_width",
+        "type": "range",
+        "min": 50,
+        "max": 200,
+        "step": 5,
+        "default": 100,
+        "label": "عرض الشعار (الحاسوب)",
+        "unit": "px"
+      },
+      {
+        "id": "logo_height",
+        "type": "range",
+        "min": 20,
+        "max": 120,
+        "step": 1,
+        "default": 40,
+        "label": "طول الشعار (الحاسوب)",
+        "unit": "px"
+      },
+      {
+        "id": "mobile_logo_width",
+        "type": "range",
+        "min": 50,
+        "max": 150,
+        "step": 5,
+        "default": 80,
+        "label": "عرض الشعار (الموبايل)",
+        "unit": "px"
+      },
+      {
+        "id": "mobile_logo_height",
+        "type": "range",
+        "min": 20,
+        "max": 120,
+        "step": 1,
+        "default": 32,
+        "label": "طول الشعار (الموبايل)",
+        "unit": "px"
+      }
+    ]
+  },
+  {
+    "name": "ألوان القالب",
+    "settings": [
+      {
+        "type": "color",
+        "id": "primary_main_color",
+        "label": "اللون الرئيسي",
+        "default": "#217BAF"
+      },
+      {
+        "type": "color",
+        "id": "primary_light_color",
+        "label": "اللون الرئيسي الناعم",
+        "default": "#75B2D5"
+      },
+      {
+        "type": "color",
+        "id": "secondary_light_color",
+        "label": "اللون الثانوي",
+        "default": "#F9FDFF"
+      },
+      {
+        "type": "color_scheme_group",
+        "id": "color_schemes",
+        "definition": [
+          {
+            "type": "header",
+            "content": "Background"
+          },
+          {
+            "type": "color",
+            "id": "background",
+            "label": "Background",
+            "default": "#FFFFFF"
+          },
+          {
+            "type": "header",
+            "content": "Typography"
+          },
+          {
+            "type": "color",
+            "id": "text",
+            "label": "Text",
+            "default": "#111827"
+          },
+          {
+            "type": "color",
+            "id": "secondary",
+            "label": "Secondary Color",
+            "default": "#374151"
+          },
+          {
+            "type": "color",
+            "id": "secondary_light",
+            "label": "Secondary Light",
+            "default": "#6b7280"
+          },
+          {
+            "type": "color",
+            "id": "secondary_lighter",
+            "label": "Secondary Lighter",
+            "default": "#d1d5db"
+          },
+          {
+            "type": "header",
+            "content": "Additional"
+          },
+          {
+            "type": "color",
+            "id": "button",
+            "label": "Button Background",
+            "default": "#217BAF"
+          },
+          {
+            "type": "color",
+            "id": "button_label",
+            "label": "Button Color",
+            "default": "#FFFFFF"
+          },
+          {
+            "type": "color",
+            "id": "button_border",
+            "label": "Primary Button Border",
+            "default": "#e5e7eb"
+          },
+          {
+            "type": "color",
+            "id": "secondary_button",
+            "label": "Secondary Button",
+            "default": "#f3f4f6"
+          },
+          {
+            "type": "color",
+            "id": "secondary_button_label",
+            "label": "Secondary Button Text",
+            "default": "#6b7280"
+          },
+          {
+            "type": "color",
+            "id": "icons",
+            "label": "Icons Color",
+            "default": "#217BAF"
+          },
+          {
+            "type": "color",
+            "id": "bg_icons",
+            "label": "Background Icons",
+            "default": "#FFFFFF"
+          }
+        ],
+        "role": {
+          "text": "text",
+          "background": "background",
+          "links": "text",
+          "icons": "icons",
+          "primary_button": "button",
+          "on_primary_button": "button_label",
+          "secondary_button": "secondary_button",
+          "on_secondary_button": "secondary_button_label",
+          "primary_button_border": "button_border",
+          "secondary_button_border": "secondary_button"
+        }
+      }
+    ]
+  },
+  {
+    "name": "الخطوط",
+    "settings": [
+      {
+        "type": "header",
+        "content": "[هنا](https://fonts.google.com/?preview.text=%D8%A3%D9%83%D9%88%D8%A7%D8%B1%D9%8A%D9%88%D9%85&preview.text_type=custom&subset=arabic&noto.script=Arab) يرجى الحصول على إسم الخط من"
+      },
+      {
+        "id": "main_font",
+        "type": "text",
+        "label": "خط النص الأساسي",
+        "default": "IBM Plex Sans Arabic"
+      }
+    ]
+  },
+  {
+    "name": "إعدادات عامة",
+    "settings": [
+      {
+        "type": "range",
+        "id": "page_width",
+        "min": 1000,
+        "max": 1800,
+        "step": 10,
+        "default": 1200,
+        "unit": "px",
+        "label": "عرض الصفحة"
+      },
+      {
+        "type": "header",
+        "content": "إعدادات عامة عن المنتجات"
+      },
+      {
+        "type": "text",
+        "id": "global_shipping_information",
+        "label": "معلومات الشحن العامة",
+        "default": "نحن نقدم خدمة الشحن إلى جميع أنحاء العالم. الوقت المقدر للتسليم هو 3-7 أيام عمل."
+      },
+      {
+        "type": "text",
+        "id": "global_additional_information",
+        "label": "معلومات إضافية عامة",
+        "default": "معلومات إضافية عامة عن المنتج"
+      }
+    ]
+  },
+  {
+    "name": "صفحات الحساب",
+    "settings": [
+      {
+        "id": "hide_show_header_footer",
+        "label": "إخفاء / إظهار الرأس والتذييل",
+        "type": "select",
+        "default": "hide_header_footer",
+        "options": [
+          {
+            "value": "hide_header_footer",
+            "label": "إخفاء الرأس والتذييل"
+          },
+          {
+            "value": "show_header_footer",
+            "label": "إظهار الرأس والتذييل"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "وسائل التواصل الاجتماعي",
+    "settings": [
+      {
+        "id": "facebook_link",
+        "type": "text",
+        "label": "Facebook",
+        "default": "#",
+        "info": "https://facebook.com/aquarium"
+      },
+      {
+        "id": "x_link",
+        "type": "text",
+        "label": "X",
+        "default": "#",
+        "info": "https://x.com/aquarium"
+      },
+      {
+        "id": "linkedin_link",
+        "type": "text",
+        "label": "Linkedin",
+        "default": "#",
+        "info": "https://linkedin.com/aquarium"
+      },
+      {
+        "id": "instagram_link",
+        "type": "text",
+        "label": "Instagram",
+        "default": "#",
+        "info": "https://instagram.com/aquarium"
+      },
+      {
+        "id": "youtube_link",
+        "type": "text",
+        "label": "Youtube",
+        "default": "#",
+        "info": "https://www.youtube.com/@aquarium"
+      },
+      {
+        "id": "tiktok_link",
+        "type": "text",
+        "label": "TikTok",
+        "info": "https://www.tiktok.com/@aquarium"
+      },
+      {
+        "id": "snapchat_link",
+        "type": "text",
+        "label": "Snapchat",
+        "info": "https://www.snapchat.com/add/aquarium"
+      },
+      {
+        "id": "telegram_link",
+        "type": "text",
+        "label": "Telegram",
+        "info": "https://t.me/aquarium"
+      }
+    ]
+  },
+  {
+    "name": "أيقونة نافدة الموقع (Favicon)",
+    "settings": [
+      {
+        "type": "header",
+        "content": "الصورة التي يتم عرضها في نافذة الموقع"
+      },
+      {
+        "id": "favicon",
+        "type": "image_picker",
+        "label": "حمل الصورة هنا"
+      }
+    ]
+  }
+]

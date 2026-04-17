@@ -1,0 +1,296 @@
+{% assign background = section.settings.color_scheme.settings.background %}
+{% assign primary_color = section.settings.color_scheme.settings.text %}
+{% assign secondary_light_color = section.settings.color_scheme.settings.secondary_light %}
+{% assign button_label = section.settings.color_scheme.settings.button_label %}
+{% assign button_bg = section.settings.color_scheme.settings.button %}
+{% assign border_color = section.settings.color_scheme.settings.button_border %}
+{% assign secondary_button_label = section.settings.color_scheme.settings.secondary_button_label %}
+{% assign secondary_button_bg = section.settings.color_scheme.settings.secondary_button %}
+{% assign icons_color = section.settings.color_scheme.settings.icons %}
+
+<style>
+    .btn__back {
+        background-color: {{ button_bg }};
+        color: {{ button_label }};
+        border-color: {{ border_color }};
+    }
+
+    .btn__back:hover {
+        background-color: {{ secondary_button_bg }};
+        color: {{ secondary_button_label }};
+    }
+</style>
+
+<div class="bg-white px-2 md:px-6 py-6 md:py-8" style="background-color: {{ background }};">
+    <!-- Breadcrumbs -->
+    <div class="breadcrumbs flex items-center gap-2 page-width">
+        <a href="{{ routes.root_url }}"
+           class="text-xs md:text-base leading-normal font-normal text-black"
+           style="color: {{ primary_color }};">
+            {{ 'general.breadcrumbs.home' | t }}
+        </a>
+        <span style="color: {{ primary_color }};">
+            {% render 'icon-chevron-left', classes: 'size-4 ltr:rotate-180' %}
+        </span>
+        <span class="text-xs md:text-base leading-normal font-normal text-gray-500"
+              style="color: {{ secondary_light_color }};">
+            {{ 'general.header.my_orders' | t }}
+        </span>
+    </div>
+
+    {% if section.settings.enable_image %}
+        <div class="mt-6 md:mt-8">
+            <div class="w-full page-width">
+                {% if section.settings.image != blank %}
+                    <div class="relative aspect-w-4 aspect-h-4 md:aspect-w-16 md:aspect-h-7 overflow-hidden rounded-sm md:rounded-md">
+                        <img src="{{ section.settings.image | img_url: 'master' }}"
+                             alt="{{ section.settings.image.alt }}"
+                             class="w-full h-full object-cover object-center"
+                             loading="lazy"
+                        >
+                        <div class="flex justify-center items-center absolute inset-0">
+                            <div class="p-3 flex flex-col justify-center items-center bg-black/30 h-40 w-full md:w-1/3 md:h-full">
+                                <h1 class="text-3xl md:text-5xl font-medium leading-normal text-white">
+                                    {{ 'general.header.my_orders' | t }}
+                                </h1>
+                            </div>
+                        </div>
+                    </div>
+                {% else %}
+                    <div class="relative border border-gray-400 aspect-w-4 aspect-h-4 md:aspect-w-16 md:aspect-h-7 overflow-hidden rounded-sm md:rounded-md">
+                        <img class="h-full w-full object-cover object-center"
+                             src="{{ 'lifestyle-2.svg' | asset_url }}"
+                             alt="lifestyle-2 placeholder image" loading="lazy"/>
+                        <div class="flex justify-center items-center absolute inset-0">
+                            <div class="p-3 flex flex-col justify-center items-center bg-black/30 h-40 w-full md:w-1/3 md:h-full">
+                                <h1 class="text-3xl md:text-5xl font-medium leading-normal text-white">
+                                    {{ 'general.header.my_orders' | t }}
+                                </h1>
+                            </div>
+                        </div>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    {% endif %}
+
+    {% if customer.orders_count > 0 %}
+        <div class="py-5 md:py-8 page-width">
+            {% paginate customer.orders by section.settings.number_of_orders_per_page %}
+                <div class="border border-gray-200 rounded-xl md:rounded-lg overflow-hidden"
+                     style="border-color: {{ border_color }};">
+                    <table class="table-auto w-full">
+                        <thead class="bg-primary-main bg-opacity-5 table-header-group">
+                        <tr>
+                            <th class="px-4 md:px-6 py-4 text-start text-base leading-normal font-normal text-gray-950"
+                                style="color: {{ primary_color }};">
+                                {{ 'customer.account.order' | t }}
+                            </th>
+                            <th class="px-6 py-4 text-start text-base leading-normal font-normal text-gray-950 hidden md:table-cell"
+                                style="color: {{ primary_color }};">
+                                {{ 'customer.account.financial_status' | t }}
+                            </th>
+                            <th class="px-6 py-4 text-start text-base leading-normal font-normal text-gray-950 hidden md:table-cell"
+                                style="color: {{ primary_color }};">
+                                {{ 'customer.account.fulfillment_status' | t }}
+                            </th>
+                            <th class="px-6 py-4 text-start text-base leading-normal font-normal text-gray-950 hidden md:table-cell"
+                                style="color: {{ primary_color }};">
+                                {{ 'customer.account.order_quantity' | t }}
+                            </th>
+                            <th class="px-6 py-4 text-start text-base leading-normal font-normal text-gray-950 hidden md:table-cell"
+                                style="color: {{ primary_color }};">
+                                {{ 'customer.account.total_price' | t }}
+                            </th>
+                        </tr>
+                        </thead>
+
+                        <tbody>
+                        {%- for order in customer.orders -%}
+
+                            {% comment %} Padding-Y for each row {% endcomment %}
+                            {% if customer.orders_count == 1 %}
+                                {% assign padding_class = 'pt-6 pb-6 md:pt-7 md:pb-7' %}
+                            {% elsif forloop.first %}
+                                {% assign padding_class = 'pt-6 pb-3 md:pt-7 md:pb-3' %}
+                            {% elsif forloop.last %}
+                                {% assign padding_class = 'pb-6 pt-3 md:pb-7 md:pt-3' %}
+                            {% else %}
+                                {% assign padding_class = 'pt-3 pb-3 md:pt-3 md:pb-3' %}
+                            {% endif %}
+
+                            {% comment %} badge class colors for fulfillment_status {% endcomment %}
+                            {% case order.fulfillment_status %}
+                                {% when 'partial' %}
+                                    {% assign fulfillment_badge_class = 'bg-yellow-100 text-yellow-800' %}
+                                {% when 'unfulfilled' %}
+                                    {% assign fulfillment_badge_class = 'bg-gray-100 text-gray-800' %}
+                                {% when 'restocked' %}
+                                    {% assign fulfillment_badge_class = 'bg-blue-100 text-blue-800' %}
+                                {% else %}
+                                    {% assign fulfillment_badge_class = 'bg-green-100 text-green-800' %}
+                            {% endcase %}
+
+                            {% comment %} badge class colors for financial_status {% endcomment %}
+                            {% case order.financial_status %}
+                                {% when 'paid' %}
+                                    {% assign financial_badge_class = 'bg-teal-100 text-teal-800' %}
+                                {% when 'partially_paid' %}
+                                    {% assign financial_badge_class = 'bg-yellow-100 text-yellow-800' %}
+                                {% when 'pending' %}
+                                    {% assign financial_badge_class = 'bg-orange-100 text-orange-800' %}
+                                {% when 'refunded' %}
+                                    {% assign financial_badge_class = 'bg-blue-100 text-blue-800' %}
+                                {% when 'voided' %}
+                                    {% assign financial_badge_class = 'bg-red-100 text-red-800' %}
+                                {% else %}
+                                    {% assign financial_badge_class = 'bg-gray-100 text-gray-800' %}
+                            {% endcase %}
+
+                            <tr class="align-middle
+                                {% if customer.orders_count > 1 and forloop.last == false %}
+                                    border-b border-gray-200/60 md:border-none
+                                {% endif %}" style="border-color: {{ border_color }};">
+                                <td class="px-4 md:px-6 {{ padding_class }} flex items-start md:items-center gap-4">
+                                    <a href="{{ order.customer_url }}" class="block flex-shrink-0">
+                                        {% if order.line_items.first.image %}
+                                            <img src="{{ order.line_items.first.image | img_url: 'master' }}"
+                                                 alt="{{ order.line_items.first.image.alt }}"
+                                                 class="w-[6.25rem] h-32 object-cover border border-gray-400 rounded-sm"
+                                                 loading="lazy"
+                                            >
+                                        {% else %}
+                                            {{ 'product-1' | placeholder_svg_tag: 'w-[6.25rem] h-32 object-cover border border-gray-400 rounded-sm' }}
+                                        {% endif %}
+                                    </a>
+
+                                    <div class="flex flex-col gap-1.5 md:gap-3">
+                                        <a href="{{ order.customer_url }}"
+                                           class="text-base font-bold leading-normal text-gray-950"
+                                           style="color: {{ primary_color }};">
+                                            {{ order.name }}
+                                        </a>
+
+                                        <div class="flex md:hidden items-center gap-1.5 text-xs font-normal leading-normal">
+                                            <span class="text-gray-400"
+                                                  style="color: {{ secondary_light_color }};">{{ 'customer.account.financial_status' | t }}:</span>
+                                            <span class="inline-flex items-center gap-x-1.5 py-1 px-2 rounded-full text-[0.625rem] font-medium {{ financial_badge_class }}">
+                                                {{ 'general.order_status.financial.' | append: order.financial_status | t }}
+                                            </span>
+                                        </div>
+
+                                        <div class="flex md:hidden items-center gap-1.5 text-xs font-normal leading-normal">
+                                            <span class="text-gray-400"
+                                                  style="color: {{ secondary_light_color }};">{{ 'customer.account.fulfillment_status' | t }}:</span>
+                                            <span class="inline-flex items-center gap-x-1.5 py-1 px-2 rounded-full text-[0.625rem] font-medium {{ fulfillment_badge_class }}">
+                                                {{ 'general.order_status.fulfillment.' | append: order.fulfillment_status | t }}
+                                            </span>
+                                        </div>
+
+                                        <div class="flex md:hidden items-center gap-1.5 text-xs font-normal leading-normal">
+                                            <span class="text-gray-400"
+                                                  style="color: {{ secondary_light_color }};">{{ 'customer.account.order_quantity' | t }}:</span>
+                                            <span class="text-gray-950" style="color: {{ primary_color }};">
+                                                {{ order.item_count }}
+                                            </span>
+                                        </div>
+
+                                        <div class="flex md:hidden items-center gap-1.5 text-xs font-bold leading-normal text-gray-950"
+                                             style="color: {{ primary_color }};">
+                                            {{ order.total_net_amount | money }}
+                                        </div>
+                                    </div>
+                                </td>
+
+                                <td class="md:px-6 {{ padding_class }} text-base text-gray-950 hidden md:table-cell"
+                                    style="color: {{ primary_color }};">
+                                    <span class="inline-flex items-center gap-x-1.5 py-1.5 px-3 rounded-full text-xs font-medium {{ financial_badge_class }}">
+                                        {{ 'general.order_status.financial.' | append: order.financial_status | t }}
+                                    </span>
+                                </td>
+
+                                <td class="md:px-6 {{ padding_class }} text-base text-gray-950 hidden md:table-cell"
+                                    style="color: {{ primary_color }};">
+                                    <span class="inline-flex items-center gap-x-1.5 py-1.5 px-3 rounded-full text-xs font-medium {{ fulfillment_badge_class }}">
+                                        {{ 'general.order_status.fulfillment.' | append: order.fulfillment_status | t }}
+                                    </span>
+                                </td>
+
+                                <td class="md:px-6 {{ padding_class }} text-base text-gray-950 hidden md:table-cell"
+                                    style="color: {{ primary_color }};">
+                                    {{ order.item_count }}
+                                </td>
+
+                                <td class="md:px-6 {{ padding_class }} text-base text-gray-950 hidden md:table-cell"
+                                    style="color: {{ primary_color }};">
+                                    {{ order.total_net_amount | money }}
+                                </td>
+                            </tr>
+                        {%- endfor -%}
+                        </tbody>
+                    </table>
+                </div>
+
+                {% render 'pagination', pagination: paginate %}
+            {% endpaginate %}
+        </div>
+    {% else %}
+        <!-- No orders -->
+        <div>
+            <div class="py-6 flex flex-col justify-center items-center min-h-80 md:min-h-[30rem]">
+                <div class="flex flex-col justify-center items-center gap-2.5 md:gap-4 text-center">
+                <span class="text-primary-main" style="color: {{ icons_color }};">
+                    {% render 'icon-cube', classes: 'size-7 md:size-8' %}
+                </span>
+
+                    <p class="text-base md:text-xl leading-normal font-light text-gray-950"
+                       style="color: {{ primary_color }};">
+                        {{ 'customer.account.no_orders' | t }}
+                    </p>
+                </div>
+            </div>
+
+            <div class="flex justify-center items-center text-center">
+                <a href="{{ routes.all_products_collection_url }}"
+                   class="w-full md:w-1/4 block bg-primary-main text-white text-sm md:text-lg border font-normal leading-normal py-1.5 md:py-2.5 rounded-sm md:rounded-md hover:bg-opacity-90 btn__back">
+                    {{ 'customer.account.back_to_store' | t }}
+                </a>
+            </div>
+        </div>
+    {% endif %}
+</div>
+
+{% schema %}
+{
+  "name": "t:pages.account.name",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "enable_image",
+      "default": true,
+      "label": "t:pages.account.settings.enable_image.label"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "t:pages.account.settings.image.label"
+    },
+    {
+      "type": "range",
+      "id": "number_of_orders_per_page",
+      "label": "t:pages.account.settings.number_of_orders_per_page.label",
+      "info": "t:pages.account.settings.number_of_orders_per_page.info",
+      "min": 4,
+      "max": 12,
+      "step": 1,
+      "default": 6
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:sections.all.color_scheme.label",
+      "default": "scheme-5"
+    }
+  ]
+}
+{% endschema %}

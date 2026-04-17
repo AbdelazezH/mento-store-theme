@@ -1,0 +1,33 @@
+<div class="flex items-center gap-5 qty-remove">
+    <!-- Quantity Control Wrapper -->
+    <div class="border border-gray-300 flex items-center rounded-md md:rounded-sm"
+         style="border-color: {{ border_color }};">
+        <!-- Increment Button -->
+        <button x-on:click.prevent="increment(index)"
+                x-bind:class="{'opacity-25 cursor-not-allowed': item.quantity >= 10 }"
+                class="inline-flex justify-center items-center p-2.5 md:p-3"
+                style="color: {{ primary_color }};">
+            {% render 'icon-plus', classes: 'size-4 lg:size-5' %}
+        </button>
+
+        <!-- Quantity Display -->
+        <span class="w-7 md:w-8 px-1.5 md:px-2 text-base md:text-lg text-gray-950 text-center"
+              x-text="item.quantity" style="color: {{ primary_color }};"></span>
+
+        <!-- Decrement Button -->
+        <button x-on:click.prevent="decrement(index)"
+                x-bind:class="{'opacity-25 cursor-not-allowed': item.quantity <= 1}"
+                class="inline-flex justify-center items-center p-2.5 md:p-3"
+                style="color: {{ primary_color }};">
+            {% render 'icon-minus', classes: 'size-4 lg:size-5' %}
+        </button>
+    </div>
+
+    <!-- Delete Link -->
+    <a href="#"
+       x-on:click.prevent="deleteItem(index)"
+       class="text-xs md:text-base font-normal leading-normal text-gray-500 underline underline-offset-4"
+       style="color: {{ secondary_light_color }};">
+        {{ 'pages.cart.delete_btn' | t }}
+    </a>
+</div>

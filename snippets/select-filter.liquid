@@ -1,0 +1,87 @@
+<script type="application/json" id="filter_options_{{ displayMode }}">
+    [{%- for filter_value in filter.values -%}
+    {
+        "param_name": "{{ filter_value.param_name }}",
+        "value": "{{ filter_value.value }}",
+        "label": "{{ filter_value.label }}",
+        "swatch": { "color": "{{ filter_value.swatch.color }}" },
+        "count": {{ filter_value.count }},
+        "active": {{ filter_value.active }}
+    }{% if forloop.last == false %},{% endif %}{% endfor %}]
+</script>
+
+{% assign persistKey = collection.handle | default: 'search' %}
+<div x-data="selectFilterDropdown('{{ persistKey }}', '{{ displayMode }}')"
+     @click.outside="closeDropdown()"
+     @keydown.arrow-down.prevent="highlightNext()"
+     @keydown.arrow-up.prevent="highlightPrevious()"
+     @keydown.enter.prevent="selectHighlighted();"
+     class="relative w-full mt-4">
+
+    <!-- Persistent Hidden Inputs -->
+    <template x-for="selected in selectedOptions" :key="selected.value">
+        <label class="sr-only">
+            <input type="checkbox"
+                   :name="selected.param_name"
+                   :value="selected.value"
+                   checked
+                   class="sr-only">
+        </label>
+    </template>
+
+    <!-- Input Area -->
+    <div class="w-full flex items-center px-2 py-2.5 rounded border border-gray-300 shadow-sm focus-within:border-primary-main focus-within:ring-primary-main cursor-text"
+         @click="openDropdown()"
+         style="border-color: {{ section.settings.color_scheme.settings.button_border }};"
+    >
+        <!-- Search Input -->
+        <label for="dropdownSearch" class="sr-only">Search</label>
+        <input type="text"
+               id="dropdownSearch"
+               x-model="search"
+               x-ref="dropdownSearchRef"
+               autocomplete="off"
+               placeholder="{{ 'pages.collection.select_option' | t }}"
+               class="flex-grow text-sm md:text-base text-gray-700 bg-transparent focus:outline-none ps-2 w-full collection_placeholder_color"
+               style="color: {{ section.settings.color_scheme.settings.secondary }};"
+        >
+    </div>
+
+    <!-- Dropdown -->
+    <div x-show="dropdownOpen"
+         class="absolute w-full bg-white border rounded shadow-md max-h-48 md:max-h-61 overflow-auto mt-1 z-10 custom-scrollbar"
+         style="background-color: {{ section.settings.color_scheme.settings.background }};"
+    >
+        <ul>
+            <template x-for="(option, index) in filteredOptions" :key="option.value">
+                <li class="flex items-center justify-between px-4 py-2 hover:bg-primary-main/30 text-black-on_hover"
+                    :class="{
+                        'bg-primary-main/30': index === highlightedIndex,
+                        'bg-primary-main/5': isSelected(option.value) && index !== highlightedIndex,
+                        'cursor-not-allowed opacity-50': option.count === 0 && !option.active,
+                        'cursor-pointer': option.active || option.count !== 0
+                    }"
+                    @click="option.count !== 0 || option.active ? toggle(option) : null"
+                    style="color: {{ section.settings.color_scheme.settings.secondary }};"
+                    :data-id="`item-${index}`"
+                >
+                    <!-- Left Side: Circle and Label -->
+                    <div class="flex items-center">
+                        <!-- Circle with color (optional) -->
+                        <div class="w-4 h-4 rounded-full me-3"
+                             :style="{ backgroundColor: option.swatch.color }"></div>
+
+                        <!-- Option Label -->
+                        <span x-text="option.label" class="text-sm md:text-base"></span>
+                    </div>
+
+                    <!-- Right Side: Check Mark -->
+                    <span x-show="isSelected(option.value)"
+                          class="text-primary-main">
+                        {% render 'icon-checkbox', classes: 'size-4 md:size-5' %}
+                    </span>
+                </li>
+            </template>
+        </ul>
+    </div>
+</div>
