@@ -52,7 +52,9 @@
 
     <!-- Header hook for plugins -->
     {{ 'app.css' | asset_url | stylesheet_tag }}
+    {{ 'cart-drawer.css' | asset_url | stylesheet_tag }}
     <script src="{{ 'app.js' | asset_url }}" defer></script>
+    <script src="{{ 'cart-drawer.js' | asset_url }}" defer></script>
 
 
     <style>
@@ -112,5 +114,6 @@
 
 
 {% render 'quick-view-modal' %}
+{% render 'cart-drawer' %}
 </body>
 </html>
