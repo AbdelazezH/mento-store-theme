@@ -1,16 +1,37 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "name": "رأس الصفحة",
   "type": "header",
   "sections": {
     "announcement-bar": {
-      "type": "announcement-bar"
+      "type": "announcement-bar",
+      "settings": {
+        "show_announcement": false,
+        "announcement_text": "هنا مساحة لمثال محتوى اعلاني افتراضي يمكن استبداله",
+        "announcement_link": "shopify://collections/all",
+        "announcement_text_align": "justify-center",
+        "color_scheme": ""
+      }
     },
     "header": {
       "type": "header",
       "settings": {
+        "header_type": "second",
         "show_search": true,
-        "header_type": "first",
-        "main_menu": "main-menu"
+        "main_menu": "main-menu",
+        "color_scheme": "",
+        "announcement_text": "هنا مساحة لمثال محتوى اعلاني افتراضي يمكن استبداله",
+        "announcement_link": "shopify://collections/all",
+        "bg_color": "#217baf",
+        "text_color": "#ffffff"
       }
     }
   },
