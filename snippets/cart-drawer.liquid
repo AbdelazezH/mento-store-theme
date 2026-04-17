@@ -1,0 +1,37 @@
+<div id="cart-drawer-overlay" class="cart-drawer-overlay" aria-hidden="true"></div>
+
+<div id="cart-drawer"
+     class="cart-drawer"
+     role="dialog"
+     aria-modal="true"
+     aria-label="{{ 'pages.cart_drawer.title' | t }}"
+     data-title="{{ 'pages.cart_drawer.title' | t }}"
+     data-empty-text="{{ 'pages.cart_drawer.empty_text' | t }}"
+     data-empty-btn="{{ 'pages.cart_drawer.empty_btn' | t }}"
+     data-subtotal="{{ 'pages.cart_drawer.subtotal' | t }}"
+     data-checkout="{{ 'pages.cart_drawer.checkout' | t }}"
+     data-view-cart="{{ 'pages.cart_drawer.view_cart' | t }}"
+     data-remove="{{ 'pages.cart_drawer.remove' | t }}"
+     data-item-added="{{ 'pages.cart_drawer.item_added' | t }}"
+     data-shop-url="{{ routes.all_products_collection_url }}"
+>
+
+  <div class="cart-drawer-header">
+    <h2>{{ 'pages.cart_drawer.title' | t }}</h2>
+    <button type="button" class="cart-drawer-close" aria-label="{{ 'pages.cart_drawer.close' | t }}">
+      {% render 'icon-close', classes: 'size-5' %}
+    </button>
+  </div>
+
+  <div class="cart-drawer-body">
+    <div class="cart-drawer-loading">
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"></path>
+      </svg>
+    </div>
+  </div>
+
+  <div class="cart-drawer-footer"></div>
+
+</div>
