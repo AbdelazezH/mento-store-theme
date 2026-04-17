@@ -229,6 +229,7 @@
                                         {% endif %}
                                     {% endif %}
                                     <a href="{{ routes.cart_url }}"
+                                       data-cart-icon
                                        class="block relative text-base text-gray-700 hover:text-gray-900 rounded-full border border-gray-200 p-1 md:p-2 shadow-sm text_on_hover"
                                        x-data="cartItemCount('{{ cart.item_count }}')"
                                        x-on:item-count-updated.window="updateItemCount($event)"
