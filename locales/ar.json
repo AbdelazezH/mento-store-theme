@@ -1,3 +1,12 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin language editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "general": {
     "404": {
@@ -249,6 +258,17 @@
       "text_shipping_free": "لديك شحن مجاني!",
       "delete_btn": "حذف",
       "item_added_successfully": "تمت إضافة المنتج إلى سلة التسوق الخاصة بك بنجاح!"
+    },
+    "cart_drawer": {
+      "title": "سلة التسوق",
+      "empty_text": "سلة التسوق فارغة",
+      "empty_btn": "تسوق الآن",
+      "subtotal": "المجموع الفرعي",
+      "checkout": "إتمام الشراء",
+      "view_cart": "عرض السلة",
+      "remove": "حذف",
+      "close": "إغلاق",
+      "item_added": "تمت إضافة المنتج إلى السلة!"
     },
     "contact": {
       "email": "البريد الالكتروني",
