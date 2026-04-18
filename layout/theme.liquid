@@ -4,6 +4,7 @@
     class="shopify-design-mode"
   {% endif %}
   lang="{{ request.locale.iso_code }}"
+  dir="{% if request.locale.iso_code == 'ar' %}rtl{% else %}ltr{% endif %}"
 >
   <head>
     {%- if settings.favicon != blank -%}
@@ -31,6 +32,12 @@
     {%- render 'scripts' -%}
     {%- render 'theme-styles-variables' -%}
     {%- render 'color-schemes' -%}
+    {% if request.locale.iso_code == 'ar' %}
+      <link rel="preconnect" href="https://fonts.googleapis.com">
+      <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+      <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700&display=swap" rel="stylesheet">
+      {%- render 'rtl-styles' -%}
+    {% endif %}
 
     {% if request.design_mode %}
       {%- render 'theme-editor' -%}

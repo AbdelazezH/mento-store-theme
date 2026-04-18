@@ -1,237 +1,746 @@
-{
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */{
   "sections": {
-    "store-banner-1": {
-      "type": "store-banner-1"
-    },
-    "store-features-1": {
-      "type": "store-features",
+    "hero_iLBwPd": {
+      "type": "hero",
       "blocks": {
-        "feature_101": {
-          "type": "feature",
+        "group_mATTUY": {
+          "type": "group",
+          "name": "t:names.group",
           "settings": {
-            "feature_title": "توصيل مجاني",
-            "feature_description": "استمتع بتجربة تسوق سلسة",
-            "feature_icon": "<svg class=\"size-7\" viewBox=\"0 0 28 28\" fill=\"none\"> <path d=\"M24.5 19.3928V8.60843C24.4992 8.45266 24.4573 8.29986 24.3785 8.16544C24.2998 8.03101 24.187 7.91974 24.0515 7.84281L14.4265 2.42875C14.2969 2.35387 14.1498 2.31445 14 2.31445C13.8502 2.31445 13.7031 2.35387 13.5735 2.42875L3.94843 7.84281C3.81298 7.91974 3.7002 8.03101 3.62146 8.16544C3.54274 8.29986 3.50084 8.45266 3.5 8.60843V19.3928C3.50084 19.5486 3.54274 19.7014 3.62146 19.8358C3.7002 19.9702 3.81298 20.0815 3.94843 20.1584L13.5735 25.5725C13.7031 25.6473 13.8502 25.6868 14 25.6868C14.1498 25.6868 14.2969 25.6473 14.4265 25.5725L24.0515 20.1584C24.187 20.0815 24.2998 19.9702 24.3785 19.8358C24.4573 19.7014 24.4992 19.5486 24.5 19.3928Z\" stroke=\"currentColor\" stroke-linecap=\"round\"/> <path d=\"M19.3594 16.6797V10.9922L8.75 5.14062\" stroke=\"currentColor\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/> <path d=\"M24.3805 8.1593L14.0992 13.9999L3.62109 8.1593\" stroke=\"currentColor\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/> <path d=\"M14.0985 14L14 25.6813\" stroke=\"currentColor\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/> </svg>"
-          }
-        },
-        "feature_102": {
-          "type": "feature",
-          "settings": {
-            "feature_title": "توصيل مجاني",
-            "feature_description": "استمتع بتجربة تسوق سلسة",
-            "feature_icon": "<svg class=\"size-7\" viewBox=\"0 0 28 28\" fill=\"none\"> <path d=\"M24.5 19.3928V8.60843C24.4992 8.45266 24.4573 8.29986 24.3785 8.16544C24.2998 8.03101 24.187 7.91974 24.0515 7.84281L14.4265 2.42875C14.2969 2.35387 14.1498 2.31445 14 2.31445C13.8502 2.31445 13.7031 2.35387 13.5735 2.42875L3.94843 7.84281C3.81298 7.91974 3.7002 8.03101 3.62146 8.16544C3.54274 8.29986 3.50084 8.45266 3.5 8.60843V19.3928C3.50084 19.5486 3.54274 19.7014 3.62146 19.8358C3.7002 19.9702 3.81298 20.0815 3.94843 20.1584L13.5735 25.5725C13.7031 25.6473 13.8502 25.6868 14 25.6868C14.1498 25.6868 14.2969 25.6473 14.4265 25.5725L24.0515 20.1584C24.187 20.0815 24.2998 19.9702 24.3785 19.8358C24.4573 19.7014 24.4992 19.5486 24.5 19.3928Z\" stroke=\"currentColor\" stroke-linecap=\"round\"/> <path d=\"M19.3594 16.6797V10.9922L8.75 5.14062\" stroke=\"currentColor\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/> <path d=\"M24.3805 8.1593L14.0992 13.9999L3.62109 8.1593\" stroke=\"currentColor\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/> <path d=\"M14.0985 14L14 25.6813\" stroke=\"currentColor\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/> </svg>"
-          }
-        },
-        "feature_103": {
-          "type": "feature",
-          "settings": {
-            "feature_title": "رضا مضمون",
-            "feature_description": "جميع منتجاتنا تحمل جودة لا مثيل لها",
-            "feature_icon": "<svg class=\"size-8\" viewBox=\"0 0 36 35\" fill=\"none\"> <path d=\"M23.6686 10.208L10.5345 24.3878C10.0361 24.9258 9.22819 24.9258 8.72986 24.3878L3.25195 18.4738M17.8267 24.3878L30.9609 10.208\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\"/> </svg>"
-          }
-        },
-        "feature_104": {
-          "type": "feature",
-          "settings": {
-            "feature_title": "خدمة عملاء متميزة",
-            "feature_description": "نقدم دعمًا فوريًا وسريعا",
-            "feature_icon": "<svg class=\"size-7\" viewBox=\"0 0 29 29\" fill=\"none\"> <path d=\"M14.5 3.625C8.49326 3.625 3.625 8.49326 3.625 14.5V24.6953C3.625 25.072 3.92803 25.375 4.30469 25.375H9.51562C10.5153 25.375 11.3281 24.5622 11.3281 23.5625V17.6719C11.3281 16.6722 10.5153 15.8594 9.51562 15.8594H5.66406V14.5C5.66406 9.62041 9.62041 5.66406 14.5 5.66406C19.3796 5.66406 23.3359 9.62041 23.3359 14.5V15.8594H19.4844C18.4847 15.8594 17.6719 16.6722 17.6719 17.6719V23.5625C17.6719 24.5622 18.4847 25.375 19.4844 25.375H24.6953C25.072 25.375 25.375 25.072 25.375 24.6953V14.5C25.375 8.49326 20.5067 3.625 14.5 3.625ZM9.28906 17.8984V23.3359H5.66406V17.8984H9.28906ZM23.3359 23.3359H19.7109V17.8984H23.3359V23.3359Z\" fill=\"currentColor\"/> </svg>"
-          }
+            "content_direction": "row",
+            "vertical_on_mobile": true,
+            "horizontal_alignment": "flex-start",
+            "vertical_alignment": "flex-end",
+            "align_baseline": true,
+            "horizontal_alignment_flex_direction_column": "flex-start",
+            "vertical_alignment_flex_direction_column": "center",
+            "gap": 12,
+            "width": "fill",
+            "custom_width": 100,
+            "width_mobile": "fill",
+            "custom_width_mobile": 100,
+            "height": "fit",
+            "custom_height": 100,
+            "inherit_color_scheme": true,
+            "color_scheme": "",
+            "background_media": "none",
+            "video_position": "cover",
+            "background_image_position": "cover",
+            "border": "none",
+            "border_width": 1,
+            "border_opacity": 100,
+            "border_radius": 0,
+            "toggle_overlay": false,
+            "overlay_color": "#00000026",
+            "overlay_style": "solid",
+            "gradient_direction": "to top",
+            "open_in_new_tab": false,
+            "placeholder": "",
+            "padding-block-start": 0,
+            "padding-block-end": 0,
+            "padding-inline-start": 0,
+            "padding-inline-end": 0
+          },
+          "blocks": {
+            "group_U86Qji": {
+              "type": "group",
+              "name": "t:names.group",
+              "settings": {
+                "content_direction": "column",
+                "vertical_on_mobile": true,
+                "horizontal_alignment": "flex-start",
+                "vertical_alignment": "center",
+                "align_baseline": false,
+                "horizontal_alignment_flex_direction_column": "flex-start",
+                "vertical_alignment_flex_direction_column": "center",
+                "gap": 0,
+                "width": "custom",
+                "custom_width": 100,
+                "width_mobile": "fill",
+                "custom_width_mobile": 100,
+                "height": "fit",
+                "custom_height": 100,
+                "inherit_color_scheme": true,
+                "color_scheme": "",
+                "background_media": "none",
+                "video_position": "cover",
+                "background_image_position": "cover",
+                "border": "none",
+                "border_width": 1,
+                "border_opacity": 100,
+                "border_radius": 0,
+                "toggle_overlay": false,
+                "overlay_color": "#00000026",
+                "overlay_style": "solid",
+                "gradient_direction": "to top",
+                "open_in_new_tab": false,
+                "placeholder": "",
+                "padding-block-start": 0,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              },
+              "blocks": {
+                "text_nptTQe": {
+                  "type": "text",
+                  "name": "Heading",
+                  "settings": {
+                    "text": "<h2><em>Introducing</em></h2>",
+                    "width": "100%",
+                    "max_width": "normal",
+                    "alignment": "left",
+                    "type_preset": "custom",
+                    "font": "var(--font-accent--family)",
+                    "font_size": "1.5rem",
+                    "line_height": "normal",
+                    "letter_spacing": "normal",
+                    "case": "none",
+                    "wrap": "pretty",
+                    "color": "",
+                    "background": false,
+                    "background_color": "#00000026",
+                    "corner_radius": 0,
+                    "padding-block-start": 0,
+                    "padding-block-end": 0,
+                    "padding-inline-start": 0,
+                    "padding-inline-end": 0
+                  },
+                  "blocks": {}
+                },
+                "text_m9AcWC": {
+                  "type": "text",
+                  "settings": {
+                    "text": "<h1>Our Newest Arrivals </h1>",
+                    "width": "100%",
+                    "max_width": "normal",
+                    "alignment": "left",
+                    "type_preset": "h2",
+                    "font": "var(--font-primary--family)",
+                    "font_size": "",
+                    "line_height": "normal",
+                    "letter_spacing": "normal",
+                    "case": "none",
+                    "wrap": "pretty",
+                    "color": "",
+                    "background": false,
+                    "background_color": "#00000026",
+                    "corner_radius": 0,
+                    "padding-block-start": 0,
+                    "padding-block-end": 0,
+                    "padding-inline-start": 0,
+                    "padding-inline-end": 0
+                  },
+                  "blocks": {}
+                }
+              },
+              "block_order": [
+                "text_nptTQe",
+                "text_m9AcWC"
+              ]
+            },
+            "text_ebNxhf": {
+              "type": "text",
+              "name": "Text",
+              "settings": {
+                "text": "<p>Bring order to the chaos. When all your tech essentials have a dedicated spot on your desk, you don’t have to waste any time searching for them. </p>",
+                "width": "fit-content",
+                "max_width": "none",
+                "alignment": "left",
+                "type_preset": "rte",
+                "font": "var(--font-primary--family)",
+                "font_size": "",
+                "line_height": "normal",
+                "letter_spacing": "normal",
+                "case": "none",
+                "wrap": "pretty",
+                "color": "",
+                "background": false,
+                "background_color": "#00000026",
+                "corner_radius": 0,
+                "padding-block-start": 0,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              },
+              "blocks": {}
+            }
+          },
+          "block_order": [
+            "group_U86Qji",
+            "text_ebNxhf"
+          ]
         }
       },
       "block_order": [
-        "feature_101",
-        "feature_102",
-        "feature_103",
-        "feature_104"
+        "group_mATTUY"
       ],
+      "name": "t:names.hero",
       "settings": {
-        "padding_enabled": true
+        "media_type_1": "image",
+        "media_type_2": "image",
+        "open_in_new_tab": false,
+        "content_direction": "column",
+        "vertical_on_mobile": true,
+        "horizontal_alignment": "flex-start",
+        "vertical_alignment": "center",
+        "align_baseline": false,
+        "horizontal_alignment_flex_direction_column": "flex-start",
+        "vertical_alignment_flex_direction_column": "flex-end",
+        "gap": 16,
+        "section_width": "page-width",
+        "section_height": "large",
+        "section_height_custom": 50,
+        "color_scheme": "scheme-5",
+        "toggle_overlay": true,
+        "overlay_color": "#00000026",
+        "overlay_style": "solid",
+        "gradient_direction": "to top",
+        "blurred_reflection": false,
+        "reflection_opacity": 75,
+        "padding-block-start": 0,
+        "padding-block-end": 31
       }
     },
-    "store-banner-2": {
-      "type": "store-banner-2",
+    "product_list_EDUBdR": {
+      "type": "product-list",
       "blocks": {
-        "banner_101": {
-          "type": "banner",
+        "static-header": {
+          "type": "_product-list-content",
+          "static": true,
           "settings": {
-            "banner_title": "أحدث أنواع الساعات"
-          }
+            "content_direction": "column",
+            "vertical_on_mobile": true,
+            "horizontal_alignment": "flex-start",
+            "vertical_alignment": "center",
+            "align_baseline": false,
+            "horizontal_alignment_flex_direction_column": "center",
+            "vertical_alignment_flex_direction_column": "center",
+            "gap": 12,
+            "width": "fill",
+            "custom_width": 100,
+            "width_mobile": "fill",
+            "custom_width_mobile": 100,
+            "height": "fit",
+            "custom_height": 100,
+            "inherit_color_scheme": true,
+            "color_scheme": "",
+            "background_media": "none",
+            "video_position": "cover",
+            "background_image_position": "cover",
+            "border": "none",
+            "border_width": 1,
+            "border_opacity": 100,
+            "border_radius": 0,
+            "padding-block-start": 0,
+            "padding-block-end": 0,
+            "padding-inline-start": 0,
+            "padding-inline-end": 0
+          },
+          "blocks": {
+            "product_list_text_qK4EWG": {
+              "type": "_product-list-text",
+              "name": "t:names.collection_title",
+              "settings": {
+                "text": "<h3>Make Your Workspace Yours</h3>",
+                "width": "fit-content",
+                "max_width": "normal",
+                "alignment": "left",
+                "type_preset": "h2",
+                "font": "var(--font-primary--family)",
+                "font_size": "",
+                "line_height": "normal",
+                "letter_spacing": "normal",
+                "case": "none",
+                "wrap": "pretty",
+                "color": "",
+                "background": false,
+                "background_color": "#00000026",
+                "corner_radius": 0,
+                "padding-block-start": 0,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              },
+              "blocks": {}
+            }
+          },
+          "block_order": [
+            "product_list_text_qK4EWG"
+          ]
         },
-        "banner_102": {
-          "type": "banner",
+        "static-product-card": {
+          "type": "_product-card",
+          "name": "t:names.product_card",
+          "static": true,
           "settings": {
-            "banner_title": "أحدث أنواع العطور"
-          }
+            "product_card_gap": 0,
+            "inherit_color_scheme": false,
+            "color_scheme": "scheme-2",
+            "border": "none",
+            "border_width": 1,
+            "border_opacity": 100,
+            "border_radius": 10,
+            "padding-block-start": 0,
+            "padding-block-end": 0,
+            "padding-inline-start": 0,
+            "padding-inline-end": 0
+          },
+          "blocks": {
+            "product_card_gallery_hpki3q": {
+              "type": "_product-card-gallery",
+              "name": "t:names.product_card_media",
+              "settings": {
+                "image_ratio": "square",
+                "border": "none",
+                "border_width": 1,
+                "border_opacity": 100,
+                "border_radius": 0,
+                "padding-block-start": 0,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              },
+              "blocks": {}
+            },
+            "group_jHUdWN": {
+              "type": "_product-card-group",
+              "name": "t:names.group",
+              "settings": {
+                "content_direction": "column",
+                "vertical_on_mobile": true,
+                "horizontal_alignment": "flex-start",
+                "vertical_alignment": "center",
+                "align_baseline": false,
+                "horizontal_alignment_flex_direction_column": "flex-start",
+                "vertical_alignment_flex_direction_column": "center",
+                "gap": 4,
+                "width": "fill",
+                "custom_width": 100,
+                "width_mobile": "fill",
+                "custom_width_mobile": 100,
+                "height": "fit",
+                "custom_height": 100,
+                "inherit_color_scheme": true,
+                "color_scheme": "",
+                "background_media": "none",
+                "video_position": "cover",
+                "background_image_position": "cover",
+                "border": "none",
+                "border_width": 1,
+                "border_opacity": 100,
+                "border_radius": 0,
+                "toggle_overlay": false,
+                "overlay_color": "#00000026",
+                "overlay_style": "solid",
+                "gradient_direction": "to top",
+                "open_in_new_tab": false,
+                "padding-block-start": 24,
+                "padding-block-end": 24,
+                "padding-inline-start": 24,
+                "padding-inline-end": 24
+              },
+              "blocks": {
+                "product_title_gH3cpy": {
+                  "type": "product-title",
+                  "name": "t:names.product_title",
+                  "settings": {
+                    "width": "fit-content",
+                    "max_width": "normal",
+                    "alignment": "left",
+                    "type_preset": "paragraph",
+                    "font": "var(--font-body--family)",
+                    "font_size": "1rem",
+                    "line_height": "normal",
+                    "letter_spacing": "normal",
+                    "case": "none",
+                    "wrap": "pretty",
+                    "color": "var(--color-foreground)",
+                    "background": false,
+                    "background_color": "#00000026",
+                    "corner_radius": 0,
+                    "padding-block-start": 0,
+                    "padding-block-end": 0,
+                    "padding-inline-start": 0,
+                    "padding-inline-end": 0
+                  },
+                  "blocks": {}
+                },
+                "price_anAima": {
+                  "type": "price",
+                  "name": "t:names.product_price",
+                  "settings": {
+                    "show_sale_price_first": true,
+                    "show_installments": false,
+                    "show_tax_info": false,
+                    "type_preset": "paragraph",
+                    "width": "100%",
+                    "alignment": "left",
+                    "font": "var(--font-body--family)",
+                    "font_size": "1rem",
+                    "line_height": "normal",
+                    "letter_spacing": "normal",
+                    "case": "none",
+                    "color": "var(--color-foreground)",
+                    "padding-block-start": 0,
+                    "padding-block-end": 0,
+                    "padding-inline-start": 0,
+                    "padding-inline-end": 0
+                  },
+                  "blocks": {}
+                },
+                "swatches_eYcKAz": {
+                  "type": "swatches",
+                  "name": "t:names.swatches",
+                  "settings": {
+                    "product_swatches_alignment": "flex-start",
+                    "product_swatches_alignment_mobile": "flex-start",
+                    "hide_padding": false,
+                    "product_swatches_padding_top": 4,
+                    "product_swatches_padding_bottom": 0,
+                    "product_swatches_padding_left": 0,
+                    "product_swatches_padding_right": 0
+                  },
+                  "blocks": {}
+                }
+              },
+              "block_order": [
+                "product_title_gH3cpy",
+                "price_anAima",
+                "swatches_eYcKAz"
+              ]
+            }
+          },
+          "block_order": [
+            "product_card_gallery_hpki3q",
+            "group_jHUdWN"
+          ]
+        }
+      },
+      "name": "Featured collection",
+      "settings": {
+        "collection": "all",
+        "layout_type": "grid",
+        "carousel_on_mobile": false,
+        "max_products": 8,
+        "columns": 4,
+        "mobile_columns": "2",
+        "mobile_card_size": "60cqw",
+        "columns_gap": 12,
+        "rows_gap": 12,
+        "icons_style": "arrow",
+        "icons_shape": "none",
+        "section_width": "page-width",
+        "horizontal_alignment": "flex-start",
+        "gap": 28,
+        "color_scheme": "scheme-1",
+        "padding-block-start": 48,
+        "padding-block-end": 64
+      }
+    },
+    "media_with_content_LfPdEJ": {
+      "type": "media-with-content",
+      "blocks": {
+        "media": {
+          "type": "_media-without-appearance",
+          "static": true,
+          "settings": {
+            "media_type": "video",
+            "video_loop": true,
+            "video_autoplay": true,
+            "image_position": "cover",
+            "video_position": "cover"
+          },
+          "blocks": {}
         },
-        "banner_103": {
-          "type": "banner",
+        "content": {
+          "type": "_content-without-appearance",
+          "static": true,
           "settings": {
-            "banner_title": "أحدث أنواع ربطات العنق"
-          }
+            "horizontal_alignment_flex_direction_column": "center",
+            "vertical_alignment_flex_direction_column": "center",
+            "gap": 24
+          },
+          "blocks": {
+            "image_y4ApqF": {
+              "type": "image",
+              "name": "t:names.image",
+              "settings": {
+                "image_ratio": "adapt",
+                "width": "fill",
+                "custom_width": 100,
+                "width_mobile": "fill",
+                "custom_width_mobile": 100,
+                "height": "fit",
+                "border": "none",
+                "border_width": 1,
+                "border_opacity": 100,
+                "border_radius": 0,
+                "padding-block-start": 0,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              },
+              "blocks": {}
+            },
+            "text_Hf79zK": {
+              "type": "text",
+              "name": "t:names.heading",
+              "settings": {
+                "text": "<h2>Productivity Essentials</h2>",
+                "width": "fit-content",
+                "max_width": "normal",
+                "alignment": "left",
+                "type_preset": "h3",
+                "font": "var(--font-primary--family)",
+                "font_size": "",
+                "line_height": "normal",
+                "letter_spacing": "normal",
+                "case": "none",
+                "wrap": "pretty",
+                "color": "",
+                "background": false,
+                "background_color": "#00000026",
+                "corner_radius": 0,
+                "padding-block-start": 0,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              },
+              "blocks": {}
+            },
+            "text_jxGhdJ": {
+              "type": "text",
+              "settings": {
+                "text": "<p>Objects that partner with your digital tools so you can focus on your most important work.</p>",
+                "width": "fit-content",
+                "max_width": "narrow",
+                "alignment": "left",
+                "type_preset": "rte",
+                "font": "var(--font-primary--family)",
+                "font_size": "",
+                "line_height": "normal",
+                "letter_spacing": "normal",
+                "case": "none",
+                "wrap": "pretty",
+                "color": "",
+                "background": false,
+                "background_color": "#00000026",
+                "corner_radius": 0,
+                "padding-block-start": 0,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              },
+              "blocks": {}
+            },
+            "button_zg4nUF": {
+              "type": "button",
+              "settings": {
+                "label": "Shop Now",
+                "link": "shopify://collections/all",
+                "open_in_new_tab": false,
+                "style_class": "button",
+                "width": "fit-content",
+                "custom_width": 100,
+                "width_mobile": "fit-content",
+                "custom_width_mobile": 100
+              },
+              "blocks": {}
+            }
+          },
+          "block_order": [
+            "image_y4ApqF",
+            "text_Hf79zK",
+            "text_jxGhdJ",
+            "button_zg4nUF"
+          ]
+        }
+      },
+      "name": "t:names.media_with_text",
+      "settings": {
+        "media_position": "left",
+        "media_width": "medium",
+        "media_height": "50svh",
+        "section_width": "page-width",
+        "extend_media": true,
+        "color_scheme": "scheme-41dbb9c3-0866-4036-9494-aa0e1c1cedda",
+        "padding-block-start": 0,
+        "padding-block-end": 0
+      }
+    },
+    "collection_list_xpBxCm": {
+      "type": "collection-list",
+      "blocks": {
+        "group_mfTd9p": {
+          "type": "group",
+          "name": "t:names.header",
+          "settings": {
+            "content_direction": "column",
+            "vertical_on_mobile": true,
+            "horizontal_alignment": "flex-start",
+            "vertical_alignment": "center",
+            "align_baseline": false,
+            "horizontal_alignment_flex_direction_column": "center",
+            "vertical_alignment_flex_direction_column": "center",
+            "gap": 16,
+            "width": "fill",
+            "custom_width": 100,
+            "width_mobile": "fill",
+            "custom_width_mobile": 100,
+            "height": "fit",
+            "custom_height": 100,
+            "inherit_color_scheme": true,
+            "color_scheme": "",
+            "background_media": "none",
+            "video_position": "cover",
+            "background_image_position": "cover",
+            "border": "none",
+            "border_width": 1,
+            "border_opacity": 100,
+            "border_radius": 0,
+            "toggle_overlay": false,
+            "overlay_color": "#00000026",
+            "overlay_style": "solid",
+            "gradient_direction": "to top",
+            "open_in_new_tab": false,
+            "placeholder": "",
+            "padding-block-start": 0,
+            "padding-block-end": 16,
+            "padding-inline-start": 0,
+            "padding-inline-end": 0
+          },
+          "blocks": {
+            "text_AYrwfM": {
+              "type": "text",
+              "name": "t:names.text",
+              "settings": {
+                "text": "<h2>Shop by Collection</h2>",
+                "width": "fit-content",
+                "max_width": "normal",
+                "alignment": "left",
+                "type_preset": "h2",
+                "font": "var(--font-body--family)",
+                "font_size": "1rem",
+                "line_height": "normal",
+                "letter_spacing": "normal",
+                "case": "none",
+                "wrap": "pretty",
+                "color": "",
+                "background": false,
+                "background_color": "#00000026",
+                "corner_radius": 0,
+                "padding-block-start": 0,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              },
+              "blocks": {}
+            }
+          },
+          "block_order": [
+            "text_AYrwfM"
+          ]
+        },
+        "static-collection-card": {
+          "type": "_collection-card",
+          "name": "t:names.collection_card",
+          "static": true,
+          "settings": {
+            "placement": "on_image",
+            "horizontal_alignment": "flex-start",
+            "vertical_alignment": "flex-start",
+            "collection_card_gap": 8,
+            "inherit_color_scheme": true,
+            "color_scheme": "scheme-6",
+            "border": "none",
+            "border_width": 1,
+            "border_opacity": 100,
+            "border_radius": 10
+          },
+          "blocks": {
+            "collection_title_zyBdAJ": {
+              "type": "collection-title",
+              "name": "t:names.collection_title",
+              "settings": {
+                "width": "fit-content",
+                "max_width": "normal",
+                "alignment": "left",
+                "type_preset": "h5",
+                "font": "var(--font-body--family)",
+                "font_size": "1rem",
+                "line_height": "normal",
+                "letter_spacing": "normal",
+                "case": "none",
+                "wrap": "pretty",
+                "color": "var(--color-foreground)",
+                "background": false,
+                "background_color": "#00000026",
+                "corner_radius": 0,
+                "padding-block-start": 0,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              },
+              "blocks": {}
+            },
+            "collection-card-image": {
+              "type": "_collection-card-image",
+              "static": true,
+              "settings": {
+                "image_ratio": "portrait",
+                "toggle_overlay": false,
+                "overlay_color": "#00000026",
+                "overlay_style": "solid",
+                "gradient_direction": "to top",
+                "border": "none",
+                "border_width": 1,
+                "border_opacity": 100,
+                "border_radius": 0
+              },
+              "blocks": {}
+            }
+          },
+          "block_order": [
+            "collection_title_zyBdAJ"
+          ]
         }
       },
       "block_order": [
-        "banner_101",
-        "banner_102",
-        "banner_103"
-      ]
-    },
-    "store-features-2": {
-      "type": "store-features",
-      "blocks": {
-        "feature_111": {
-          "type": "feature"
-        },
-        "feature_112": {
-          "type": "feature"
-        },
-        "feature_113": {
-          "type": "feature"
-        },
-        "feature_114": {
-          "type": "feature"
-        }
-      },
-      "block_order": [
-        "feature_111",
-        "feature_112",
-        "feature_113",
-        "feature_114"
-      ]
-    },
-    "featured-collection": {
-      "type": "featured-collection",
+        "group_mfTd9p"
+      ],
+      "name": "Collection list",
       "settings": {
-        "title": "شاهد أحدث انواع من عطورنا",
-        "description": "اشتري الان واحصل على خصم 20% اشتري الان واحصل على خصم 20% اشتري الان واحصل على خصم 20% اشتري الان واحصل على خصم 20% اشتري الان واحصل على خصم 20%",
-        "number_of_products_to_show": 8,
-        "featured_collection": ""
-      }
-    },
-    "video": {
-      "type": "store-video",
-      "settings": {
-        "title": "شاهد أحدث انواع من عطورنا",
-        "description": "اشتري الان واحصل على خصم 20%"
-      }
-    },
-    "testimonials": {
-      "type": "testimonials",
-      "settings": {
-        "title": "تعليقات عملائنا",
-        "description": "آراء زبائننا تُعَدُّ لنا مصدر فخر وسرور، تُعَبِّر عن الثقة التي بنيناها معهم وعن مدى سعادتهم بخدماتنا"
-      },
-      "blocks": {
-        "testimonial_101": {
-          "type": "testimonial",
-          "settings": {
-            "testimonial": "طلبت عطر مخصص من عالم عطور لازورد وكانت التجربة رائعة! الزجاجة مصممة بأناقة والعناية بالتفاصيل مذهلة. المستلم أحب العطر، وسأعود مرة أخرى لهذا المتجر للحصول على المزيد من التجارب العطرية الرائعة.",
-            "customer_name": "أحمد علي",
-            "created_at": "21/07/2023"
-          }
-        },
-        "testimonial_102": {
-          "type": "testimonial",
-          "settings": {
-            "testimonial": "لقد كانت تجربتي مع هذا المتجر رائعة بالفعل. منتجاتهم مدهشة وتعزيزت منزلي بشكل لا يصدق. شكراً لهذا المتجر على جعل منزلي أجمل!",
-            "customer_name": "سارة الجمل",
-            "created_at": "12/05/2024"
-          }
-        },
-        "testimonial_103": {
-          "type": "testimonial",
-          "settings": {
-            "testimonial": "أنا سعيدة جداً بالمنتجات التي اشتريتها من هذا المتجر. إنهم يقدمون منتجات عالية الجودة بأسعار معقولة. سأعود بالتأكيد لشراء المزيد!",
-            "customer_name": "سالم أحمد",
-            "created_at": "11/11/2023"
-          }
-        },
-        "testimonial_104": {
-          "type": "testimonial",
-          "settings": {
-            "testimonial": "أنا سعيدة جداً بالمنتجات التي اشتريتها من هذا المتجر. إنهم يقدمون منتجات عالية الجودة بأسعار معقولة. سأعود بالتأكيد لشراء المزيد!",
-            "customer_name": "إيمان الفهري",
-            "created_at": "12/01/2024"
-          }
-        }
-      },
-      "block_order": [
-        "testimonial_101",
-        "testimonial_102",
-        "testimonial_103",
-        "testimonial_104"
-      ]
-    },
-    "featured-product": {
-      "type": "featured-product"
-    },
-    "countdown-timer": {
-      "type": "countdown-timer",
-      "settings": {
-        "title": "خصومات شهر مايو",
-        "sub": "وفّر حتى 20% على المجموعة لفترة محدودة فقط"
-      }
-    },
-    "thumbnail-slider": {
-      "type": "thumbnail-slider",
-      "blocks": {
-        "thumbnail_101": {
-          "type": "thumbnail"
-        },
-        "thumbnail_102": {
-          "type": "thumbnail"
-        },
-        "thumbnail_103": {
-          "type": "thumbnail"
-        },
-        "thumbnail_104": {
-          "type": "thumbnail"
-        },
-        "thumbnail_105": {
-          "type": "thumbnail"
-        },
-        "thumbnail_106": {
-          "type": "thumbnail"
-        },
-        "thumbnail_107": {
-          "type": "thumbnail"
-        },
-        "thumbnail_108": {
-          "type": "thumbnail"
-        }
-      },
-      "block_order": [
-        "thumbnail_101",
-        "thumbnail_102",
-        "thumbnail_103",
-        "thumbnail_104",
-        "thumbnail_105",
-        "thumbnail_106",
-        "thumbnail_107",
-        "thumbnail_108"
-      ]
-    },
-    "latest-articles": {
-      "type": "featured-articles",
-      "settings": {
-        "title": "المدونة",
-        "description": "تصفح أحدث المقالات",
-        "number_of_articles_to_show": 4
+        "layout_type": "bento",
+        "carousel_on_mobile": true,
+        "columns": 4,
+        "mobile_columns": "2",
+        "mobile_card_size": "60cqw",
+        "columns_gap": 16,
+        "bento_gap": 12,
+        "rows_gap": 16,
+        "max_collections": 4,
+        "icons_style": "arrow",
+        "icons_shape": "none",
+        "section_width": "page-width",
+        "gap": 12,
+        "color_scheme": "",
+        "padding-block-start": 48,
+        "padding-block-end": 64
       }
     }
   },
   "order": [
-    "store-banner-1",
-    "store-features-1",
-    "store-banner-2",
-    "store-features-2",
-    "featured-collection",
-    "video",
-    "testimonials",
-    "featured-product",
-    "countdown-timer",
-    "thumbnail-slider",
-    "latest-articles"
+    "hero_iLBwPd",
+    "product_list_EDUBdR",
+    "media_with_content_LfPdEJ",
+    "collection_list_xpBxCm"
   ]
 }
