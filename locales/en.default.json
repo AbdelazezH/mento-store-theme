@@ -269,7 +269,13 @@
       "view_cart": "View Cart",
       "remove": "Remove",
       "close": "Close",
-      "item_added": "Item added to cart!"
+      "item_added": "Item added to cart!",
+      "free_shipping_before": "You are",
+      "free_shipping_after": "away from free shipping.",
+      "free_shipping_reached": "You have free shipping!",
+      "discount_label": "Discount code",
+      "discount_placeholder": "Enter code",
+      "discount_apply": "Apply"
     },
     "contact": {
       "email": "Email Address",
