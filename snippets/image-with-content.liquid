@@ -1,0 +1,74 @@
+<div class="image-with-content flex flex-col md:flex-row md:items-center gap-4 sm:gap-6 lg:gap-12">
+    <!-- Image block -->
+    <div class="w-full md:w-1/2
+        {% if image_position == 'end' %}
+            {% if request.locale.iso_code == 'ar' %}
+                md:order-2
+            {% else %}
+                md:order-1
+            {% endif %}
+        {% else %}
+            {% if request.locale.iso_code == 'ar' %}
+                md:order-1
+            {% else %}
+                md:order-2
+            {% endif %}
+        {% endif %}
+    ">
+        {% if image %}
+            <div class="aspect-w-4 aspect-h-4 overflow-hidden rounded-sm md:rounded-md">
+                <img class="w-full h-full object-cover object-center"
+                     src="{{ image | img_url: 'master' }}"
+                     alt="{{ title }}"
+                     loading="lazy"
+                >
+            </div>
+        {% else %}
+            <div class="relative border border-gray-400 group aspect-w-4 aspect-h-4 overflow-hidden rounded-sm md:rounded-md">
+                {{ 'image' | placeholder_svg_tag: 'w-full h-full object-cover object-center' }}
+                <div class="absolute inset-0 bg-gradient-to-b from-transparent to-black transition-opacity duration-300 opacity-100 group-hover:opacity-0"></div>
+            </div>
+        {% endif %}
+    </div>
+
+    <!-- Content block -->
+    <div class="w-full md:w-1/2 md:flex
+        {% if image_position == 'end' %}
+            {% if request.locale.iso_code == 'ar' %}
+                md:order-1 md:justify-end
+            {% else %}
+                md:order-2 md:justify-start
+            {% endif %}
+        {% else %}
+            {% if request.locale.iso_code == 'ar' %}
+                md:order-2 md:justify-start
+            {% else %}
+                md:order-1 md:justify-end
+            {% endif %}
+        {% endif %}
+     md:py-12 lg:ps-2 lg:pe-6">
+        <div class="max-w-lg flex flex-col items-start gap-6">
+            {% if title != blank %}
+                <h3 class="text-xl md:text-3xl font-medium text-gray-900"
+                    style="color: {{ title_color }};">
+                    {{ title }}
+                </h3>
+            {% endif %}
+
+            {% if content != blank %}
+                <p class="text-xs md:text-base leading-relaxed font-normal text-gray-700"
+                   style="color: {{ content_color }};">
+                    {{ content }}
+                </p>
+            {% endif %}
+
+            {% if button_label != blank and button_link != blank %}
+                <a href="{{ button_link }}"
+                   class="text-sm md:text-lg font-bold text-white bg-primary-main hover:bg-opacity-90 transition duration-200 rounded px-6 md:px-8 py-3.5 md:py-5"
+                   style="background-color: {{ btn_bg_color }}; color: {{ btn_text_color }};">
+                    {{ button_label }}
+                </a>
+            {% endif %}
+        </div>
+    </div>
+</div>
