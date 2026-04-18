@@ -273,7 +273,65 @@ class CartDrawer {
   }
 
   renderFooter(data) {
+    // Calculate free shipping progress
+    const freeShippingCents = this.freeShippingThreshold * 100;
+    const remaining = Math.max(0, freeShippingCents - data.total_price);
+    const progress = Math.min(100, (data.total_price / freeShippingCents) * 100);
+    const hasFreeShipping = data.total_price >= freeShippingCents;
+
+    // Render applied discount if exists
+    const discountHtml = this.appliedDiscount
+      ? `
+      <div class="cart-drawer-applied-discount">
+        <span>${this.escapeHtml(this.appliedDiscount.code)}: -${this.formatMoney(this.appliedDiscount.amount)}</span>
+        <button type="button" class="cart-drawer-discount-remove" data-remove-discount>
+          ${this.translations.discountRemove || 'Remove'}
+        </button>
+      </div>
+      `
+      : '';
+
+    // Render free shipping progress if enabled
+    const freeShippingHtml = this.enableFreeShipping && this.freeShippingThreshold > 0
+      ? `
+      <div class="cart-drawer-free-shipping">
+        <div class="cart-drawer-free-shipping-text ${hasFreeShipping ? 'is-success' : ''}">
+          ${hasFreeShipping
+            ? this.translations.freeShippingReached
+            : `${this.translations.freeShippingBefore} <span class="amount" dir="ltr">${this.formatMoney(remaining)}</span> ${this.translations.freeShippingAfter}`
+          }
+        </div>
+        ${!hasFreeShipping ? `
+        <div class="cart-drawer-progress-bar">
+          <div class="cart-drawer-progress-fill" style="width: ${progress}%"></div>
+        </div>
+        ` : ''}
+      </div>
+      `
+      : '';
+
+    // Render discount input if no discount applied
+    const discountInputHtml = !this.appliedDiscount
+      ? `
+      <div class="cart-drawer-discount">
+        <input
+          type="text"
+          class="cart-drawer-discount-input"
+          placeholder="${this.translations.discountPlaceholder}"
+          id="cart-drawer-discount-input"
+          autocomplete="off"
+        >
+        <button type="button" class="cart-drawer-discount-btn" id="cart-drawer-apply-discount">
+          ${this.translations.discountApply}
+        </button>
+      </div>
+      `
+      : '';
+
     this.footer.innerHTML = `
+      ${freeShippingHtml}
+      ${discountHtml}
+      ${discountInputHtml}
       <div class="cart-drawer-subtotal">
         <span class="cart-drawer-subtotal-label">${this.translations.subtotal}</span>
         <span class="cart-drawer-subtotal-value">${this.formatMoney(data.total_price)}</span>
@@ -281,6 +339,9 @@ class CartDrawer {
       <a href="/checkout" class="cart-drawer-checkout">${this.translations.checkout}</a>
       <a href="/cart" class="cart-drawer-view-cart">${this.translations.viewCart}</a>
     `;
+
+    // Bind discount events
+    this.bindDiscountEvents(data);
   }
 
   renderEmpty() {
