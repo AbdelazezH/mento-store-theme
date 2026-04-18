@@ -27,6 +27,10 @@ class CartDrawer {
     this.footer = this.drawer.querySelector('.cart-drawer-footer');
     this.loadingEl = this.drawer.querySelector('.cart-drawer-loading');
 
+    // Free shipping configuration
+    this.enableFreeShipping = this.drawer.dataset.enableFreeShipping === 'true';
+    this.freeShippingThreshold = parseFloat(this.drawer.dataset.freeShippingThreshold) || 0;
+
     this.translations = {
       title: this.drawer.dataset.title || 'Your Cart',
       emptyText: this.drawer.dataset.emptyText || 'Your cart is empty',
@@ -36,6 +40,13 @@ class CartDrawer {
       viewCart: this.drawer.dataset.viewCart || 'View Cart',
       remove: this.drawer.dataset.remove || 'Remove',
       shopUrl: this.drawer.dataset.shopUrl || '/collections/all',
+      freeShippingBefore: this.drawer.dataset.freeShippingBefore || 'You are',
+      freeShippingAfter: this.drawer.dataset.freeShippingAfter || 'away from free shipping.',
+      freeShippingReached: this.drawer.dataset.freeShippingReached || 'You have free shipping!',
+      discountLabel: this.drawer.dataset.discountLabel || 'Discount code',
+      discountPlaceholder: this.drawer.dataset.discountPlaceholder || 'Enter code',
+      discountApply: this.drawer.dataset.discountApply || 'Apply',
+      discountRemove: this.drawer.dataset.discountRemove || 'Remove',
     };
 
     this.bindEvents();
