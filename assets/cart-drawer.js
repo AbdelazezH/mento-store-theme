@@ -12,6 +12,12 @@ class CartDrawer {
     this.debouncers = {};
     this.translations = {};
     this.isFetching = false;
+    this.discountCode = null;
+    this.appliedDiscount = null;
+
+    // Free shipping settings (can be configured via data attributes)
+    this.enableFreeShipping = false;
+    this.freeShippingThreshold = 0;
 
     if (!this.drawer) return;
   }
