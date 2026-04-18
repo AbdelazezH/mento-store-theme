@@ -219,9 +219,13 @@
     </div>
   {% endif %}
 
-  {% if settings.enable_free_shipping_threshold %}
-    {%- liquid
-      assign free_shipping_threshold_cents = settings.free_shipping_threshold | times: 100
+  {%- liquid
+    # Use default threshold of 100 if setting doesn't exist
+    assign enable_free_shipping = settings.enable_free_shipping | default: true
+    assign free_shipping_threshold = settings.free_shipping_threshold | default: 100
+
+    if enable_free_shipping
+      assign free_shipping_threshold_cents = free_shipping_threshold | times: 100
       assign cart_total = cart.total_price
       assign remaining_amount = free_shipping_threshold_cents | minus: cart_total
       if remaining_amount > 0
@@ -231,7 +235,10 @@
         assign progress_percentage = 100
         assign has_free_shipping = true
       endif
-    -%}
+    endif
+  -%}
+
+  {% if enable_free_shipping %}
     <div class="cart-free-shipping">
       {% if has_free_shipping %}
         <div class="cart-free-shipping__message cart-free-shipping__message--success">
