@@ -274,7 +274,8 @@
       "free_shipping_reached": "لديك شحن مجاني!",
       "discount_label": "رمز الخصم",
       "discount_placeholder": "أدخل الرمز",
-      "discount_apply": "تطبيق"
+      "discount_apply": "تطبيق",
+      "discount_remove": "إزالة"
     },
     "contact": {
       "email": "البريد الالكتروني",
