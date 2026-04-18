@@ -639,4 +639,49 @@
       height: 100%;
     }
   }
+
+  /* Free Shipping Progress Bar */
+  .cart-free-shipping {
+    padding-block: var(--padding-md);
+    border-block-start: var(--style-border-width) solid var(--color-border);
+  }
+
+  .cart-free-shipping__message {
+    display: flex;
+    align-items: center;
+    gap: var(--gap-xs);
+    font-size: var(--font-size--2xs);
+    color: var(--color-foreground);
+    flex-wrap: wrap;
+  }
+
+  .cart-free-shipping__message--success {
+    color: rgb(var(--color-success-rgb, 34 197 94));
+  }
+
+  .cart-free-shipping__icon {
+    flex-shrink: 0;
+    width: var(--icon-size-sm);
+    height: var(--icon-size-sm);
+  }
+
+  .cart-free-shipping__amount {
+    font-weight: var(--font-weight-bold);
+  }
+
+  .cart-free-shipping__progress {
+    margin-block-start: var(--gap-xs);
+    width: 100%;
+    height: 6px;
+    background-color: rgb(var(--color-foreground-rgb) / 0.1);
+    border-radius: var(--style-border-radius-pills);
+    overflow: hidden;
+  }
+
+  .cart-free-shipping__progress-bar {
+    height: 100%;
+    background-color: var(--color-primary-button-background, rgb(var(--color-button-rgb)));
+    border-radius: var(--style-border-radius-pills);
+    transition: width 0.3s ease;
+  }
 {% endstylesheet %}
