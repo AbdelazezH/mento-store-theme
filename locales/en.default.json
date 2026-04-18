@@ -275,7 +275,8 @@
       "free_shipping_reached": "You have free shipping!",
       "discount_label": "Discount code",
       "discount_placeholder": "Enter code",
-      "discount_apply": "Apply"
+      "discount_apply": "Apply",
+      "discount_remove": "Remove"
     },
     "contact": {
       "email": "Email Address",

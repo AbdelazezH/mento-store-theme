@@ -1,5 +1,17 @@
 <div id="cart-drawer-overlay" class="cart-drawer-overlay" aria-hidden="true"></div>
 
+{% comment %} Get free shipping settings from cart section if available, otherwise use defaults {% endcomment %}
+{% assign enable_free_shipping = false %}
+{% assign free_shipping_threshold = 0 %}
+{% for block in section.blocks %}
+  {% if block.type == '@app' and block.settings.app == 'cart' %}
+    {% if block.settings.enable_free_shipping_threshold %}
+      {% assign enable_free_shipping = true %}
+      {% assign free_shipping_threshold = block.settings.free_shipping_threshold %}
+    {% endif %}
+  {% endif %}
+{% endfor %}
+
 <div id="cart-drawer"
      class="cart-drawer"
      role="dialog"
@@ -14,6 +26,15 @@
      data-remove="{{ 'pages.cart_drawer.remove' | t }}"
      data-item-added="{{ 'pages.cart_drawer.item_added' | t }}"
      data-shop-url="{{ routes.all_products_collection_url }}"
+     data-enable-free-shipping="{{ enable_free_shipping }}"
+     data-free-shipping-threshold="{{ free_shipping_threshold }}"
+     data-free-shipping-before="{{ 'pages.cart_drawer.free_shipping_before' | t }}"
+     data-free-shipping-after="{{ 'pages.cart_drawer.free_shipping_after' | t }}"
+     data-free-shipping-reached="{{ 'pages.cart_drawer.free_shipping_reached' | t }}"
+     data-discount-label="{{ 'pages.cart_drawer.discount_label' | t }}"
+     data-discount-placeholder="{{ 'pages.cart_drawer.discount_placeholder' | t }}"
+     data-discount-apply="{{ 'pages.cart_drawer.discount_apply' | t }}"
+     data-discount-remove="{{ 'pages.cart_drawer.discount_remove' | t }}"
 >
 
   <div class="cart-drawer-header">
