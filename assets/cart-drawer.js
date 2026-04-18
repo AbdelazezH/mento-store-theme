@@ -344,6 +344,76 @@ class CartDrawer {
     this.bindDiscountEvents(data);
   }
 
+  bindDiscountEvents(data) {
+    // Apply discount
+    const applyBtn = this.footer.querySelector('#cart-drawer-apply-discount');
+    const discountInput = this.footer.querySelector('#cart-drawer-discount-input');
+
+    if (applyBtn && discountInput) {
+      applyBtn.addEventListener('click', () => this.applyDiscount(discountInput.value));
+      discountInput.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') {
+          e.preventDefault();
+          this.applyDiscount(discountInput.value);
+        }
+      });
+    }
+
+    // Remove discount
+    const removeBtn = this.footer.querySelector('[data-remove-discount]');
+    if (removeBtn) {
+      removeBtn.addEventListener('click', () => this.removeDiscount());
+    }
+  }
+
+  async applyDiscount(code) {
+    if (!code || !code.trim()) return;
+
+    const cleanCode = code.trim().toUpperCase();
+    this.setLoading(true);
+
+    try {
+      const res = await fetch('/discount/' + encodeURIComponent(cleanCode), {
+        method: 'POST',
+      });
+
+      if (res.ok || res.redirected) {
+        // Discount applied, fetch updated cart
+        await this.fetchCart();
+      } else {
+        // Show error
+        const input = this.footer.querySelector('#cart-drawer-discount-input');
+        if (input) {
+          input.style.borderColor = '#ef4444';
+          setTimeout(() => {
+            input.style.borderColor = '';
+          }, 2000);
+        }
+      }
+    } catch (err) {
+      console.error('CartDrawer: apply discount error', err);
+    } finally {
+      this.setLoading(false);
+    }
+  }
+
+  async removeDiscount() {
+    this.setLoading(true);
+
+    try {
+      await fetch('/discount/CLEAR', {
+        method: 'POST',
+      });
+
+      // Re-fetch cart to get updated totals
+      await this.fetchCart();
+    } catch (err) {
+      console.error('CartDrawer: remove discount error', err);
+    } finally {
+      this.setLoading(false);
+    }
+  }
+
   renderEmpty() {
     this.body.innerHTML = `
       <div class="cart-drawer-loading">
