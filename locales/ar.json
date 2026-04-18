@@ -268,7 +268,13 @@
       "view_cart": "عرض السلة",
       "remove": "حذف",
       "close": "إغلاق",
-      "item_added": "تمت إضافة المنتج إلى السلة!"
+      "item_added": "تمت إضافة المنتج إلى السلة!",
+      "free_shipping_before": "أنت على بعد",
+      "free_shipping_after": "من الشحن المجاني.",
+      "free_shipping_reached": "لديك شحن مجاني!",
+      "discount_label": "رمز الخصم",
+      "discount_placeholder": "أدخل الرمز",
+      "discount_apply": "تطبيق"
     },
     "contact": {
       "email": "البريد الالكتروني",
